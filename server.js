@@ -1,10 +1,10 @@
 var express = require('express');
 var app = express();
 
-app.use('/files', express.static(__dirname + '/src'));
+app.use('/files', express.static(__dirname + '/public'));
 
 app.get('/*', function(request, response) {
-  response.sendFile(__dirname + '/src/index.html');
+  response.sendFile(__dirname + '/public/index.html');
 });
 
 app.listen(process.env.PORT || 8080, function() {

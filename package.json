@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --config webpack.config.js --watch",
     "build": "webpack --config webpack.config.js",
-    "build-css": "node-sass --include-path scss assets/scss/app.scss src/css/app.css",
+    "build-css": "node-sass --include-path scss assets/scss/app.scss public/css/app.css",
     "watch-css": "nodemon -e scss -x 'npm run build-css'"
   },
   "repository": {
