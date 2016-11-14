@@ -1,6 +1,21 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactRouter from 'react-router';
 
-var App = require('./components/App');
+import {Router} from 'react-router';
+import {Route} from  'react-router';
+import {IndexRoute} from 'react-router';
 
-ReactDOM.render(<App/>, document.getElementById('app'));
+import App from './components/App';
+import Pregame from './components/Pregame';
+
+// var routes = (
+// 	<Router history={ReactRouter.browserHistory}>
+// 		//Add index route???
+// 		<Route path="/" component={App}>
+// 			<Route path="/pregame" component={Pregame}/>
+// 		</Route>
+// 	</Router>
+// 	)
+
+ReactDOM.render(<Pregame />, document.getElementById('app'));
