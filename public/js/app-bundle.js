@@ -97,7 +97,7 @@
 	// 	</Router>
 	// 	)
 	
-	_reactDom2.default.render(_react2.default.createElement(_Rules2.default, null), document.getElementById('app'));
+	_reactDom2.default.render(_react2.default.createElement(_Game2.default, null), document.getElementById('app'));
 
 /***/ },
 /* 1 */
@@ -26547,30 +26547,38 @@
 					null,
 					_react2.default.createElement(
 						"header",
-						{ className: "pregame-header" },
+						{ className: "game-header" },
 						_react2.default.createElement(
 							"h2",
 							null,
-							"Topic 1"
+							"Goal: (Topic 2)"
 						),
 						_react2.default.createElement(
 							"h2",
 							null,
-							"Topic 2"
+							"Steps: (number)"
 						)
 					),
 					_react2.default.createElement(
 						"main",
-						{ className: "pregame-main" },
+						{ className: "game-main" },
 						_react2.default.createElement(
 							"div",
-							{ className: "pregame-intro" },
-							"Intro paragrah from Wiki T2"
-						),
+							{ className: "game-wikipedia-article" },
+							"Wikipedia article Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio at, laborum, aut culpa qui iusto, velit vero dolore eaque eligendi magnam nesciunt in. Molestias, ab, praesentium. Itaque rem, esse aperiam!"
+						)
+					),
+					_react2.default.createElement(
+						"aside",
+						{ className: "game-aside" },
 						_react2.default.createElement(
-							"div",
-							{ className: "pregame-counter" },
-							"COUNTDOWN PLACEHOLDER"
+							"ul",
+							null,
+							_react2.default.createElement(
+								"li",
+								null,
+								"(Steps: (number))"
+							)
 						)
 					)
 				);
