@@ -1,36 +1,9 @@
-button {
-  border-radius: 5px;
-  font-size: 2em;
-  padding: 0.8em 3em;
-  cursor: pointer;
-  color: #fff;
-  background-color: #00A6FF;
-  font-size: 1.5rem;
-  font-family: 'Roboto';
-  font-weight: 100;
-  border: 0.06em solid #fff;
-  box-shadow: 0.125em 0.125em 0.3125em #AFE9FF;
-  transition-duration: 0.5s;
-  -webkit-transition-duration: 0.5s;
-  -moz-transition-duration: 0.5s;
+html {
+  box-sizing: border-box;
 }
-
-button:hover {
-  color: #006398;
-  border: 0.06em solid #006398;
-  box-shadow: 0.125em 0.125em 0.125em #AFE9FF;
+*, *::before, *::after {
+  box-sizing: inherit;
 }
-
-table {
-  margin: 0 auto;
-  border: 0.08em solid #006398;
-}
-
-tr, td, th {
-  padding: 0.5em 2em;
-}
-
-
 
 /* Utility classes */
 .responsive-img {
@@ -38,6 +11,12 @@ tr, td, th {
 }
 .text-center {
     text-align: center;
+}
+
+/* added this, maybe not needed ??*/
+body {
+	max-width: 1000px;
+    margin: 0 auto;
 }
 
 /* Grid system! */
@@ -185,5 +164,3 @@ tr, td, th {
   }
 
 }
-
-

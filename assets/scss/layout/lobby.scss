@@ -1,0 +1,20 @@
+.lb-header {
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 0.2em;
+  h1 {
+    margin: 1em auto;
+  }
+}
+
+.lb-main {
+  display: flex;
+}
+
+.lb-container {
+  display: flex;
+  margin: 1em;
+  .checkbox {
+    margin-left: auto;
+  }
+}
