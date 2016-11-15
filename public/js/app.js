@@ -8,6 +8,12 @@ import {IndexRoute} from 'react-router';
 
 import App from './components/App';
 import Pregame from './components/Pregame';
+import Endgame from './components/Endgame';
+import Game from './components/Game';
+import Lobby from './components/Lobby';
+import LobbyList from './components/LobbyList';
+import Rules from './components/Rules';
+
 
 // var routes = (
 // 	<Router history={ReactRouter.browserHistory}>
@@ -18,4 +24,4 @@ import Pregame from './components/Pregame';
 // 	</Router>
 // 	)
 
-ReactDOM.render(<Pregame />, document.getElementById('app'));
+ReactDOM.render(<Rules />, document.getElementById('app'));

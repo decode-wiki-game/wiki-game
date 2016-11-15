@@ -32,7 +32,6 @@
     "webpack": "^1.13.3"
   },
   "devDependencies": {
-    "node-normalize-scss": "^1.4.0",
     "node-sass": "^3.12.2",
     "nodemon": "^1.11.0"
   }
