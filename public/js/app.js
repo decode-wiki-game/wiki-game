@@ -24,4 +24,4 @@ import Rules from './components/Rules';
 // 	</Router>
 // 	)
 
-ReactDOM.render(<Game />, document.getElementById('app'));
+ReactDOM.render(<Lobby />, document.getElementById('app'));

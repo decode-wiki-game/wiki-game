@@ -97,7 +97,7 @@
 	// 	</Router>
 	// 	)
 	
-	_reactDom2.default.render(_react2.default.createElement(_Game2.default, null), document.getElementById('app'));
+	_reactDom2.default.render(_react2.default.createElement(_Lobby2.default, null), document.getElementById('app'));
 
 /***/ },
 /* 1 */
@@ -26465,7 +26465,7 @@
 					null,
 					_react2.default.createElement(
 						"header",
-						{ className: "pregame-header" },
+						{ className: "pg-header" },
 						_react2.default.createElement(
 							"h2",
 							null,
@@ -26473,21 +26473,21 @@
 						),
 						_react2.default.createElement(
 							"h2",
-							null,
+							{ className: "pg-header__h2--right" },
 							"Topic 2"
 						)
 					),
 					_react2.default.createElement(
 						"main",
-						{ className: "pregame-main" },
+						{ className: "pg-main" },
 						_react2.default.createElement(
 							"div",
-							{ className: "pregame-intro" },
+							{ className: "pg-intro" },
 							"Intro paragrah from Wiki T2"
 						),
 						_react2.default.createElement(
 							"div",
-							{ className: "pregame-counter" },
+							{ className: "pg-counter" },
 							"COUNTDOWN PLACEHOLDER"
 						)
 					)
@@ -26502,9 +26502,135 @@
 
 /***/ },
 /* 229 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+			value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Endgame = function (_React$Component) {
+			_inherits(Endgame, _React$Component);
+	
+			function Endgame() {
+					_classCallCheck(this, Endgame);
+	
+					return _possibleConstructorReturn(this, (Endgame.__proto__ || Object.getPrototypeOf(Endgame)).apply(this, arguments));
+			}
+	
+			_createClass(Endgame, [{
+					key: "render",
+					value: function render() {
+							return _react2.default.createElement(
+									"div",
+									null,
+									_react2.default.createElement(
+											"header",
+											{ className: "eg-header" },
+											"(position) place!"
+									),
+									_react2.default.createElement(
+											"main",
+											{ className: "eg-main" },
+											_react2.default.createElement(
+													"div",
+													null,
+													"Time: (time)"
+											),
+											_react2.default.createElement(
+													"div",
+													null,
+													"Steps you took: (list of steps)"
+											)
+									),
+									_react2.default.createElement(
+											"table",
+											{ className: "eg-table" },
+											_react2.default.createElement(
+													"thead",
+													null,
+													_react2.default.createElement(
+															"tr",
+															null,
+															_react2.default.createElement(
+																	"th",
+																	null,
+																	"Player"
+															),
+															_react2.default.createElement(
+																	"th",
+																	null,
+																	"Time"
+															),
+															_react2.default.createElement(
+																	"th",
+																	null,
+																	"Number of steps"
+															),
+															_react2.default.createElement(
+																	"th",
+																	null,
+																	"Last article"
+															)
+													)
+											),
+											_react2.default.createElement(
+													"tbody",
+													null,
+													_react2.default.createElement(
+															"tr",
+															null,
+															_react2.default.createElement(
+																	"td",
+																	null,
+																	"(Name)"
+															),
+															_react2.default.createElement(
+																	"td",
+																	null,
+																	"(time)"
+															),
+															_react2.default.createElement(
+																	"td",
+																	null,
+																	"(num of steps)"
+															),
+															_react2.default.createElement(
+																	"td",
+																	null,
+																	"(wikipedia title)"
+															)
+													)
+											)
+									),
+									_react2.default.createElement(
+											"footer",
+											{ className: "eg-footer" },
+											"rematch"
+									)
+							);
+					}
+			}]);
+	
+			return Endgame;
+	}(_react2.default.Component);
+	
+	exports.default = Endgame;
 
 /***/ },
 /* 230 */
@@ -26547,7 +26673,7 @@
 					null,
 					_react2.default.createElement(
 						"header",
-						{ className: "game-header" },
+						{ className: "gm-header" },
 						_react2.default.createElement(
 							"h2",
 							null,
@@ -26555,13 +26681,13 @@
 						),
 						_react2.default.createElement(
 							"h2",
-							null,
+							{ className: "gm-header__h2--right" },
 							"Steps: (number)"
 						)
 					),
 					_react2.default.createElement(
 						"main",
-						{ className: "game-main" },
+						{ className: "gm-main" },
 						_react2.default.createElement(
 							"div",
 							{ className: "game-wikipedia-article" },
@@ -26570,7 +26696,7 @@
 					),
 					_react2.default.createElement(
 						"aside",
-						{ className: "game-aside" },
+						{ className: "gm-aside" },
 						_react2.default.createElement(
 							"ul",
 							null,
@@ -26631,7 +26757,7 @@
 					null,
 					_react2.default.createElement(
 						"header",
-						{ className: "lobby-header" },
+						{ className: "lb-header" },
 						_react2.default.createElement(
 							"a",
 							{ href: "#" },
@@ -26645,12 +26771,12 @@
 					),
 					_react2.default.createElement(
 						"main",
-						null,
+						{ className: "lb-main" },
 						"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio at, laborum, aut culpa qui iusto, velit vero dolore eaque eligendi magnam nesciunt in. Molestias, ab, praesentium. Itaque rem, esse aperiam!"
 					),
 					_react2.default.createElement(
 						"div",
-						{ className: "lobby-container" },
+						{ className: "lb-container" },
 						_react2.default.createElement(
 							"button",
 							null,
@@ -26674,15 +26800,93 @@
 
 /***/ },
 /* 232 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var LobbyList = function (_React$Component) {
+		_inherits(LobbyList, _React$Component);
+	
+		function LobbyList() {
+			_classCallCheck(this, LobbyList);
+	
+			return _possibleConstructorReturn(this, (LobbyList.__proto__ || Object.getPrototypeOf(LobbyList)).apply(this, arguments));
+		}
+	
+		_createClass(LobbyList, [{
+			key: "render",
+			value: function render() {
+				return _react2.default.createElement(
+					"div",
+					null,
+					_react2.default.createElement(
+						"header",
+						{ className: "ll-header" },
+						_react2.default.createElement(
+							"ul",
+							null,
+							_react2.default.createElement(
+								"li",
+								null,
+								"Creator of game"
+							),
+							_react2.default.createElement(
+								"li",
+								null,
+								"Number of players"
+							),
+							_react2.default.createElement(
+								"li",
+								null,
+								"Join"
+							)
+						)
+					),
+					_react2.default.createElement(
+						"main",
+						{ className: "ll-main" },
+						_react2.default.createElement(
+							"ul",
+							null,
+							_react2.default.createElement(
+								"li",
+								null,
+								"(List of players in lobby)"
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return LobbyList;
+	}(_react2.default.Component);
+	
+	exports.default = LobbyList;
 
 /***/ },
 /* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 			value: true
@@ -26712,41 +26916,41 @@
 			}
 	
 			_createClass(Rules, [{
-					key: 'render',
+					key: "render",
 					value: function render() {
 							return _react2.default.createElement(
-									'div',
+									"div",
 									null,
 									_react2.default.createElement(
-											'header',
-											null,
-											'Rules'
+											"header",
+											{ className: "rules-header" },
+											"Rules"
 									),
 									_react2.default.createElement(
-											'main',
-											null,
+											"main",
+											{ className: "rules-main" },
 											_react2.default.createElement(
-													'ul',
+													"ul",
 													null,
 													_react2.default.createElement(
-															'li',
+															"li",
 															null,
-															'lorem'
+															"lorem"
 													),
 													_react2.default.createElement(
-															'li',
+															"li",
 															null,
-															'lorem'
+															"lorem"
 													),
 													_react2.default.createElement(
-															'li',
+															"li",
 															null,
-															'lorem'
+															"lorem"
 													),
 													_react2.default.createElement(
-															'li',
+															"li",
 															null,
-															'lorem'
+															"lorem"
 													)
 											)
 									)
