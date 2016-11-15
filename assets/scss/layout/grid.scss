@@ -13,11 +13,10 @@ html {
     text-align: center;
 }
 
+/* added this, maybe not needed ??*/
 body {
 	max-width: 1000px;
     margin: 0 auto;
-    display: flex; /* This will allow our row to display columns horizontally */
-    flex-wrap: wrap;
 }
 
 /* Grid system! */

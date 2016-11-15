@@ -415,12 +415,10 @@ html {
 .text-center {
   text-align: center; }
 
+/* added this, maybe not needed ??*/
 body {
   max-width: 1000px;
-  margin: 0 auto;
-  display: flex;
-  /* This will allow our row to display columns horizontally */
-  flex-wrap: wrap; }
+  margin: 0 auto; }
 
 /* Grid system! */
 .row {
@@ -552,9 +550,25 @@ body {
   .gm-header .gm-header__h2--right {
     margin-left: auto; }
 
+.eg-header {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.eg-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
 .pg-main {
   display: flex;
   flex-direction: column; }
+
+.eg-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
 
 .pg-intro {
   margin-left: auto; }
@@ -578,6 +592,9 @@ body {
   .lb-container .checkbox {
     margin-left: auto; }
 
+.eg-main__ul--table .row .col-small-12 .col-medium-3 {
+  flex-direction: column; }
+
 button {
   border-radius: 5px;
   font-size: 2em;
@@ -598,6 +615,13 @@ button:hover {
   color: #006398;
   border: 0.06em solid #006398;
   box-shadow: 0.125em 0.125em 0.125em #AFE9FF; }
+
+table {
+  margin: 0 auto;
+  border: 0.08em solid #006398; }
+
+tr, td, th {
+  padding: 0.5em 2em; }
 
 /* Utility classes */
 .responsive-img {

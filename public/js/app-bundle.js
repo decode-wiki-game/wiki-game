@@ -97,7 +97,7 @@
 	// 	</Router>
 	// 	)
 	
-	_reactDom2.default.render(_react2.default.createElement(_Lobby2.default, null), document.getElementById('app'));
+	_reactDom2.default.render(_react2.default.createElement(_Endgame2.default, null), document.getElementById('app'));
 
 /***/ },
 /* 1 */
@@ -26507,7 +26507,7 @@
 	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
-			value: true
+		value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -26525,109 +26525,161 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var Endgame = function (_React$Component) {
-			_inherits(Endgame, _React$Component);
+		_inherits(Endgame, _React$Component);
 	
-			function Endgame() {
-					_classCallCheck(this, Endgame);
+		function Endgame() {
+			_classCallCheck(this, Endgame);
 	
-					return _possibleConstructorReturn(this, (Endgame.__proto__ || Object.getPrototypeOf(Endgame)).apply(this, arguments));
-			}
+			return _possibleConstructorReturn(this, (Endgame.__proto__ || Object.getPrototypeOf(Endgame)).apply(this, arguments));
+		}
 	
-			_createClass(Endgame, [{
-					key: "render",
-					value: function render() {
-							return _react2.default.createElement(
-									"div",
+		_createClass(Endgame, [{
+			key: "render",
+			value: function render() {
+				return _react2.default.createElement(
+					"div",
+					null,
+					_react2.default.createElement(
+						"header",
+						{ className: "eg-header" },
+						_react2.default.createElement(
+							"h2",
+							null,
+							"(position) place!"
+						)
+					),
+					_react2.default.createElement(
+						"main",
+						{ className: "eg-main" },
+						_react2.default.createElement(
+							"div",
+							null,
+							"Time: (time)"
+						),
+						_react2.default.createElement(
+							"div",
+							null,
+							"Steps you took: (list of steps)"
+						),
+						_react2.default.createElement(
+							"div",
+							{ className: "row" },
+							_react2.default.createElement(
+								"ul",
+								{ className: "eg-main__ul--table row col-small-12 col-medium-3" },
+								"Player",
+								_react2.default.createElement(
+									"li",
+									null,
+									"(Name)"
+								)
+							),
+							_react2.default.createElement(
+								"ul",
+								{ className: "row col-small-12 col-medium-3" },
+								"Time",
+								_react2.default.createElement(
+									"li",
+									null,
+									"(time)"
+								)
+							),
+							_react2.default.createElement(
+								"ul",
+								{ className: "row col-small-12 col-medium-3" },
+								"Number of steps",
+								_react2.default.createElement(
+									"li",
+									null,
+									"num of steps"
+								)
+							),
+							_react2.default.createElement(
+								"ul",
+								{ className: "row col-small-12 col-medium-3" },
+								"Last article",
+								_react2.default.createElement(
+									"li",
+									null,
+									"(wikipedia)"
+								)
+							)
+						),
+						_react2.default.createElement(
+							"div",
+							{ className: "eg-div__table--wrapper" },
+							_react2.default.createElement(
+								"table",
+								{ className: "eg-table" },
+								_react2.default.createElement(
+									"thead",
 									null,
 									_react2.default.createElement(
-											"header",
-											{ className: "eg-header" },
-											"(position) place!"
-									),
-									_react2.default.createElement(
-											"main",
-											{ className: "eg-main" },
-											_react2.default.createElement(
-													"div",
-													null,
-													"Time: (time)"
-											),
-											_react2.default.createElement(
-													"div",
-													null,
-													"Steps you took: (list of steps)"
-											)
-									),
-									_react2.default.createElement(
-											"table",
-											{ className: "eg-table" },
-											_react2.default.createElement(
-													"thead",
-													null,
-													_react2.default.createElement(
-															"tr",
-															null,
-															_react2.default.createElement(
-																	"th",
-																	null,
-																	"Player"
-															),
-															_react2.default.createElement(
-																	"th",
-																	null,
-																	"Time"
-															),
-															_react2.default.createElement(
-																	"th",
-																	null,
-																	"Number of steps"
-															),
-															_react2.default.createElement(
-																	"th",
-																	null,
-																	"Last article"
-															)
-													)
-											),
-											_react2.default.createElement(
-													"tbody",
-													null,
-													_react2.default.createElement(
-															"tr",
-															null,
-															_react2.default.createElement(
-																	"td",
-																	null,
-																	"(Name)"
-															),
-															_react2.default.createElement(
-																	"td",
-																	null,
-																	"(time)"
-															),
-															_react2.default.createElement(
-																	"td",
-																	null,
-																	"(num of steps)"
-															),
-															_react2.default.createElement(
-																	"td",
-																	null,
-																	"(wikipedia title)"
-															)
-													)
-											)
-									),
-									_react2.default.createElement(
-											"footer",
-											{ className: "eg-footer" },
-											"rematch"
+										"tr",
+										null,
+										_react2.default.createElement(
+											"th",
+											null,
+											"Player"
+										),
+										_react2.default.createElement(
+											"th",
+											null,
+											"Time"
+										),
+										_react2.default.createElement(
+											"th",
+											null,
+											"Number of steps"
+										),
+										_react2.default.createElement(
+											"th",
+											null,
+											"Last article"
+										)
 									)
-							);
-					}
-			}]);
+								),
+								_react2.default.createElement(
+									"tbody",
+									null,
+									_react2.default.createElement(
+										"tr",
+										null,
+										_react2.default.createElement(
+											"td",
+											null,
+											"(Name)"
+										),
+										_react2.default.createElement(
+											"td",
+											null,
+											"(time)"
+										),
+										_react2.default.createElement(
+											"td",
+											null,
+											"(num of steps)"
+										),
+										_react2.default.createElement(
+											"td",
+											null,
+											"(wikipedia title)"
+										)
+									)
+								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						"footer",
+						{ className: "eg-footer" },
+						"rematch"
+					)
+				);
+			}
+		}]);
 	
-			return Endgame;
+		return Endgame;
 	}(_react2.default.Component);
 	
 	exports.default = Endgame;
