@@ -8,20 +8,22 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 // Routes
-const game = require('./routes/game')
 const middleware = require('./routes/middleware')
+const game = require('./routes/game')
 
 // API
 const api = require('./methods/api')
 
 const init = function() {
 
-    app.use('/', middleware);
-    app.use('/game', game);
-
     http.listen(8080, function() {
         console.log(`listening on http://${process.env.C9_HOSTNAME}`);
     });
+
+    app.use('/game', game);
+    app.use('/', middleware);
+    
+    // Socket.io
     
     io.on('connection', function(socket) {
     socket.on('load', function(loadMessage) {

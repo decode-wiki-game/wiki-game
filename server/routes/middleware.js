@@ -9,17 +9,17 @@ routes.use(bodyParser.urlencoded({
     extended: false
 }), cookieParser());
 
+
 routes.use('/', function(request, response, next) {
     if (!request.cookies.sessionId) {
-        response.cookie('sessionId', api.createToken())
+        response.cookie('sessionId', api.createUser())
     }
-    console.log("Someone visited the site. Their cookies: ", request.cookies)
     api.findPlayerFromSessionId(request.cookies.sessionId)
         .then(player => {
-            request.player = player;
+            console.log(`${player.username} visited the site.`);
             next();
-        })
-})
+        });
+});
 
 routes.use('/files', express.static(path.join(__dirname, '../../public')));
 

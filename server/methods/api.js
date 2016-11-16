@@ -48,12 +48,15 @@ var api = {
                 console.log(error);
             });
     },
-    createToken: function() {
+    createUser: function() {
         var token = this.createSessionToken();
         var username = this.createUsername();
         knex('player').insert({
             sessionId: token,
             username: username
+        })
+        .then(result => {
+            return "User created"
         })
         return token
     },
@@ -69,11 +72,26 @@ var api = {
             });
     },
     // /game/create creating a new game
-    createGame: function() {
+    createGame: function(playerId) {
         var gameSlug = this.createSlug();
-        knex('game').insert({
+        return knex('game').insert({
             slug: gameSlug,
-            adminId: '?'
+            adminId: playerId,
+            isPublic: 0,
+            gameStarted: null,
+            startingURL: 'https://en.wikipedia.org/wiki/IserveU',
+            endURL: 'https://en.wikipedia.org/wiki/Germany',
+            finalStep: null,
+            createdAt: knex.fn.now()
+        })
+        .then(gameId => {
+            console.log("gameId is ", gameId)
+            return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startingURL', 'game.endURL', 'game.finalStep')
+                .from('game')
+                .where('game.id', gameId)
+        })
+        .then(gameArray => {
+            return gameArray[0]
         });
     },
     // /game/:slug/make-public   making a game public
