@@ -5,16 +5,15 @@
   h1 {
     margin: 1em auto;
   }
+  background: $grey;
+  margin: 0;
 }
 
 .lb-main {
   display: flex;
+  flex-direction: column;
 }
 
-.lb-container {
-  display: flex;
-  margin: 1em;
-  .checkbox {
-    margin-left: auto;
-  }
-}
+
+
+
