@@ -1,4 +1,4 @@
 node_modules
-src/css/app.css
-src/js/app-bundle.js
-src/js/app-bundle.js.map
+public/css/app-bundle.css
+public/js/app-bundle.js
+public/js/app-bundle.js.map

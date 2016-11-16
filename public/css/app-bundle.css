@@ -415,11 +415,6 @@ html {
 .text-center {
   text-align: center; }
 
-/* added this, maybe not needed ??*/
-body {
-  max-width: 1000px;
-  margin: 0 auto; }
-
 /* Grid system! */
 .row {
   max-width: 1000px;
@@ -579,18 +574,15 @@ body {
 .lb-header {
   display: flex;
   flex-direction: row-reverse;
-  margin: 0.2em; }
+  margin: 0.2em;
+  background: #F5F5F5;
+  margin: 0; }
   .lb-header h1 {
     margin: 1em auto; }
 
 .lb-main {
-  display: flex; }
-
-.lb-container {
   display: flex;
-  margin: 1em; }
-  .lb-container .checkbox {
-    margin-left: auto; }
+  flex-direction: column; }
 
 .eg-main__ul--table .row .col-small-12 .col-medium-3 {
   flex-direction: column; }
