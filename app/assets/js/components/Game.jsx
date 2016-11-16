@@ -2,18 +2,32 @@
 
 import React from 'react';
 import Article from './Article'
-var socket = io.connect();
+const socket = io.connect();
 
 export default class Game extends React.Component {
 
 	constructor() {
 		super();
 		this.state = {
-			article: ''
+			article: '',
+			game: {}
 		}
 	}
 
 	componentDidMount() {
+		
+			fetch('/game/create', {headers: new Headers({'x-usertoken' : document.cookie.substr(document.cookie.indexOf('=') + 1)})})
+			.then(response => {
+				return (response.json())
+			})
+			.then(data => {
+				console.log("game is: ", data.game)
+				this.setState({
+					game: data.game
+				})
+				socket.emit('link click', data.game.startingURL.substring(data.game.startingURL.lastIndexOf('/') + 1))
+			})
+		
 		socket.on('link fetch', (result) => {
 			this.setState({
 				article: result
@@ -47,30 +61,8 @@ export default class Game extends React.Component {
 	render() {
 		return (
 			<div>
-	           	<a href="#" onClick={() => this._handleClick('IserveU')}>IserveU</a>
 	           	<Article title={this.state.article}/>
       		</div>
 		)
 	}
 }
-
-
-// render() {
-// 		return (
-// 			<div>      
-// 	        	<header className="gm-header">
-// 	          		<h2>Goal: (Topic 2)</h2>
-// 	          		<h2 className="gm-header__h2--right">Steps: (number)</h2>
-// 	        	</header>
-// 	        	<main className="gm-main">
-// 	          		<div className='game-wikipedia-article'>Wikipedia article Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio at, laborum, aut culpa qui iusto, velit vero dolore eaque eligendi magnam nesciunt in. Molestias, ab, praesentium. Itaque rem, esse aperiam!</div>
-// 	        	</main>
-// 	        	<aside className="gm-aside">
-// 	        		<ul>
-// 	        			<li>(Steps: (number))</li>
-// 	        		</ul>
-// 	           	</aside>
-// 	           	<a href="#" onClick={this._handleClick}>IserveU</a>
-//       		</div>
-// 		)
-// 	}
