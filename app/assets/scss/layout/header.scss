@@ -1,0 +1,26 @@
+.pg-header {
+	display: flex;
+	flex-wrap: wrap;
+    background-color: $grey;
+    border: 1px solid $grey;
+
+    .pg-header__h2--right {
+		margin-left: auto;
+	}
+}
+
+
+.gm-header {
+    display: flex;
+    flex-wrap: wrap;
+    .gm-header__h2--right {
+    	margin-left: auto;
+    }
+}
+
+.eg-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
