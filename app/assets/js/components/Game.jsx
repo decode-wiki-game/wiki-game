@@ -39,9 +39,11 @@ export default class Game extends React.Component {
 		var elements = document.getElementsByTagName('a');
 		for (var i = 0, len = elements.length; i < len; i++) {
 			elements[i].onclick = (event) => {
+				if (event.target.getAttribute('href').indexOf("#") == -1) {
 				event.preventDefault()
 				var title =  this._findTarget(event.target.getAttribute('href'));
 				this._handleClick(title);
+				}
 			}
 		}
 	}
