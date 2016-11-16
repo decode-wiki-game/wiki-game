@@ -3,21 +3,21 @@
 
 <head>
   <title>Wikisprint</title>
-  <link rel="stylesheet" href="files/css/app.css" type="text/css" />
+  <link rel="stylesheet" href="files/css/app-bundle.css" type="text/css" />
   <script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body>
   <script>
-      /* global $ io */
+    /* global $ io */
 
-      var socket = io();
+    var socket = io();
 
-      socket.emit('load', "I have loaded the site")
+    socket.emit('load', "I have loaded the site")
 
-      socket.on('return', function(message) {
-        console.log(message)
-      })
+    socket.on('return', function(message) {
+      console.log(message)
+    })
   </script>
   <div id="app"></div>
   <script src="/files/js/app-bundle.js"></script>

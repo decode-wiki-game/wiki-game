@@ -15,13 +15,4 @@ import LobbyList from './components/LobbyList';
 import Rules from './components/Rules';
 
 
-// var routes = (
-// 	<Router history={ReactRouter.browserHistory}>
-// 		//Add index route???
-// 		<Route path="/" component={App}>
-// 			<Route path="/pregame" component={Pregame}/>
-// 		</Route>
-// 	</Router>
-// 	)
-
 ReactDOM.render(<Game />, document.getElementById('app'));
