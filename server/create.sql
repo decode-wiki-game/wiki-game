@@ -18,10 +18,11 @@ CREATE TABLE `game` (
     `adminId` INT(11),
     `slug` VARCHAR(255),
     `isPublic` TINYINT(0),
-    `gameStarted` TIMESTAMP,
+    `gameStarted` DATETIME,
     `startingURL` VARCHAR(255),
     `endURL` VARCHAR(255),
     `finalStep` INT(11),
+    `createdAt` TIMESTAMP,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`adminId`) REFERENCES `player` (`id`)
     
