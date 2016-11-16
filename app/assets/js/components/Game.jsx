@@ -32,6 +32,8 @@ export default class Game extends React.Component {
 			this.setState({
 				article: result
 			})
+			window.scrollTo(0, 0)
+
 		});
 	}
 

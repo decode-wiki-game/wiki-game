@@ -26776,6 +26776,7 @@
 					_this2.setState({
 						article: result
 					});
+					window.scrollTo(0, 0);
 				});
 			}
 		}, {
