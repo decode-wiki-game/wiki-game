@@ -15,4 +15,4 @@ import LobbyList from './components/LobbyList';
 import Rules from './components/Rules';
 
 
-ReactDOM.render(<Lobby />, document.getElementById('app'));
+ReactDOM.render(<Endgame />, document.getElementById('app'));
