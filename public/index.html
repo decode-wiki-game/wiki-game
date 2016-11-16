@@ -1,12 +1,26 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Wikisprint</title>
-    <link rel="stylesheet" type="text/css" href="/files/css/app.css">
-  </head>
-  <body>
-    <div id="app"></div>
-    <script src="/files/js/app-bundle.js"></script>
-  </body>
+
+<head>
+  <title>Wikisprint</title>
+  <link rel="stylesheet" href="files/css/app.css" type="text/css" />
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+  <script>
+      /* global $ io */
+
+      var socket = io();
+
+      socket.emit('load', "I have loaded the site")
+
+      socket.on('return', function(message) {
+        console.log(message)
+      })
+  </script>
+  <div id="app"></div>
+  <script src="/files/js/app-bundle.js"></script>
+</body>
+
 </html>
