@@ -22,7 +22,6 @@ export default class Lobby extends React.Component{
 						<h1>Welcome to WikiSprint!</h1>
 					</header>
 					<main className="lb-main">
-						<div className="lb-main__div--container">
 							<h3 className="lb-main__h3">You are playing as: (name - click to edit)</h3>
 							<h3 className="lb-main__h3">Send the url and challenge a friend!</h3>
 							<div><small>Click to copy this url and send to a friend</small></div>
@@ -33,7 +32,6 @@ export default class Lobby extends React.Component{
 							<div>
 							{this.state.showLobby ? <LobbyList /> : null}	
 							</div>
-				      	</div>
 					</main>
 					<div className="lb-container">
 						<button>start</button>

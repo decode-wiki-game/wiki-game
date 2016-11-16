@@ -88,7 +88,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	_reactDom2.default.render(_react2.default.createElement(_Rules2.default, null), document.getElementById('app'));
+	_reactDom2.default.render(_react2.default.createElement(_Lobby2.default, null), document.getElementById('app'));
 
 /***/ },
 /* 1 */
@@ -26871,49 +26871,45 @@
 						'main',
 						{ className: 'lb-main' },
 						_react2.default.createElement(
+							'h3',
+							{ className: 'lb-main__h3' },
+							'You are playing as: (name - click to edit)'
+						),
+						_react2.default.createElement(
+							'h3',
+							{ className: 'lb-main__h3' },
+							'Send the url and challenge a friend!'
+						),
+						_react2.default.createElement(
 							'div',
-							{ className: 'lb-main__div--container' },
+							null,
 							_react2.default.createElement(
-								'h3',
-								{ className: 'lb-main__h3' },
-								'You are playing as: (name - click to edit)'
-							),
-							_react2.default.createElement(
-								'h3',
-								{ className: 'lb-main__h3' },
-								'Send the url and challenge a friend!'
-							),
-							_react2.default.createElement(
-								'div',
+								'small',
 								null,
-								_react2.default.createElement(
-									'small',
-									null,
-									'Click to copy this url and send to a friend'
-								)
-							),
-							_react2.default.createElement(_Copy2.default, null),
-							_react2.default.createElement(
-								'label',
-								{ className: 'lb-main__label' },
-								_react2.default.createElement('input', { type: 'checkbox' }),
-								'Add game to lobby'
-							),
-							_react2.default.createElement(
-								'h3',
-								null,
-								'Or join a game in the lobby'
-							),
-							_react2.default.createElement(
-								'button',
-								{ onClick: this.onClick.bind(this) },
-								'lobby'
-							),
-							_react2.default.createElement(
-								'div',
-								null,
-								this.state.showLobby ? _react2.default.createElement(_LobbyList2.default, null) : null
+								'Click to copy this url and send to a friend'
 							)
+						),
+						_react2.default.createElement(_Copy2.default, null),
+						_react2.default.createElement(
+							'label',
+							{ className: 'lb-main__label' },
+							_react2.default.createElement('input', { type: 'checkbox' }),
+							'Add game to lobby'
+						),
+						_react2.default.createElement(
+							'h3',
+							null,
+							'Or join a game in the lobby'
+						),
+						_react2.default.createElement(
+							'button',
+							{ onClick: this.onClick.bind(this) },
+							'lobby'
+						),
+						_react2.default.createElement(
+							'div',
+							null,
+							this.state.showLobby ? _react2.default.createElement(_LobbyList2.default, null) : null
 						)
 					),
 					_react2.default.createElement(
