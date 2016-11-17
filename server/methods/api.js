@@ -22,11 +22,24 @@ var api = {
         var name = a[rA] + " " + b[rB];
         return name;
     },
+    randomizeNumber: function() {
+       var num = Math.floor((Math.random() * 13) + 1);
+        return num; 
+    },
     createSlug: function() {
         return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 4);
     },
     createSessionToken: function() {
         return secureRandom.randomArray(100).map(code => code.toString(36)).join('');
+    },
+    selectArticle: function () {
+        var randomArticle = this.randomizeNumber();
+      return knex.select('wiki_destination.address')
+      .from('wiki_destination')
+      .where('wiki_destination.id',randomArticle)
+       .then(destination => {
+                return destination[0].address;
+            });
     },
     //show who the players are
     findPlayers: function() {
@@ -59,6 +72,7 @@ var api = {
             return "User created";
         });
         return token;
+        
     },
     findPlayerFromSessionId: function(sessionId) {
         return( knex.select('player.id', 'player.username')
@@ -74,25 +88,30 @@ var api = {
     // /game/create creating a new game
     createGame: function(playerId) {
         var gameSlug = this.createSlug();
-        return knex('game').insert({
-            slug: gameSlug,
-            adminId: playerId,
-            isPublic: 0,
-            gameStarted: null,
-            startingURL: 'https://en.wikipedia.org/wiki/IserveU',
-            endURL: 'https://en.wikipedia.org/wiki/Germany',
-            finalStep: null,
-            createdAt: knex.fn.now()
-        })
-        .then(gameId => {
-            console.log("gameId is ", gameId);
-            return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startingURL', 'game.endURL', 'game.finalStep')
-                .from('game')
-                .where('game.id', gameId);
-        })
-        .then(gameArray => {
-            return gameArray[0];
+        return this.selectArticle()
+            .then(article => {
+                knex('game').insert({
+                slug: gameSlug,
+                adminId: playerId,
+                isPublic: 0,
+                gameStarted: null,
+                startingURL: 'https://en.wikipedia.org/wiki/Special:Random',
+                endURL: article,
+                finalStep: null,
+                createdAt: knex.fn.now()
+            })
+            .then(gameId => {
+                console.log("gameId is ", gameId);
+                return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startingURL', 'game.endURL', 'game.finalStep')
+                    .from('game')
+                    .where('game.id', gameId);
+            })
+            .then(gameArray => {
+                console.log("Game array is: ", gameArray)
+                return gameArray[0];
+            });                
         });
+
     },
     // /game/:slug/make-public   making a game public
     makePublic: function(id) {

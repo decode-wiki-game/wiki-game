@@ -26,6 +26,7 @@ CREATE TABLE `game` (
     PRIMARY KEY (`id`),
     FOREIGN KEY (`adminId`) REFERENCES `player` (`id`)
     
+    
 );
 
 /*(3) This creates the status table that holds information about the possible statuses for each game.
@@ -66,5 +67,17 @@ CREATE TABLE `step` (
 
 /*This creates a foreign key to the game table */
 ALTER TABLE `game` ADD FOREIGN KEY (`finalStep`) REFERENCES `step` (`id`);
+
+/*This creates a table with the a few of the top referenced titles on Wikipedia so 
+we can use them as destination pages */
+CREATE TABLE `wiki_destination` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(255),
+    `address` VARCHAR(255),
+    PRIMARY KEY (`id`)
+);
+
+/*This creates another foreign key to the game table */
+
 
 /* This space is resevred for some sample data to be added on later */
