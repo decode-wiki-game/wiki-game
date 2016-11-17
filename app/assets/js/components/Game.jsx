@@ -21,7 +21,6 @@ export default class Game extends React.Component {
 				return (response.json())
 			})
 			.then(data => {
-				console.log("game is: ", data.game)
 				this.setState({
 					game: data.game
 				})
