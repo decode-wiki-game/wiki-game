@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Article from './Article'
+import Sidebar from './Sidebar'
 const socket = io.connect();
 
 export default class Game extends React.Component {
@@ -66,6 +67,7 @@ export default class Game extends React.Component {
 		return (
 			<div>
 	           	<Article title={this.state.article}/>
+	           	<Sidebar />
       		</div>
 		)
 	}
