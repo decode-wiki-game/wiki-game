@@ -10,6 +10,7 @@ const io = require('socket.io')(http);
 // Routes
 const middleware = require('./routes/middleware')
 const game = require('./routes/game')
+const user = require('./routes/user')
 
 // API
 const api = require('./methods/api')
@@ -21,24 +22,29 @@ const init = function() {
     });
 
     app.use('/game', game);
+    app.use('/user', user);
     app.use('/', middleware);
-    
-    // Socket.io
-    
-    io.on('connection', function(socket) {
-    socket.on('load', function(loadMessage) {
-        console.log(loadMessage)
-        io.emit('return', 'You have loaded the site');
-    });
 
-    socket.on('link click', function(target) {
-        console.log("The user clicked ", target)
-        api.getArticle(target)
-            .then(article => {
-                io.emit('link fetch', article)
-            });
-    })
-});
+    // Socket.io
+
+    io.on('connection', function(socket) {
+        socket.on('load', function(loadMessage) {
+            console.log(loadMessage)
+            io.emit('return', 'You have loaded the site');
+        });
+
+        socket.on('link click', function(target) {
+            console.log("The user clicked ", target)
+            api.getArticle(target)
+                .then(article => {
+                    io.emit('link fetch', article)
+                });
+        })
+        
+        socket.on('game join', function(game) {
+            console.log("Someone joined ", game)
+        })
+    });
 }
 
 

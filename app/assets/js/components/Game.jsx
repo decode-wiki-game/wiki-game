@@ -1,6 +1,7 @@
-/* global io */
+/* global io fetch */
 
 import React from 'react';
+import 'whatwg-fetch';
 import Article from './Article'
 import Sidebar from './Sidebar'
 const socket = io.connect();
@@ -11,23 +12,28 @@ export default class Game extends React.Component {
 		super();
 		this.state = {
 			article: '',
-			game: {}
+			game: null,
+			player: null
 		}
 	}
 
 	componentDidMount() {
-		
-			fetch('/game/create', {headers: new Headers({'x-usertoken' : document.cookie.substr(document.cookie.indexOf('=') + 1)})})
-			.then(response => {
-				return (response.json())
-			})
+		if(this.props.location.pathname != '/') { // if a player has joined a pre-existing lobby
+			fetch('game/join', {headers: {'x-usertoken' : document.cookie.substr(document.cookie.indexOf('=') + 1), 'x-gameslug': this.props.location.pathname.substring(1)}})
+				.then(response => {
+					console.log(response)
+				})
+		}
+		else { // if a player has just loaded the root URL
+			fetch('/game/create', {headers: {'x-usertoken' : document.cookie.substr(document.cookie.indexOf('=') + 1)}})
+			.then(response => response.json())
 			.then(data => {
-				console.log("game is: ", data.game)
 				this.setState({
 					game: data.game
 				})
 				socket.emit('link click', data.game.startingURL.substring(data.game.startingURL.lastIndexOf('/') + 1))
 			})
+		}
 		
 		socket.on('link fetch', (result) => {
 			this.setState({
@@ -56,6 +62,11 @@ export default class Game extends React.Component {
 	}
 
 	componentDidUpdate() {
+		if(this.props.player != this.state.player) {
+			this.setState({
+				player: this.props.player
+			})
+		}
 		this._updateLinks()
 	}
 
@@ -64,11 +75,21 @@ export default class Game extends React.Component {
 	}
 
 	render() {
-		return (
-			<div>
-	           	<Article title={this.state.article}/>
-	           	<Sidebar />
-      		</div>
-		)
+		if (!this.state.player || !this.state.game) {
+			return (
+				<h2>loading</h2>	
+			)
+		}
+		if (this.state.game.slug && this.state.player) {
+			console.log(this.state.game)
+			return (
+				<div>
+					<h2>The game and player have loaded, welcome to your game, {this.state.player.username}</h2>
+					<h3>Ready to get playing? Share wikisprint.com/{this.state.game.slug} with your friends</h3>
+					<p>There are x many players in your game</p>
+					<p>The game hasn't started yet</p>
+				</div>
+			)
+		}
 	}
 }

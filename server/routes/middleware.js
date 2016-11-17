@@ -11,20 +11,25 @@ routes.use(bodyParser.urlencoded({
 
 
 routes.use('/', function(request, response, next) {
-    if (!request.cookies.sessionId) {
-        response.cookie('sessionId', api.createUser())
+    if (request.path.indexOf('/files') === -1) {
+        if (!request.cookies.sessionId) {
+            response.cookie('sessionId', api.createUser())
+        }
+        api.findPlayerFromSessionId(request.cookies.sessionId)
+            .then(player => {
+                console.log(`${player.username} visited the site.`);
+                next();
+            });
     }
-    api.findPlayerFromSessionId(request.cookies.sessionId)
-        .then(player => {
-            console.log(`${player.username} visited the site.`);
-            next();
-        });
+    next()
 });
+
 
 routes.use('/files', express.static(path.join(__dirname, '../../public')));
 
 routes.get('/*', function(request, response) {
     response.sendFile(path.resolve('public/index.html'));
 });
+
 
 module.exports = routes;
