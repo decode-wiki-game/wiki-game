@@ -18,6 +18,7 @@ routes.get('/create', (request, response) => {
         .then(player => {
             api.createGame(player.id)
                 .then(game=> {
+                    console.log("game/create::", game)
                     response.status(200).json({ game: game });
                 })
         })

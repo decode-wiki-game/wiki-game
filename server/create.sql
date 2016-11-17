@@ -77,7 +77,9 @@ CREATE TABLE `wiki_destination` (
     PRIMARY KEY (`id`)
 );
 
-/*This creates another foreign key to the game table */
+/*This creates a primary key to the game_player  table */
+ALTER TABLE game_player ADD PRIMARY KEY(gameId, playerId);
+
 
 
 /* This space is resevred for some sample data to be added on later */

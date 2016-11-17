@@ -27069,7 +27069,6 @@
 				fetch('/game/create', { headers: new Headers({ 'x-usertoken': document.cookie.substr(document.cookie.indexOf('=') + 1) }) }).then(function (response) {
 					return response.json();
 				}).then(function (data) {
-					console.log("game is: ", data.game);
 					_this2.setState({
 						game: data.game
 					});
