@@ -1,5 +1,5 @@
 var secureRandom = require('secure-random');
-var fetch = require('node-fetch')
+var fetch = require('node-fetch');
 
 var knex = require('knex')({
     client: 'mysql',
@@ -56,14 +56,14 @@ var api = {
             username: username
         })
         .then(result => {
-            return "User created"
-        })
-        return token
+            return "User created";
+        });
+        return token;
     },
     findPlayerFromSessionId: function(sessionId) {
-        return knex.select('player.id', 'player.username')
+        return( knex.select('player.id', 'player.username')
             .from('player')
-            .where('player.sessionId', sessionId)
+            .where('player.sessionId', sessionId))
             .then(results => {
                 return results[0];
             })
@@ -85,13 +85,13 @@ var api = {
             createdAt: knex.fn.now()
         })
         .then(gameId => {
-            console.log("gameId is ", gameId)
+            console.log("gameId is ", gameId);
             return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startingURL', 'game.endURL', 'game.finalStep')
                 .from('game')
-                .where('game.id', gameId)
+                .where('game.id', gameId);
         })
         .then(gameArray => {
-            return gameArray[0]
+            return gameArray[0];
         });
     },
     // /game/:slug/make-public   making a game public
@@ -118,8 +118,8 @@ var api = {
     getArticle: function (title) {
     return fetch(`https://en.wikipedia.org/wiki/${title}?action=render`)
         .then(response => {
-            return response.text()
-        })
+            return response.text();
+        });
     }
 };
 
