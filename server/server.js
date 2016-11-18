@@ -28,21 +28,65 @@ const init = function() {
     // Socket.io
 
     io.on('connection', function(socket) {
-        socket.on('load', function(loadMessage) {
-            console.log(loadMessage)
-            io.emit('return', 'You have loaded the site');
-        });
+
+        var handshakeData = JSON.parse(socket.request._query.connectionData)
+
+        var room = handshakeData.room;
+        var player = handshakeData.player ? JSON.parse(handshakeData.player) : undefined;
+
+        console.log("server::room", room)
+        console.log("server::player:intial", player)
+
+        if (!player) {
+            api.createPlayer()
+                .then(player => {
+                    player = player;
+                    socket.emit('createPlayer', JSON.stringify({
+                        playerToken: player.token,
+                        username: player.username,
+                        id: player.id
+                    }))
+                    if (!room) {
+                        api.createGame(player.id)
+                            .then(game => {
+                                socket.join(game.slug)
+                                socket.emit('createGame', {
+                                    game: game
+                                })
+                            })
+                    }
+                    else {
+                        socket.join(room);
+                        io.to(room).emit('joinRoom', {
+                            playerCount: io.sockets.adapter.rooms[room].length
+                        });
+                    }
+                });
+        }
+        if (!room) {
+            api.createGame(player.id)
+                .then(game => {
+                    socket.join(game.slug)
+                    io.to(game.slug).emit('createGame', {
+                        slug: game.slug
+                    })
+                })
+        }
+        else {
+            socket.join(room);
+            io.to(room).emit('joinRoom', {
+                playerCount: io.sockets.adapter.rooms[room].length
+            });
+        }
+
+
+
 
         socket.on('link click', function(target) {
-            console.log("The user clicked ", target)
             api.getArticle(target)
                 .then(article => {
                     io.emit('link fetch', article)
                 });
-        })
-        
-        socket.on('game join', function(game) {
-            console.log("Someone joined ", game)
         })
     });
 }

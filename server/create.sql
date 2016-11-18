@@ -36,15 +36,7 @@ CREATE TABLE `status` (
     PRIMARY KEY (`id`)
 );
 
-/*(4) This creates the connector game_player to describe how many players are in each game.*/
-CREATE TABLE `game_player` (
-    `gameId` INT(11),
-    `playerId` INT(11),
-    FOREIGN KEY (`gameId`) REFERENCES  `game` (`id`),
-    FOREIGN KEY (`playerId`) REFERENCES `player` (`id`)
-);
-
-/*(5) This creates the connector game_status to describe the status of each game. */
+/*(4) This creates the connector game_status to describe the status of each game. */
 CREATE TABLE `game_status` (
     `gameId` INT(11),
     `statusId` INT(11),
@@ -52,7 +44,7 @@ CREATE TABLE `game_status` (
     FOREIGN KEY (`statusId`) REFERENCES `status` (`id`)
 );
 
-/*(6) This creates the steps table that stores information about the steps taken by the players. */
+/*(5) This creates the steps table that stores information about the steps taken by the players. */
 CREATE TABLE `step` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `gameId` INT(11),

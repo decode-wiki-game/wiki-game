@@ -48,17 +48,20 @@ var api = {
                 console.log(error);
             });
     },
-    createUser: function() {
+    createPlayer: function() {
         var token = this.createSessionToken();
         var username = this.createUsername();
-        knex('player').insert({
+        return knex('player').insert({
             sessionId: token,
             username: username
         })
-        .then(result => {
-            return "User created"
+        .then(playerId => {
+        return {
+            token: token,
+            username: username,
+            id: playerId
+        }
         })
-        return token
     },
     findPlayerFromSessionId: function(sessionId) {
         return knex.select('player.id', 'player.username')
@@ -85,7 +88,6 @@ var api = {
             createdAt: knex.fn.now()
         })
         .then(gameId => {
-            console.log("gameId is ", gameId)
             return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startingURL', 'game.endURL', 'game.finalStep', 'game.createdAt')
                 .from('game')
                 .where('game.id', gameId)
@@ -161,7 +163,7 @@ var api = {
             })
         })
         .then(playerGameObj => {
-            console.log('playerGameObj is: ', playerGameObj)
+            // console.log('playerGameObj is: ', playerGameObj)
             return knex('game_player')
                 .insert({
                 playerId: playerGameObj.player.id,

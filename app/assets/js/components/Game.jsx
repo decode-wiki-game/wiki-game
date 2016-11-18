@@ -1,10 +1,17 @@
 /* global io fetch */
 
 import React from 'react';
-import 'whatwg-fetch';
 import Article from './Article'
 import Sidebar from './Sidebar'
-const socket = io.connect();
+var socket = io.connect('/', {
+	query: `connectionData=${
+				JSON.stringify({
+					room: window.location.pathname.substr(1),
+					player: window.localStorage.player
+				})
+			}`
+});
+
 
 export default class Game extends React.Component {
 
@@ -13,34 +20,38 @@ export default class Game extends React.Component {
 		this.state = {
 			article: '',
 			game: null,
-			player: null
+			player: null,
+			playerCount: 1
 		}
 	}
 
 	componentDidMount() {
-		if(this.props.location.pathname != '/') { // if a player has joined a pre-existing lobby
-			fetch('game/join', {headers: {'x-usertoken' : document.cookie.substr(document.cookie.indexOf('=') + 1), 'x-gameslug': this.props.location.pathname.substring(1)}})
-				.then(response => {
-					console.log(response)
-				})
-		}
-		else { // if a player has just loaded the root URL
-			fetch('/game/create', {headers: {'x-usertoken' : document.cookie.substr(document.cookie.indexOf('=') + 1)}})
-			.then(response => response.json())
-			.then(data => {
-				this.setState({
-					game: data.game
-				})
-				socket.emit('link click', data.game.startingURL.substring(data.game.startingURL.lastIndexOf('/') + 1))
+
+		socket.on('createPlayer', (player) => {
+			window.localStorage.player = player;
+			this.setState({
+				player: player
 			})
-		}
-		
+		})
+
+		socket.on('joinRoom', (data) => {
+			this.setState({
+				playerCount: data.playerCount
+			});
+		});
+
+		socket.on('createGame', (data) => {
+			this.setState({
+				game: data.game
+			})
+			this.props.router.push(`/${data.game.slug}`)
+		})
+
 		socket.on('link fetch', (result) => {
 			this.setState({
 				article: result
 			})
-			window.scrollTo(0, 0)
-
+			window.scrollTo(0, 0);
 		});
 	}
 
@@ -49,20 +60,20 @@ export default class Game extends React.Component {
 		for (var i = 0, len = elements.length; i < len; i++) {
 			elements[i].onclick = (event) => {
 				if (event.target.getAttribute('href').indexOf("#") == -1) {
-				event.preventDefault()
-				var title =  this._findTarget(event.target.getAttribute('href'));
-				this._handleClick(title);
+					event.preventDefault()
+					var title = this._findTarget(event.target.getAttribute('href'));
+					this._handleClick(title);
 				}
 			}
 		}
 	}
-	
+
 	_findTarget(url) {
 		return url.substring(url.lastIndexOf('/') + 1)
 	}
 
 	componentDidUpdate() {
-		if(this.props.player != this.state.player) {
+		if (this.props.player != this.state.player) {
 			this.setState({
 				player: this.props.player
 			})
@@ -71,25 +82,16 @@ export default class Game extends React.Component {
 	}
 
 	_handleClick(topic) {
-		socket.emit('link click', topic)
+		// socket.emit('link click', topic)
 	}
 
 	render() {
-		if (!this.state.player || !this.state.game) {
-			return (
-				<h2>loading</h2>	
-			)
-		}
-		if (this.state.game.slug && this.state.player) {
-			console.log(this.state.game)
-			return (
-				<div>
-					<h2>The game and player have loaded, welcome to your game, {this.state.player.username}</h2>
-					<h3>Ready to get playing? Share wikisprint.com/{this.state.game.slug} with your friends</h3>
-					<p>There are x many players in your game</p>
+
+		return (
+			<div>
+					<p>There are {this.state.playerCount} players in your game</p>
 					<p>The game hasn't started yet</p>
 				</div>
-			)
-		}
+		)
 	}
 }

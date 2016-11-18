@@ -14,7 +14,6 @@ routes.get('/', (request, response) => {
     var playerToken = request.headers['x-usertoken']
     api.findPlayerFromSessionId(playerToken)
         .then(player => {
-            console.log("player is ", player)
             response.status(200).json({ player: player });
         })
 });
