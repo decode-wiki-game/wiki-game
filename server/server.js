@@ -31,14 +31,87 @@ const init = function() {
         io.emit('return', 'You have loaded the site');
     });
 
-    socket.on('link click', function(target) {
-        console.log("The user clicked ", target);
-        api.getArticle(target)
-            .then(article => {
-                io.emit('link fetch', article);
-            });
+        var handshakeData = JSON.parse(socket.request._query.connectionData)
+
+        var room = handshakeData.room;
+        var player = handshakeData.player ? JSON.parse(handshakeData.player) : undefined;
+
+        console.log("server::room", room)
+        console.log("server::player", player)
+
+        if (!player) {
+            api.createPlayer()
+                .then(player => {
+                    player = player;
+                    socket.emit('createPlayer', JSON.stringify({
+                        playerToken: player.token,
+                        username: player.username,
+                        id: player.id
+                    }))
+                    if (!room) {
+                        api.createGame(player.id)
+                            .then(game => {
+                                socket.join(game.slug)
+                                socket.emit('createGame', {
+                                    game: game
+                                })
+                            })
+                    }
+                    else {
+                        socket.join(room);
+                        api.findGameFromSlug(room)
+                            .then(game => {
+                                if (game) {
+                                    console.log("gameFromSlug", game)
+                                    socket.emit('joinRoom', {
+                                        game: game
+                                    })
+                                    io.to(room).emit('playerJoinedRoom', {
+                                        playerCount: io.sockets.adapter.rooms[room].length
+                                    });
+                                }
+                            })
+                    }
+                });
+        }
+        else if (!room) {
+            api.createGame(player.id)
+                .then(game => {
+                    socket.join(game.slug)
+                    socket.emit('createGame', {
+                        game: game
+                    })
+                })
+        }
+        else {
+            socket.join(room);
+            api.findGameFromSlug(room)
+                .then(game => {
+                    if (game) {
+                        socket.emit('joinRoom', {
+                            game: game
+                        })
+                        io.to(room).emit('playerJoinedRoom', {
+                            playerCount: io.sockets.adapter.rooms[room].length
+                        });
+                    }
+                    else {
+                        socket.emit('noGameExists')
+                    }
+                })
+        }
+
+
+
+
+        socket.on('link click', function(target) {
+            api.getArticle(target)
+                .then(article => {
+                    io.emit('link fetch', article)
+                });
+        })
     });
-});
+
 };
 
 

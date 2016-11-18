@@ -20,7 +20,7 @@ export default class Game extends React.Component {
 		this.state = {
 			article: '',
 			game: null,
-			player: null,
+			player: window.localStorage.player ? JSON.parse(window.localStorage.player) : undefined,
 			playerCount: 1
 		}
 	}
@@ -30,13 +30,19 @@ export default class Game extends React.Component {
 		socket.on('createPlayer', (player) => {
 			window.localStorage.player = player;
 			this.setState({
-				player: player
+				player: JSON.parse(player)
 			})
 		})
 
-		socket.on('joinRoom', (data) => {
+		socket.on('playerJoinedRoom', (data) => {
 			this.setState({
 				playerCount: data.playerCount
+			});
+		});
+		
+		socket.on('joinRoom', (data) => {
+			this.setState({
+				game: data.game
 			});
 		});
 
@@ -45,6 +51,11 @@ export default class Game extends React.Component {
 				game: data.game
 			})
 			this.props.router.push(`/${data.game.slug}`)
+		})
+		
+		socket.on('noGameExists', () => {
+			this.props.router.push('/')
+			this.forceUpdate() //TODO create a new game instance after re-route
 		})
 
 		socket.on('link fetch', (result) => {
@@ -73,11 +84,6 @@ export default class Game extends React.Component {
 	}
 
 	componentDidUpdate() {
-		if (this.props.player != this.state.player) {
-			this.setState({
-				player: this.props.player
-			})
-		}
 		this._updateLinks()
 	}
 
@@ -86,12 +92,24 @@ export default class Game extends React.Component {
 	}
 
 	render() {
-
-		return (
-			<div>
+		console.log("render player state", this.state.player)
+		console.log("render game state", this.state.game)
+		if (this.state.player && this.state.game) {
+			return (
+				<div>
+					<p>Welcome, {this.state.player.username}</p>
 					<p>There are {this.state.playerCount} players in your game</p>
 					<p>The game hasn't started yet</p>
+					<button disabled={this.state.playerCount < 2}> Start game </button>
 				</div>
-		)
+			)
+
+		}
+		else
+			return (
+				<div>
+			<h2>loading</h2>
+			</div>
+			)
 	}
 }

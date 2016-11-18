@@ -135,11 +135,32 @@ var api = {
                 return error;
             });
     },
+<<<<<<< HEAD
     getArticle: function(title) {
         return fetch(`https://en.wikipedia.org/wiki/${title}?action=render`)
             .then(response => {
                 return response.text();
             });
+=======
+    getArticle: function (title) {
+    return fetch(`https://en.wikipedia.org/wiki/${title}?action=render`)
+        .then(response => {
+            return response.text()
+        })
+    },
+    findGameFromSlug: function(slug) {
+        return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startingURL', 'game.endURL', 'game.finalStep', 'game.createdAt')
+            .from('game')
+            .where('game.slug', slug)
+                .then(game => {
+                    if (game.length) {
+                        return game[0]
+                    }
+                    else {
+                        return null
+                    }
+                })
+>>>>>>> 4f3d08f9f7b990bc29ba04f9a001b9249c1eb89a
     },
     //This gets the first page's url using request (not being used).
     firstPageURL: function() {
