@@ -132,7 +132,7 @@ var api = {
                         return game[0]
                     }
                     else {
-                        return "No game found"
+                        return null
                     }
                 })
     },

@@ -31,6 +31,8 @@ const init = function() {
 
         var handshakeData = JSON.parse(socket.request._query.connectionData)
 
+        console.log("handshakeData", handshakeData)
+
         var room = handshakeData.room;
         var player = handshakeData.player ? JSON.parse(handshakeData.player) : undefined;
 
@@ -57,26 +59,44 @@ const init = function() {
                     }
                     else {
                         socket.join(room);
-                        io.to(room).emit('joinRoom', {
-                            playerCount: io.sockets.adapter.rooms[room].length
-                        });
+                        api.findGameFromSlug(room)
+                            .then(game => {
+                                if (game) {
+                                    console.log("gameFromSlug", game)
+                                    socket.emit('joinRoom', {
+                                        game: game
+                                    })
+                                    io.to(room).emit('playerJoinedRoom', {
+                                        playerCount: io.sockets.adapter.rooms[room].length
+                                    });
+                                }
+                            })
                     }
                 });
         }
-        if (!room) {
+        else if (!room) {
             api.createGame(player.id)
                 .then(game => {
                     socket.join(game.slug)
-                    io.to(game.slug).emit('createGame', {
-                        slug: game.slug
+                    socket.emit('createGame', {
+                        game: game
                     })
                 })
         }
         else {
             socket.join(room);
-            io.to(room).emit('joinRoom', {
-                playerCount: io.sockets.adapter.rooms[room].length
-            });
+            api.findGameFromSlug(room)
+                .then(game => {
+                    if (game) {
+                        console.log("gameFromSlug", game)
+                        socket.emit('joinRoom', {
+                            game: game
+                        })
+                        io.to(room).emit('playerJoinedRoom', {
+                            playerCount: io.sockets.adapter.rooms[room].length
+                        });
+                    }
+                })
         }
 
 
