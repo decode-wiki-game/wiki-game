@@ -1,8 +1,17 @@
-/* global io */
+/* global io fetch */
 
 import React from 'react';
 import Article from './Article'
-const socket = io.connect();
+import Sidebar from './Sidebar'
+var socket = io.connect('/', {
+	query: `connectionData=${
+				JSON.stringify({
+					room: window.location.pathname.substr(1),
+					player: window.localStorage.player
+				})
+			}`
+});
+
 
 export default class Game extends React.Component {
 
@@ -10,28 +19,39 @@ export default class Game extends React.Component {
 		super();
 		this.state = {
 			article: '',
-			game: {}
+			game: null,
+			player: null,
+			playerCount: 1
 		}
 	}
 
 	componentDidMount() {
-		
-			fetch('/game/create', {headers: new Headers({'x-usertoken' : document.cookie.substr(document.cookie.indexOf('=') + 1)})})
-			.then(response => {
-				return (response.json())
+
+		socket.on('createPlayer', (player) => {
+			window.localStorage.player = player;
+			this.setState({
+				player: player
 			})
-			.then(data => {
-				console.log("game is: ", data.game)
-				this.setState({
-					game: data.game
-				})
-				socket.emit('link click', data.game.startingURL.substring(data.game.startingURL.lastIndexOf('/') + 1))
+		})
+
+		socket.on('joinRoom', (data) => {
+			this.setState({
+				playerCount: data.playerCount
+			});
+		});
+
+		socket.on('createGame', (data) => {
+			this.setState({
+				game: data.game
 			})
-		
+			this.props.router.push(`/${data.game.slug}`)
+		})
+
 		socket.on('link fetch', (result) => {
 			this.setState({
 				article: result
 			})
+			window.scrollTo(0, 0);
 		});
 	}
 
@@ -39,30 +59,39 @@ export default class Game extends React.Component {
 		var elements = document.getElementsByTagName('a');
 		for (var i = 0, len = elements.length; i < len; i++) {
 			elements[i].onclick = (event) => {
-				event.preventDefault()
-				var title =  this._findTarget(event.target.getAttribute('href'));
-				this._handleClick(title);
+				if (event.target.getAttribute('href').indexOf("#") == -1) {
+					event.preventDefault()
+					var title = this._findTarget(event.target.getAttribute('href'));
+					this._handleClick(title);
+				}
 			}
 		}
 	}
-	
+
 	_findTarget(url) {
 		return url.substring(url.lastIndexOf('/') + 1)
 	}
 
 	componentDidUpdate() {
+		if (this.props.player != this.state.player) {
+			this.setState({
+				player: this.props.player
+			})
+		}
 		this._updateLinks()
 	}
 
 	_handleClick(topic) {
-		socket.emit('link click', topic)
+		// socket.emit('link click', topic)
 	}
 
 	render() {
+
 		return (
 			<div>
-	           	<Article title={this.state.article}/>
-      		</div>
+					<p>There are {this.state.playerCount} players in your game</p>
+					<p>The game hasn't started yet</p>
+				</div>
 		)
 	}
 }
