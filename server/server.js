@@ -93,6 +93,9 @@ const init = function() {
                             playerCount: io.sockets.adapter.rooms[room].length
                         });
                     }
+                    else {
+                        socket.emit('noGameExists')
+                    }
                 })
         }
 

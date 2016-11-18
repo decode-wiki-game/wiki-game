@@ -1,49 +1,48 @@
-button {
-  border-radius: 5px;
-  font-size: 2em;
-  padding: 0.8em 3em;
-  cursor: pointer;
-  color: #fff;
-  background-color: #00A6FF;
-  font-size: 1.5rem;
-  font-family: 'Roboto';
-  font-weight: 100;
-  border: 0.06em solid #fff;
-  box-shadow: 0.125em 0.125em 0.3125em #AFE9FF;
-  width: 100%;
-  margin: 0;
-  transition-duration: 0.5s;
-  -webkit-transition-duration: 0.5s;
-  -moz-transition-duration: 0.5s;
-}
+// button {
+//   border-radius: 5px;
+//   font-size: 2em;
+//   padding: 0.8em 3em;
+//   cursor: pointer;
+//   color: #fff;
+//   background-color: #00A6FF;
+//   font-size: 1.5rem;
+//   font-weight: 100;
+//   border: 0.06em solid #fff;
+//   box-shadow: 0.125em 0.125em 0.3125em #AFE9FF;
+//   width: 100%;
+//   margin: 0;
+//   transition-duration: 0.5s;
+//   -webkit-transition-duration: 0.5s;
+//   -moz-transition-duration: 0.5s;
+// }
 
-button:hover {
-  color: #006398;
-  border: 0.06em solid #006398;
-  box-shadow: 0.125em 0.125em 0.125em #AFE9FF;
-}
+// button:hover {
+//   color: #006398;
+//   border: 0.06em solid #006398;
+//   box-shadow: 0.125em 0.125em 0.125em #AFE9FF;
+// }
 
-button.lb-main__button--red {
-  border-radius: 5px;
-  font-size: 2em;
-  padding: 0.8em 3em;
-  cursor: pointer;
-  color: #fff;
-  background-color: $red;
-  font-size: 1.5rem;
-  font-family: 'Roboto';
-  font-weight: 100;
-  border: 0.06em solid #fff;
-  box-shadow: 0.125em 0.125em 0.3125em #AFE9FF;
-  width: 100%;
-  margin: 0;
-  transition-duration: 0.5s;
-  -webkit-transition-duration: 0.5s;
-  -moz-transition-duration: 0.5s;  
-}
+// button.lb-main__button--red {
+//   border-radius: 5px;
+//   font-size: 2em;
+//   padding: 0.8em 3em;
+//   cursor: pointer;
+//   color: #fff;
+//   background-color: $red;
+//   font-size: 1.5rem;
+//   font-family: 'Roboto';
+//   font-weight: 100;
+//   border: 0.06em solid #fff;
+//   box-shadow: 0.125em 0.125em 0.3125em #AFE9FF;
+//   width: 100%;
+//   margin: 0;
+//   transition-duration: 0.5s;
+//   -webkit-transition-duration: 0.5s;
+//   -moz-transition-duration: 0.5s;  
+// }
 
-button.lb-main__button--red:hover {
-  color: $green;
-  border: 0.06em solid #006398;
-  box-shadow: 0.125em 0.125em 0.125em #AFE9FF;
-}
+// button.lb-main__button--red:hover {
+//   color: $green;
+//   border: 0.06em solid #006398;
+//   box-shadow: 0.125em 0.125em 0.125em #AFE9FF;
+// }

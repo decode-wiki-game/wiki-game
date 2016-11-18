@@ -41,7 +41,6 @@ export default class Game extends React.Component {
 		});
 		
 		socket.on('joinRoom', (data) => {
-			console.log("socket::joinRoom:data", data)
 			this.setState({
 				game: data.game
 			});
@@ -52,6 +51,11 @@ export default class Game extends React.Component {
 				game: data.game
 			})
 			this.props.router.push(`/${data.game.slug}`)
+		})
+		
+		socket.on('noGameExists', () => {
+			this.props.router.push('/')
+			this.forceUpdate() //TODO create a new game instance after re-route
 		})
 
 		socket.on('link fetch', (result) => {
@@ -93,9 +97,10 @@ export default class Game extends React.Component {
 		if (this.state.player && this.state.game) {
 			return (
 				<div>
-					<p>Welcome, {this.state.player.name}</p>
+					<p>Welcome, {this.state.player.username}</p>
 					<p>There are {this.state.playerCount} players in your game</p>
 					<p>The game hasn't started yet</p>
+					<button disabled={this.state.playerCount < 2}> Start game </button>
 				</div>
 			)
 
