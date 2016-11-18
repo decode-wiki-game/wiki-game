@@ -31,13 +31,11 @@ const init = function() {
 
         var handshakeData = JSON.parse(socket.request._query.connectionData)
 
-        console.log("handshakeData", handshakeData)
-
         var room = handshakeData.room;
         var player = handshakeData.player ? JSON.parse(handshakeData.player) : undefined;
 
         console.log("server::room", room)
-        console.log("server::player:intial", player)
+        console.log("server::player", player)
 
         if (!player) {
             api.createPlayer()
@@ -88,7 +86,6 @@ const init = function() {
             api.findGameFromSlug(room)
                 .then(game => {
                     if (game) {
-                        console.log("gameFromSlug", game)
                         socket.emit('joinRoom', {
                             game: game
                         })
