@@ -10,20 +10,20 @@ routes.use(bodyParser.urlencoded({
 }), cookieParser());
 
 
-routes.use('/', function(request, response, next) {
-    if (!request.cookies.sessionId) {
-        response.cookie('sessionId', api.createUser());
-    }
+// routes.use('/', function(request, response, next) {
+//     if (!request.cookies.sessionId) {
+//         response.cookie('sessionId', api.createUser());
+//     }
     
-        console.log(request.cookies.sessionId);
-        api.findPlayerFromSessionId(request.cookies.sessionId)
-            .then(player => {
+//         console.log(request.cookies.sessionId);
+//         api.findPlayerFromSessionId(request.cookies.sessionId)
+//             .then(player => {
                 
-                console.log(`${player.username} visited the site.`);
-              next();
-             });
+//                 console.log(`${player.username} visited the site.`);
+//               next();
+//              });
         
-});
+// });
 
 routes.use('/files', express.static(path.join(__dirname, '../../public')));
 

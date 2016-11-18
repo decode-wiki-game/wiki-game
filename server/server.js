@@ -40,7 +40,7 @@ const init = function() {
         console.log("server::player", player)
 
         if (!player) {
-            api.createUser()
+            api.createPlayer()
                 .then(player => {
                     player = player;
                     socket.emit('createPlayer', JSON.stringify({
