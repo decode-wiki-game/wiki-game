@@ -23,6 +23,18 @@ routes.get('/create', (request, response) => {
         })
 });
 
+routes.get('/join', (request, response) => {
+    
+    var playerToken = request.headers['x-usertoken']
+    var slug = request.headers['x-gameslug']
+    
+    api.joinGame(playerToken, slug)
+        .then(gameInfo => {
+            response.status(200).send(gameInfo)
+        })
+    
+})
+
 
 
 module.exports = routes;

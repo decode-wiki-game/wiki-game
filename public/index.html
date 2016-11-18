@@ -8,17 +8,6 @@
 </head>
 
 <body>
-  <script>
-    /* global $ io */
-
-    var socket = io();
-
-    socket.emit('load', "I have loaded the site")
-
-    socket.on('return', function(message) {
-      console.log(message)
-    })
-  </script>
   <div id="app"></div>
   <script src="/files/js/app-bundle.js"></script>
 </body>
