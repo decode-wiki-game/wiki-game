@@ -4,6 +4,7 @@ import React from 'react';
 import Article from './Article'
 import Lobby from './Lobby'
 import Sidebar from './Sidebar'
+import Pregame from './Pregame'
 var socket = io.connect('/', {
 	query: `connectionData=${
 				JSON.stringify({
@@ -20,6 +21,7 @@ export default class Game extends React.Component {
 		super();
 		this.state = {
 			article: '',
+			extract: '',
 			game: null,
 			player: window.localStorage.player ? JSON.parse(window.localStorage.player) : undefined,
 			playerCount: 1
@@ -61,10 +63,12 @@ export default class Game extends React.Component {
 		});
 
 		socket.on('startGameSuccess', (data) => {
+			console.log("Game::startGameSuccess")
 			var updatedGame = this.state.game;
 			updatedGame.gameStarted = data.gameStarted
 			this.setState({
-				game: updatedGame
+				game: updatedGame,
+				extract: data.extract
 			});
 		});
 
@@ -102,9 +106,11 @@ export default class Game extends React.Component {
 	}
 
 	_startGame() {
+		console.log("Game::_startGame")
 		socket.emit('startGame', {
 			adminId: this.state.player.id,
-			gameId: this.state.game.id
+			gameId: this.state.game.id,
+			gameEndURL: this.state.game.endURL
 		});
 	}
 
@@ -118,7 +124,7 @@ export default class Game extends React.Component {
 					<div>
 						<p>Welcome, {this.state.player.username}</p>
 						<p>There are {this.state.playerCount} players in your game</p>
-						<p>The game has started</p>
+						<Pregame parent={this.state}/>
 					</div>
 				);
 			}

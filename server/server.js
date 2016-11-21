@@ -11,9 +11,9 @@ const io = require('socket.io')(http);
 const middleware = require('./routes/middleware')
 const user = require('./routes/user')
 
-
 // API
 const api = require('./methods/api');
+const fetch = require('node-fetch')
 
 const init = function() {
 
@@ -24,14 +24,14 @@ const init = function() {
 
     app.use('/user', user);
     app.use('/', middleware);
-    
+
     // Socket.io
-    
+
     io.on('connection', function(socket) {
-    socket.on('load', function(loadMessage) {
-        console.log(loadMessage);
-        io.emit('return', 'You have loaded the site');
-    });
+        socket.on('load', function(loadMessage) {
+            console.log(loadMessage);
+            io.emit('return', 'You have loaded the site');
+        });
 
         var handshakeData = JSON.parse(socket.request._query.connectionData)
 
@@ -53,7 +53,8 @@ const init = function() {
                     if (!room) {
                         api.createGame(player.id)
                             .then(game => {
-                                socket.join(game.slug)
+                                room = game.slug;
+                                socket.join(room)
                                 socket.emit('createGame', {
                                     game: game
                                 })
@@ -78,17 +79,20 @@ const init = function() {
         else if (!room) {
             api.createGame(player.id)
                 .then(game => {
-                    socket.join(game.slug)
+                    room = game.slug;
+                    socket.join(room)
                     socket.emit('createGame', {
                         game: game
                     })
                 })
         }
         else {
+
             socket.join(room);
             api.findGameFromSlug(room)
                 .then(game => {
                     if (game) {
+            console.log("current room size: ", io.sockets.adapter.rooms[room].length)
                         socket.emit('joinRoom', {
                             game: game
                         })
@@ -104,19 +108,28 @@ const init = function() {
 
 
         socket.on('startGame', function(data) {
-            console.log("startGamedata", data)
+            console.log(socket)
             api.startGame(data.adminId, data.gameId)
                 .then(gameStarted => {
-                    if(gameStarted) {
-                        io.to(room).emit('startGameSuccess', gameStarted)
+                    if (gameStarted) {
+                        fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${data.gameEndURL.substr(data.gameEndURL.lastIndexOf('/') + 1)}&prop=extracts&exintro=1&format=json`)
+                            .then(result => result.json())
+                            .then(response => {
+                                var firstArticleId = Object.keys(response.query.pages)[0]
+                                var extract = response.query.pages[firstArticleId].extract
+                                io.to(room).emit('startGameSuccess', {
+                                    extract: extract,
+                                    gameStarted: gameStarted.gameStarted
+                                })
+                            })
                     }
                     else {
                         socket.emit('startGameFailure')
                     }
                 })
         })
-        
-        
+
+
         socket.on('link click', function(target) {
             api.getArticle(target)
                 .then(article => {
