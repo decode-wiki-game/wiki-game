@@ -2,7 +2,9 @@
 
 import React from 'react';
 import Article from './Article'
+import Lobby from './Lobby'
 import Sidebar from './Sidebar'
+import Pregame from './Pregame'
 var socket = io.connect('/', {
 	query: `connectionData=${
 				JSON.stringify({
@@ -19,10 +21,12 @@ export default class Game extends React.Component {
 		super();
 		this.state = {
 			article: '',
+			extract: '',
 			game: null,
 			player: window.localStorage.player ? JSON.parse(window.localStorage.player) : undefined,
 			playerCount: 1
-		}
+		};
+		this._startGame = this._startGame.bind(this)
 	}
 
 	componentDidMount() {
@@ -31,15 +35,15 @@ export default class Game extends React.Component {
 			window.localStorage.player = player;
 			this.setState({
 				player: JSON.parse(player)
-			})
-		})
+			});
+		});
 
 		socket.on('playerJoinedRoom', (data) => {
 			this.setState({
 				playerCount: data.playerCount
 			});
 		});
-		
+
 		socket.on('joinRoom', (data) => {
 			this.setState({
 				game: data.game
@@ -49,19 +53,29 @@ export default class Game extends React.Component {
 		socket.on('createGame', (data) => {
 			this.setState({
 				game: data.game
-			})
-			this.props.router.push(`/${data.game.slug}`)
-		})
-		
+			});
+			this.props.router.push(`/${data.game.slug}`);
+		});
+
 		socket.on('noGameExists', () => {
-			this.props.router.push('/')
-			this.forceUpdate() //TODO create a new game instance after re-route
-		})
+			this.props.router.push('/');
+			this.forceUpdate(); //TODO create a new game instance after re-route
+		});
+
+		socket.on('startGameSuccess', (data) => {
+			console.log("Game::startGameSuccess")
+			var updatedGame = this.state.game;
+			updatedGame.gameStarted = data.gameStarted
+			this.setState({
+				game: updatedGame,
+				extract: data.extract
+			});
+		});
 
 		socket.on('link fetch', (result) => {
 			this.setState({
 				article: result
-			})
+			});
 			window.scrollTo(0, 0);
 		});
 	}
@@ -71,45 +85,56 @@ export default class Game extends React.Component {
 		for (var i = 0, len = elements.length; i < len; i++) {
 			elements[i].onclick = (event) => {
 				if (event.target.getAttribute('href').indexOf("#") == -1) {
-					event.preventDefault()
+					event.preventDefault();
 					var title = this._findTarget(event.target.getAttribute('href'));
 					this._handleClick(title);
 				}
-			}
+			};
 		}
 	}
 
 	_findTarget(url) {
-		return url.substring(url.lastIndexOf('/') + 1)
+		return url.substring(url.lastIndexOf('/') + 1);
 	}
 
 	componentDidUpdate() {
-		this._updateLinks()
+		this._updateLinks();
 	}
 
 	_handleClick(topic) {
 		// socket.emit('link click', topic)
 	}
 
+	_startGame() {
+		console.log("Game::_startGame")
+		socket.emit('startGame', {
+			adminId: this.state.player.id,
+			gameId: this.state.game.id,
+			gameEndURL: this.state.game.endURL
+		});
+	}
+
 	render() {
-		console.log("render player state", this.state.player)
-		console.log("render game state", this.state.game)
 		if (this.state.player && this.state.game) {
-			return (
-				<div>
-					<p>Welcome, {this.state.player.username}</p>
-					<p>There are {this.state.playerCount} players in your game</p>
-					<p>The game hasn't started yet</p>
-					<button disabled={this.state.playerCount < 2}> Start game </button>
-				</div>
-			)
+			if (!this.state.game.gameStarted) {
+				return <Lobby parent={this.state} startButton={this._startGame} />
+			}
+			else {
+				return (
+					<div>
+						<p>Welcome, {this.state.player.username}</p>
+						<p>There are {this.state.playerCount} players in your game</p>
+						<Pregame parent={this.state}/>
+					</div>
+				);
+			}
 
 		}
 		else
 			return (
 				<div>
-			<h2>loading</h2>
-			</div>
-			)
+					<h2>loading</h2>
+				</div>
+			);
 	}
 }

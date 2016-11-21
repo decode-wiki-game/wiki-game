@@ -1,18 +1,19 @@
 import React from 'react';
+var fetch = require('isomorphic-fetch');
 
 
 export default class Pregame extends React.Component{
+	
+	constructor(props) {
+		super(props)
+		this.state = this.props.parent;
+	}
 	render() {
 		return (
 			<div>      
-	        	<header className="pg-header">
-	          		<h2>Topic 1</h2>
-	          		<h2 className="pg-header__h2--right">Topic 2</h2>
-	        	</header>
-	        	<main className="pg-main">
-	          		<div className='pg-intro'>Intro paragrah from Wiki T2</div>
-	          		<div className='pg-counter'>COUNTDOWN PLACEHOLDER</div>
-	        	</main>
+				{this.state.game.startingURL}
+				{this.state.game.endURL}
+				<p dangerouslySetInnerHTML={{__html: this.state.extract}}/>
       		</div>
 			)
 	}

@@ -1,13 +1,12 @@
 var secureRandom = require('secure-random');
 var fetch = require('node-fetch');
-var request = require('request');
 
 
 var knex = require('knex')({
     client: 'mysql',
     connection: {
         host: 'localhost',
-        user: 'yaroncnk',
+        user: 'ikesaunders',
         password: '',
         database: 'wikisprint'
     }
@@ -40,44 +39,23 @@ var api = {
             .from('wiki_destination')
             .where('wiki_destination.id', randomArticle)
             .then(destination => {
-                console.log("destination is", destination[0])
                 return destination[0].address;
-            });
-    },
-    //show who the players are
-    findPlayers: function() {
-        knex.select().from('player')
-            .then(results => {
-                console.log(results);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    },
-    //show what games are played
-    findGames: function() {
-        knex.select().from('game')
-            .then(results => {
-                console.log(results);
-            })
-            .catch(error => {
-                console.log(error);
             });
     },
     createPlayer: function() {
         var token = this.createSessionToken();
         var username = this.createUsername();
         return knex('player').insert({
-            sessionId: token,
-            username: username
-        })
-        .then(playerId => {
-        return {
-            token: token,
-            username: username,
-            id: playerId
-        };
-        });
+                sessionId: token,
+                username: username
+            })
+            .then(playerId => {
+                return {
+                    token: token,
+                    username: username,
+                    id: playerId[0]
+                }
+            })
     },
     findPlayerFromSessionId: function(sessionId) {
         return (knex.select('player.id', 'player.username')
@@ -93,7 +71,7 @@ var api = {
     // /game/create creating a new game
     createGame: function(playerId) {
         var gameSlug = this.createSlug();
-         return Promise.all([this.firstPageURL2(), this.selectArticle()])
+         return Promise.all([this.getFirstPageURL(), this.selectArticle()])
                 .then(arrayOfResolutions => {
                 return knex('game').insert({
                         slug: gameSlug,
@@ -137,40 +115,48 @@ var api = {
                 return error;
             });
     },
-    getArticle: function (title) {
-    return fetch(`https://en.wikipedia.org/wiki/${title}?action=render`)
-        .then(response => {
-            return response.text();
-        });
+    getArticle: function(title) {
+        return fetch(`https://en.wikipedia.org/wiki/${title}?action=render`)
+            .then(response => {
+                return response.text()
+            })
     },
     findGameFromSlug: function(slug) {
         return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startingURL', 'game.endURL', 'game.finalStep', 'game.createdAt')
             .from('game')
             .where('game.slug', slug)
-                .then(game => {
-                    if (game.length) {
-                        return game[0]
-                    }
-                    else {
-                        return null
-                    }
-                })
+            .then(game => {
+                if (game.length) {
+                    return game[0]
+                }
+                else {
+                    return null
+                }
+            })
     },
-    //This gets the first page's url using request (not being used).
-    firstPageURL: function() {
-        request('https://en.wikipedia.org/wiki/Special:Random', function(error, response, body) {
-            if (!error) {
-                 // Show link for the random first page. 
-                console.log(response.request.uri.href);
-                return response.request.uri.href; 
-                
-            }
-            
-        
-        });
+    startGame: function(adminId, gameId) {
+        console.log("api::startGame")
+        return knex('game')
+            .update({
+                'gameStarted': knex.fn.now()
+            })
+            .where({
+                'game.id': gameId,
+                'game.adminId': adminId
+            })
+            .then(hasStarted => {
+                hasStarted = hasStarted;
+                return knex.select('game.gameStarted')
+                    .from('game')
+                    .where({
+                        'game.id': gameId,
+                        'game.adminId': adminId
+                    })
+                    .then(result => result[0])
+            })
     },
     //This gets the first page's url using fetch. 
-    firstPageURL2: function() {
+    getFirstPageURL: function() {
       return  fetch('https://en.wikipedia.org/wiki/Special:Random')
             .then(response => response.url);
                 
@@ -179,38 +165,37 @@ var api = {
         var player, game;
 
         return Promise.all([this.findPlayerFromSessionId(playerToken), this.findGameFromSlug(gameSlug)])
-        .then(playerGameArray => {
-            
-            player = playerGameArray[0];
-            game = playerGameArray[1];
-            
-            return ({
-                player: player,
-                game: game
+            .then(playerGameArray => {
+
+                player = playerGameArray[0];
+                game = playerGameArray[1];
+
+                return ({
+                    player: player,
+                    game: game
+                })
             })
-        })
-        .then(playerGameObj => {
-            // console.log('playerGameObj is: ', playerGameObj)
-            return knex('game_player')
-                .insert({
-                playerId: playerGameObj.player.id,
-                gameId: playerGameObj.game.id
-                })
-                .then(result => {
-                    return knex('game_player')
-                        .count('gameId as playerCount')
-                        .where('gameId', playerGameObj.game.id);
-                })
-                .then(playerCountArray => playerCountArray[0])
-                .then(playerCount => {
-                    return {
-                        player: player,
-                        game: game,
-                        playerCount: playerCount.playerCount
-                    };
-                });
-        });
-                                
+            .then(playerGameObj => {
+                return knex('game_player')
+                    .insert({
+                        playerId: playerGameObj.player.id,
+                        gameId: playerGameObj.game.id
+                    })
+                    .then(result => {
+                        return knex('game_player')
+                            .count('gameId as playerCount')
+                            .where('gameId', playerGameObj.game.id);
+                    })
+                    .then(playerCountArray => playerCountArray[0])
+                    .then(playerCount => {
+                        return {
+                            player: player,
+                            game: game,
+                            playerCount: playerCount.playerCount
+                        };
+                    });
+            });
+
     }
 };
 
