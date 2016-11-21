@@ -9,7 +9,6 @@ const io = require('socket.io')(http);
 
 // Routes
 const middleware = require('./routes/middleware')
-const game = require('./routes/game')
 const user = require('./routes/user')
 
 // API
@@ -21,7 +20,6 @@ const init = function() {
         console.log(`listening on http://${process.env.C9_HOSTNAME}`);
     });
 
-    app.use('/game', game);
     app.use('/user', user);
     app.use('/', middleware);
 
@@ -60,7 +58,6 @@ const init = function() {
                         api.findGameFromSlug(room)
                             .then(game => {
                                 if (game) {
-                                    console.log("gameFromSlug", game)
                                     socket.emit('joinRoom', {
                                         game: game
                                     })
@@ -100,8 +97,20 @@ const init = function() {
         }
 
 
-
-
+        socket.on('startGame', function(data) {
+            console.log("startGamedata", data)
+            api.startGame(data.adminId, data.gameId)
+                .then(gameStarted => {
+                    if(gameStarted) {
+                        io.to(room).emit('startGameSuccess', gameStarted)
+                    }
+                    else {
+                        socket.emit('startGameFailure')
+                    }
+                })
+        })
+        
+        
         socket.on('link click', function(target) {
             api.getArticle(target)
                 .then(article => {

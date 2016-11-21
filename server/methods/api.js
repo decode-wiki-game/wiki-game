@@ -52,16 +52,16 @@ var api = {
         var token = this.createSessionToken();
         var username = this.createUsername();
         return knex('player').insert({
-            sessionId: token,
-            username: username
-        })
-        .then(playerId => {
-        return {
-            token: token,
-            username: username,
-            id: playerId
-        }
-        })
+                sessionId: token,
+                username: username
+            })
+            .then(playerId => {
+                return {
+                    token: token,
+                    username: username,
+                    id: playerId
+                }
+            })
     },
     findPlayerFromSessionId: function(sessionId) {
         return knex.select('player.id', 'player.username')
@@ -78,23 +78,23 @@ var api = {
     createGame: function(playerId) {
         var gameSlug = this.createSlug();
         return knex('game').insert({
-            slug: gameSlug,
-            adminId: playerId,
-            isPublic: 0,
-            gameStarted: null,
-            startingURL: 'https://en.wikipedia.org/wiki/IserveU',
-            endURL: 'https://en.wikipedia.org/wiki/Germany',
-            finalStep: null,
-            createdAt: knex.fn.now()
-        })
-        .then(gameId => {
-            return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startingURL', 'game.endURL', 'game.finalStep', 'game.createdAt')
-                .from('game')
-                .where('game.id', gameId)
-        })
-        .then(gameArray => {
-            return gameArray[0]
-        });
+                slug: gameSlug,
+                adminId: playerId,
+                isPublic: 0,
+                gameStarted: null,
+                startingURL: 'https://en.wikipedia.org/wiki/IserveU',
+                endURL: 'https://en.wikipedia.org/wiki/Germany',
+                finalStep: null,
+                createdAt: knex.fn.now()
+            })
+            .then(gameId => {
+                return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startingURL', 'game.endURL', 'game.finalStep', 'game.createdAt')
+                    .from('game')
+                    .where('game.id', gameId)
+            })
+            .then(gameArray => {
+                return gameArray[0]
+            });
     },
     // /game/:slug/make-public   making a game public
     makePublic: function(id) {
@@ -117,73 +117,81 @@ var api = {
                 return error;
             });
     },
-    getArticle: function (title) {
-    return fetch(`https://en.wikipedia.org/wiki/${title}?action=render`)
-        .then(response => {
-            return response.text()
-        })
+    getArticle: function(title) {
+        return fetch(`https://en.wikipedia.org/wiki/${title}?action=render`)
+            .then(response => {
+                return response.text()
+            })
     },
     findGameFromSlug: function(slug) {
         return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startingURL', 'game.endURL', 'game.finalStep', 'game.createdAt')
             .from('game')
             .where('game.slug', slug)
-                .then(game => {
-                    if (game.length) {
-                        return game[0]
-                    }
-                    else {
-                        return null
-                    }
-                })
+            .then(game => {
+                if (game.length) {
+                    return game[0]
+                }
+                else {
+                    return null
+                }
+            })
     },
-    // addPlayerToGame: function(playerId, gameId) {
-    //     return knex('game_player')
-    //         .insert({
-    //             gameId: gameId,
-    //             playerId: playerId
-    //         })
-    //         .then(result => {
-    //             return knex.select('game_player.playerId')
-    //                 .from('game_player')
-    //                 .where('game_player.gameId', gameId)
-    //         })
-    // },
+    startGame: function(adminId, gameId) {
+        return knex('game')
+            .update({
+                'gameStarted': knex.fn.now()
+            })
+            .where({
+                'game.id': gameId,
+                'game.adminId': adminId
+            })
+            .then(hasStarted => {
+                hasStarted = hasStarted;
+                return knex.select('game.gameStarted')
+                    .from('game')
+                    .where({
+                        'game.id': gameId,
+                        'game.adminId': adminId
+                    })
+                    .then(result => result[0])
+            })
+    },
     joinGame: function(playerToken, gameSlug) {
         var player, game;
 
         return Promise.all([this.findPlayerFromSessionId(playerToken), this.findGameFromSlug(gameSlug)])
-        .then(playerGameArray => {
-            
-            player = playerGameArray[0];
-            game = playerGameArray[1];
-            
-            return ({
-                player: player,
-                game: game
+            .then(playerGameArray => {
+
+                player = playerGameArray[0];
+                game = playerGameArray[1];
+
+                return ({
+                    player: player,
+                    game: game
+                })
             })
-        })
-        .then(playerGameObj => {
-            // console.log('playerGameObj is: ', playerGameObj)
-            return knex('game_player')
-                .insert({
-                playerId: playerGameObj.player.id,
-                gameId: playerGameObj.game.id
-                })
-                .then(result => {
-                    return knex('game_player')
-                        .count('gameId as playerCount')
-                        .where('gameId', playerGameObj.game.id);
-                })
-                .then(playerCountArray => playerCountArray[0])
-                .then(playerCount => {
-                    return {
-                        player: player,
-                        game: game,
-                        playerCount: playerCount.playerCount
-                    };
-                });
-        });
-                                
+            .then(playerGameObj => {
+                // console.log('playerGameObj is: ', playerGameObj)
+                return knex('game_player')
+                    .insert({
+                        playerId: playerGameObj.player.id,
+                        gameId: playerGameObj.game.id
+                    })
+                    .then(result => {
+                        return knex('game_player')
+                            .count('gameId as playerCount')
+                            .where('gameId', playerGameObj.game.id);
+                    })
+                    .then(playerCountArray => playerCountArray[0])
+                    .then(playerCount => {
+                        return {
+                            player: player,
+                            game: game,
+                            playerCount: playerCount.playerCount
+                        };
+                    });
+            });
+
     }
 };
 
