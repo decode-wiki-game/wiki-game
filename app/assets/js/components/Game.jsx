@@ -31,6 +31,7 @@ export default class Game extends React.Component {
 			groupSteps: null
 		};
 		this._startGame = this._startGame.bind(this)
+		this._changeName = this._changeName.bind(this)
 	}
 
 	componentDidMount() {
@@ -98,6 +99,15 @@ export default class Game extends React.Component {
 				groupSteps: data
 			})
 		})
+		
+		socket.on('nameChangeSuccess', (data) => {
+			var player = this.state.player
+			player.username = data.newName
+			window.localStorage.player = JSON.stringify(player);
+			this.setState({
+				player: player
+			})
+		})
 	}
 
 	_updateLinks() {
@@ -133,6 +143,12 @@ export default class Game extends React.Component {
 		});
 	}
 	
+	_changeName(newName) {
+		socket.emit('changeName', {
+			newName: newName
+		})
+	}
+	
 	_rematch() {
 		socket.emit('rematch')
 	}
@@ -142,7 +158,7 @@ export default class Game extends React.Component {
 	
 		if (this.state.player && this.state.game) {
 			if (!this.state.game.gameStarted) {
-				return <Lobby parent={this.state} startButton={this._startGame} />
+				return <Lobby parent={this.state} startButton={this._startGame} changeName={this._changeName} />
 			}
 			else if (!this.state.sprintStarted) {
 				return (
