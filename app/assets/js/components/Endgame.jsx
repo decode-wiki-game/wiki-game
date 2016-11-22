@@ -4,10 +4,12 @@ export default class Endgame extends React.Component {
 
 	constructor(props) {
 		super(props);
-
+		this.state = this.props.parent;
+		this._rematch = this._rematch.bind(this);
 	}
 
 	_prepareScores(scoreData) {
+		console.log("scoreData", scoreData)
 		var steps = scoreData.steps
 
 		var flags = [],
@@ -29,6 +31,7 @@ export default class Endgame extends React.Component {
 				}
 			})
 			return {
+				key: player.id,
 				id: player.id,
 				username: player.username,
 				steps: steps
@@ -40,23 +43,24 @@ export default class Endgame extends React.Component {
 	}
 	_formatScores(player) {
 		return (
-			<div>
+			<div key={player.id}>
 				{player.username}
 				<p>
 				{player.steps.map((step, index, array) => {
 					if (index == array.length - 1) {
-						return `${step.url}`;
+						return <span key={step.time}>{step.url}</span>;
 					}
 					else {
-						return `${step.url} > `;
+						return <span key={step.time}>{step.url} > </span>;
 					}
 				})}
 				</p>
 			</div>
 		)
 	}
-	componentDidMount() {
-		this._prepareScores(this.props.scoreData)
+	
+	_rematch(){
+		this.props.rematch()
 	}
 
 	render() {
@@ -64,7 +68,10 @@ export default class Endgame extends React.Component {
 			<div className="eg">
 				<div className="eg-container">
 					<h2>Game over!</h2>
-	      			{this._prepareScores(this.props.scoreData)}
+					<h3>{this.state.groupSteps.winner} won!</h3>
+	      			{this._prepareScores(this.state.groupSteps)}
+	      			
+	      			{this.state.player.id === this.state.game.adminId ? <button onClick={this._rematch}>Rematch</button> : null}
 	      		</div>
 	      		<footer className="eg-footer">rematch</footer>
     		</div>

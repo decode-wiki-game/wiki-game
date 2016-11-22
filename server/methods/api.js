@@ -201,7 +201,7 @@ var api = {
             .from('step')
             .join('player', 'step.playerId', 'player.id')
             .where('step.gameId', gameId)
-            .orderBy('step.time', 'desc')
+            .orderBy('step.time', 'asc')
     }
 };
 

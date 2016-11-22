@@ -97,7 +97,6 @@ export default class Game extends React.Component {
 				game: updatedGame,
 				groupSteps: data
 			})
-			console.log(data)
 		})
 	}
 
@@ -133,6 +132,10 @@ export default class Game extends React.Component {
 			gameEndURL: this.state.game.endURL
 		});
 	}
+	
+	_rematch() {
+		socket.emit('rematch')
+	}
 
 	render() {
 		if (this.state.player && this.state.game) {
@@ -151,7 +154,7 @@ export default class Game extends React.Component {
 					<div> 
 						<Sidebar parent={this.state} />
 						<Article parent={this.state} content={this.state.article} />
-						{this.state.groupSteps ? <Endgame scoreData={this.state.groupSteps}/> : null}
+						{this.state.groupSteps ? <Endgame rematch={this._rematch} parent={this.state}/> : null}
 					</div>
 				)
 			}

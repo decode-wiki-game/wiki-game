@@ -110,6 +110,7 @@ const init = function() {
 
 
         socket.on('startGame', function(data) {
+            console.log("data", data)
             api.startGame(data.adminId, data.gameId)
                 .then(gameStarted => {
                     if (gameStarted) {
@@ -164,6 +165,17 @@ const init = function() {
                         })
                     }
                 });
+        })
+
+        socket.on('rematch', () => {
+            api.createGame(socket._player.id)
+                .then(game => {
+                    var newGame = game;
+                })
+            
+            io.to(room).emit('rematch', {
+                
+            })
         })
     });
 
