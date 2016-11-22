@@ -402,6 +402,9 @@ template {
 [hidden] {
   display: none; }
 
+body {
+  margin: 0 15%; }
+
 html {
   box-sizing: border-box; }
 
@@ -531,6 +534,9 @@ html {
   .col-large-1 {
     width: 8.333%; } }
 
+.header__logo {
+  width: 300px; }
+
 .pg-header {
   display: flex;
   flex-wrap: wrap;
@@ -599,6 +605,193 @@ html {
   width: 1000px;
   background: #F5F5F5;
   padding: 32px; }
+
+.gm-article__div--wiki body {
+  display: flex;
+  margin: 0 auto;
+  max-width: 1000px;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3em; }
+
+.gm-article__div--wiki {
+  display: flex;
+  margin: 0 auto;
+  max-width: 1000px;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3em;
+  color: #252525;
+  font-size: 0.875em;
+  font-family: sans-serif;
+  line-height: 1.6em;
+  letter-spacing: 0em;
+  background: #FFFFFF; }
+
+.gm-article__div--wiki table {
+  float: right; }
+
+.gm-article__div--wiki ul {
+  list-style-type: none;
+  list-style-image: none;
+  margin-left: 0;
+  padding: 0;
+  margin: .3em 0;
+  color: #252525; }
+
+.gm-article__div--wiki h2 {
+  font-size: 1.5em;
+  margin-top: 1em;
+  font-family: "Linux Libertine",Georgia,Times,serif;
+  line-height: 1.3;
+  margin-bottom: 0.25em;
+  padding: 0;
+  color: #000;
+  background: none;
+  font-weight: normal;
+  margin: 0;
+  overflow: hidden;
+  border-bottom: 1px solid #aaa;
+  display: block;
+  -webkit-margin-before: 0.83em;
+  -webkit-margin-after: 0.83em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px; }
+
+.gm-article__div--wiki a {
+  text-decoration: none;
+  color: #0645ad;
+  background: none;
+  cursor: auto; }
+
+.gm-article__div--wiki td {
+  text-align: center;
+  padding: 0.5em 0;
+  border-top: 1px solid #aaa;
+  vertical-align: top;
+  display: table-cell;
+  font-size: 88%;
+  border-collapse: collapse;
+  line-height: 1.2em; }
+
+.gm-article__div--wiki table {
+  display: table;
+  border-collapse: collapse;
+  line-height: 1.2em;
+  border: 1px solid #aaa;
+  border-spacing: 3px;
+  background-color: #f9f9f9;
+  color: black;
+  margin: 0.5em 0 0.5em 1em;
+  padding: 0.2em;
+  float: right;
+  clear: right; }
+
+.gm-article__div--wiki th {
+  border-top: 1px solid #aaa;
+  padding: 0.4em 0.6em 0.4em 0.6em;
+  vertical-align: top;
+  text-align: left;
+  font-weight: bold;
+  display: table-cell;
+  border-collapse: collapse;
+  line-height: 1.2em;
+  color: black; }
+
+.gm-article__div--wiki .toc {
+  border: 1px solid #aaa;
+  background-color: #f9f9f9;
+  font-size: 95%;
+  display: table;
+  padding: 7px; }
+
+.gm-article__div--wiki div#toctitle {
+  text-align: center;
+  font-weight: bolder;
+  margin-top: 1em;
+  color: #252525;
+  font-size: 0.875em;
+  font-family: sans-serif;
+  line-height: 1.6em;
+  letter-spacing: 0em; }
+
+.gm-article__div--wiki div#toc {
+  padding-top: 0; }
+
+.gm-article__div--wiki li {
+  list-style-type: none;
+  list-style-image: none;
+  margin-bottom: .1em;
+  display: list-item;
+  text-align: -webkit-match-parent;
+  font-size: 95%;
+  line-height: 1.6; }
+
+.gm-article__div--wiki span.tocnumber {
+  padding-left: 0;
+  padding-right: 0.5em;
+  color: #222;
+  display: table-cell;
+  text-decoration: inherit; }
+
+.gm-article__div--wiki div.thumbinner {
+  border: 1px solid #ccc;
+  padding: 3px;
+  background-color: #f9f9f9;
+  font-size: 94%;
+  text-align: center;
+  overflow: hidden; }
+
+.gm-article__div--wiki div.thumbinner:before,
+.gm-article__div--wiki div.thumbinner:after {
+  content: "";
+  display: table; }
+
+.gm-article__div--wiki div.thumbinner:after {
+  clear: both; }
+
+.gm-article__div--wiki .thumb.tright .thumbinner {
+  float: right;
+  margin-left: 32px; }
+
+.gm-article__div--wiki .thumb.tleft .thumbinner {
+  float: left;
+  margin-right: 32px; }
+
+.gm-article__div--wiki img {
+  cursor: default; }
+
+.gm-article__div--wiki img.thumbimage {
+  padding: 0.3em; }
+
+.gm-article__div--wiki a.extiw {
+  cursor: default; }
+
+div.navbox {
+  padding: 3px;
+  background: #fdfdfd;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  width: 100%;
+  clear: both;
+  font-size: 88%;
+  text-align: center;
+  margin: 1em auto 0;
+  color: #252525; }
+
+td.navbox-list, div.navbox, th.navbox-title, div#section_SpokenWikipedia, div#catlinks {
+  display: none; }
+
+@media only screen and (max-width: 641px) {
+  .gm-article__div--wiki > p {
+    max-width: 95%;
+    margin: 0 auto; }
+  tbody, img {
+    display: none; }
+  .gm-article__div--wiki .thumb.tright .thumbinner {
+    display: none; }
+  .gm-article__div--wiki .thumb.tleft .thumbinner {
+    display: none; } }
 
 table {
   margin: 0 auto;

@@ -6,7 +6,7 @@ var knex = require('knex')({
     client: 'mysql',
     connection: {
         host: 'localhost',
-        user: 'simon2828',
+        user: 'ikesaunders',
         password: '',
         database: 'wikisprint'
     }
