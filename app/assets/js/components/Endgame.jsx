@@ -1,32 +1,73 @@
 import React from 'react';
 
-export default class Endgame extends React.Component{
-  render() {
-    return (
-      <div>
-      	<header className="eg-header">
-      		<h2>(position) place!</h2>
-      	</header>
-      	<main className="eg-main">
-      		<div className="eg_???????????">Time: (time)</div>
-      		<div>Steps you took: (list of steps)</div>
-      			<div className="eg-main__div--wrapper">
-				    <ul className="eg-main__ul--table row col-small-12 col-medium-3">Player
-				    	<li className="eg-main__li--table">(Name)</li>
-				    </ul>
-				    <ul className="eg-main__ul--table row col-small-12 col-medium-3">Time 
-				    	<li className="eg-main__li--table">(time)</li>
-				    </ul>
-				    <ul className="eg-main__ul--table row col-small-12 col-medium-3">Number of steps
-				    	<li className="eg-main__li--table">num of steps</li>
-				    </ul>
-				    <ul className="eg-main__ul--table row col-small-12 col-medium-3">Last article
-				    	<li className="eg-main__li--table">(wikipedia)</li>
-				    </ul>
-				</div>    
-      	</main>	
-      	<footer className="eg-footer">rematch</footer>
-    </div>
-    );
-  }
+export default class Endgame extends React.Component {
+
+	constructor(props) {
+		super(props);
+
+	}
+
+	_prepareScores(scoreData) {
+		var steps = scoreData.steps
+
+		var flags = [],
+			players = []
+
+		for (var i = 0; i < steps.length; i++) {
+			if (flags[steps[i].playerId]) continue;
+			flags[steps[i].playerId] = true;
+			players.push({
+				id: steps[i].playerId,
+				username: steps[i].username
+			});
+		}
+
+		players = players.map((player) => {
+			var steps = scoreData.steps.filter((step) => {
+				if (step.playerId === player.id) {
+					return true;
+				}
+			})
+			return {
+				id: player.id,
+				username: player.username,
+				steps: steps
+			}
+		})
+
+		return players.map(this._formatScores)
+
+	}
+	_formatScores(player) {
+		return (
+			<div>
+				{player.username}
+				<p>
+				{player.steps.map((step, index, array) => {
+					if (index == array.length - 1) {
+						return `${step.url}`;
+					}
+					else {
+						return `${step.url} > `;
+					}
+				})}
+				</p>
+			</div>
+		)
+	}
+	componentDidMount() {
+		this._prepareScores(this.props.scoreData)
+	}
+
+	render() {
+		return (
+			<div className="eg">
+				<div className="eg-container">
+					<h2>Game over!</h2>
+	      			{this._prepareScores(this.props.scoreData)}
+	      		</div>
+	      		<footer className="eg-footer">rematch</footer>
+    		</div>
+		);
+	}
 }

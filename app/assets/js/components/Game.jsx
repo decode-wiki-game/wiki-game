@@ -5,6 +5,7 @@ import Article from './Article'
 import Lobby from './Lobby'
 import Sidebar from './Sidebar'
 import Pregame from './Pregame'
+import Endgame from './Endgame'
 var socket = io.connect('/', {
 	query: `connectionData=${
 				JSON.stringify({
@@ -24,7 +25,10 @@ export default class Game extends React.Component {
 			extract: '',
 			game: null,
 			player: window.localStorage.player ? JSON.parse(window.localStorage.player) : undefined,
-			playerCount: 1
+			playerCount: 1,
+			sprintStarted: null,
+			steps: 0,
+			groupSteps: null
 		};
 		this._startGame = this._startGame.bind(this)
 	}
@@ -63,7 +67,6 @@ export default class Game extends React.Component {
 		});
 
 		socket.on('startGameSuccess', (data) => {
-			console.log("Game::startGameSuccess")
 			var updatedGame = this.state.game;
 			updatedGame.gameStarted = data.gameStarted
 			this.setState({
@@ -72,12 +75,30 @@ export default class Game extends React.Component {
 			});
 		});
 
+		socket.on('beginSprint', (data) => {
+			this.setState({
+				sprintStarted: true,
+				article: data.article
+			})
+		});
+
 		socket.on('link fetch', (result) => {
 			this.setState({
-				article: result
+				article: result.article,
+				steps: this.state.steps + 1
 			});
 			window.scrollTo(0, 0);
 		});
+		
+		socket.on('victory', (data) => {
+			var updatedGame = this.state.game;
+			updatedGame.finalStep = data[0]
+			this.setState({
+				game: updatedGame,
+				groupSteps: data
+			})
+			console.log(data)
+		})
 	}
 
 	_updateLinks() {
@@ -102,11 +123,10 @@ export default class Game extends React.Component {
 	}
 
 	_handleClick(topic) {
-		// socket.emit('link click', topic)
+		socket.emit('link click', topic)
 	}
 
 	_startGame() {
-		console.log("Game::_startGame")
 		socket.emit('startGame', {
 			adminId: this.state.player.id,
 			gameId: this.state.game.id,
@@ -119,14 +139,21 @@ export default class Game extends React.Component {
 			if (!this.state.game.gameStarted) {
 				return <Lobby parent={this.state} startButton={this._startGame} />
 			}
-			else {
+			else if (!this.state.sprintStarted) {
 				return (
 					<div>
-						<p>Welcome, {this.state.player.username}</p>
-						<p>There are {this.state.playerCount} players in your game</p>
 						<Pregame parent={this.state}/>
 					</div>
 				);
+			}
+			else {
+				return (
+					<div> 
+						<Sidebar parent={this.state} />
+						<Article parent={this.state} content={this.state.article} />
+						{this.state.groupSteps ? <Endgame scoreData={this.state.groupSteps}/> : null}
+					</div>
+				)
 			}
 
 		}

@@ -28,10 +28,6 @@ const init = function() {
     // Socket.io
 
     io.on('connection', function(socket) {
-        socket.on('load', function(loadMessage) {
-            console.log(loadMessage);
-            io.emit('return', 'You have loaded the site');
-        });
 
         var handshakeData = JSON.parse(socket.request._query.connectionData)
 
@@ -45,6 +41,7 @@ const init = function() {
             api.createPlayer()
                 .then(player => {
                     player = player;
+                    socket._player = player
                     socket.emit('createPlayer', JSON.stringify({
                         playerToken: player.token,
                         username: player.username,
@@ -54,6 +51,7 @@ const init = function() {
                         api.createGame(player.id)
                             .then(game => {
                                 room = game.slug;
+                                socket._game = game
                                 socket.join(room)
                                 socket.emit('createGame', {
                                     game: game
@@ -65,6 +63,7 @@ const init = function() {
                         api.findGameFromSlug(room)
                             .then(game => {
                                 if (game) {
+                                    socket._game = game
                                     socket.emit('joinRoom', {
                                         game: game
                                     })
@@ -76,39 +75,41 @@ const init = function() {
                     }
                 });
         }
-        else if (!room) {
-            api.createGame(player.id)
-                .then(game => {
-                    room = game.slug;
-                    socket.join(room)
-                    socket.emit('createGame', {
-                        game: game
-                    })
-                })
-        }
         else {
-
-            socket.join(room);
-            api.findGameFromSlug(room)
-                .then(game => {
-                    if (game) {
-            console.log("current room size: ", io.sockets.adapter.rooms[room].length)
-                        socket.emit('joinRoom', {
+            socket._player = player
+            if (!room) {
+                api.createGame(player.id)
+                    .then(game => {
+                        room = game.slug;
+                        socket._game = game
+                        socket.join(room)
+                        socket.emit('createGame', {
                             game: game
                         })
-                        io.to(room).emit('playerJoinedRoom', {
-                            playerCount: io.sockets.adapter.rooms[room].length
-                        });
-                    }
-                    else {
-                        socket.emit('noGameExists')
-                    }
-                })
+                    })
+            }
+            else {
+                socket.join(room);
+                api.findGameFromSlug(room)
+                    .then(game => {
+                        if (game) {
+                            socket._game = game
+                            socket.emit('joinRoom', {
+                                game: game
+                            })
+                            io.to(room).emit('playerJoinedRoom', {
+                                playerCount: io.sockets.adapter.rooms[room].length
+                            });
+                        }
+                        else {
+                            socket.emit('noGameExists')
+                        }
+                    })
+            }
         }
 
 
         socket.on('startGame', function(data) {
-            console.log(socket)
             api.startGame(data.adminId, data.gameId)
                 .then(gameStarted => {
                     if (gameStarted) {
@@ -121,6 +122,14 @@ const init = function() {
                                     extract: extract,
                                     gameStarted: gameStarted.gameStarted
                                 })
+                                api.loadIntialArticle(room)
+                                    .then(article => {
+                                        setTimeout(() => {
+                                            io.to(room).emit('beginSprint', {
+                                                article: article
+                                            })
+                                        }, 5000)
+                                    })
                             })
                     }
                     else {
@@ -131,9 +140,29 @@ const init = function() {
 
 
         socket.on('link click', function(target) {
-            api.getArticle(target)
-                .then(article => {
-                    io.emit('link fetch', article)
+            Promise.all([api.recordStep({
+                        gameId: socket._game.id,
+                        playerId: socket._player.id,
+                        url: target
+                    }),
+                    api.getArticle(target)
+                ])
+                .then(results => {
+                    if (target === socket._game.endURL.substr(socket._game.endURL.lastIndexOf('/') + 1)) {
+                        api.getVictoryInformation(socket._game.id)
+                            .then(data => {
+                                io.to(room).emit("victory", {
+                                    winner: socket._player.username,
+                                    steps: data
+                                })
+                            })
+                    }
+                    else {
+                        socket.emit('link fetch', {
+                            step: results[0].url,
+                            article: results[1]
+                        })
+                    }
                 });
         })
     });

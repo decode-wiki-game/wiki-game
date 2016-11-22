@@ -1,4 +1,17 @@
-.eg-main__ul--table .row .col-small-12 .col-medium-3 {
-	flex-direction: column;
+.eg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(87, 87, 87, 0.71);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.eg-container {
+    width: 1000px;
+    background: #F5F5F5;
+    padding: 32px;
 }
