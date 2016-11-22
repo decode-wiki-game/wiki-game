@@ -71,6 +71,12 @@ export default class Game extends React.Component {
 				extract: data.extract
 			});
 		});
+		
+		socket.on('playerLeftRoom', (data) => {
+			this.setState({
+				playerCount: data.playerCount
+			});
+		});
 
 		socket.on('link fetch', (result) => {
 			this.setState({
@@ -111,6 +117,23 @@ export default class Game extends React.Component {
 			adminId: this.state.player.id,
 			gameId: this.state.game.id,
 			gameEndURL: this.state.game.endURL
+		});
+	}
+	
+	_leaveRoom() {
+			socket.emit('leaveRoom', (data) => {
+			this.setState({
+				game: data.game
+			});
+		});
+	}
+
+	componentWillUnmount() {
+		this._leaveRoom()
+				socket.on('playerLeftRoom', (data) => {
+			this.setState({
+				playerCount: data.playerCount
+			});
 		});
 	}
 

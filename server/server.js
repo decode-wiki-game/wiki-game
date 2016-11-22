@@ -28,6 +28,7 @@ const init = function() {
     // Socket.io
 
     io.on('connection', function(socket) {
+
         socket.on('load', function(loadMessage) {
             console.log(loadMessage);
             io.emit('return', 'You have loaded the site');
@@ -128,7 +129,19 @@ const init = function() {
                     }
                 })
         })
-
+        
+        socket.on('disconnect', function() {
+            socket.leave(room);
+            api.findGameFromSlug(room)
+            .then(game => {
+                if (game) {
+                    io.to(room).emit('playerLeftRoom', {
+                        playerCount: io.sockets.adapter.rooms[room].length
+                    });
+                }
+            })
+            
+        });    
 
         socket.on('link click', function(target) {
             api.getArticle(target)
@@ -136,6 +149,7 @@ const init = function() {
                     io.emit('link fetch', article)
                 });
         })
+        
     });
 
 };
