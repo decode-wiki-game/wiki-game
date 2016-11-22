@@ -114,7 +114,7 @@ const init = function() {
             api.startGame(data.adminId, data.gameId)
                 .then(gameStarted => {
                     if (gameStarted) {
-                        fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${data.gameEndURL.substr(data.gameEndURL.lastIndexOf('/') + 1)}&prop=extracts&exintro=1&format=json`)
+                        fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${data.targetSlug}&prop=extracts&exintro=1&format=json`)
                             .then(result => result.json())
                             .then(response => {
                                 var firstArticleId = Object.keys(response.query.pages)[0]
