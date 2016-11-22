@@ -1,0 +1,13 @@
+.game-meta {
+    text-align: right;
+}
+
+.game-meta__title--target {
+	color: $red;
+    border: 1px solid $red;
+    padding: 2px 4px;
+}
+
+.test::after {
+    content: 'HELLO';
+}

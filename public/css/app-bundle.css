@@ -405,6 +405,26 @@ template {
 body {
   margin: 0 15%; }
 
+.game-meta {
+  text-align: right; }
+
+.game-meta__title--target {
+  color: #ff2a2a;
+  border: 1px solid #ff2a2a;
+  padding: 2px 4px; }
+
+.test::after {
+  content: 'HELLO'; }
+
+.sidebar {
+  position: fixed;
+  height: 100%;
+  width: 10%;
+  background: #f5f5f5;
+  padding: 16px;
+  left: 0;
+  top: 0; }
+
 html {
   box-sizing: border-box; }
 
@@ -540,8 +560,8 @@ html {
 .pg-header {
   display: flex;
   flex-wrap: wrap;
-  background-color: #F5F5F5;
-  border: 1px solid #F5F5F5; }
+  background-color: #f5f5f5;
+  border: 1px solid #f5f5f5; }
   .pg-header .pg-header__h2--right {
     margin-left: auto; }
 
@@ -571,17 +591,45 @@ html {
   justify-content: center;
   align-items: center; }
 
-.pg-intro {
-  margin-left: auto; }
+.pg__title--target {
+  color: #ff2a2a;
+  border: 1px solid #ff2a2a;
+  padding: 2px 4px; }
 
-.pg-counter {
-  align-self: center; }
+.pg__title--start {
+  color: #6d6dff;
+  border: 1px solid #6d6dff;
+  padding: 2px 4px; }
+
+.pg__progress {
+  width: 100%;
+  height: 16px;
+  background-color: #ff2a2a;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  animation-name: progress;
+  animation-duration: 5s; }
+
+@keyframes progress {
+  0% {
+    width: 0; }
+  25% {
+    width: 25%; }
+  50% {
+    width: 50%; }
+  60% {
+    width: 60%; }
+  75% {
+    width: 75%; }
+  100% {
+    width: 100%; } }
 
 .lb-header {
   display: flex;
   flex-direction: row-reverse;
   margin: 0.2em;
-  background: #F5F5F5;
+  background: #f5f5f5;
   margin: 0; }
   .lb-header h1 {
     margin: 1em auto; }
@@ -606,6 +654,9 @@ html {
   background: #F5F5F5;
   padding: 32px; }
 
+.centered {
+  text-align: center; }
+
 .gm-article__div--wiki body {
   display: flex;
   margin: 0 auto;
@@ -616,11 +667,9 @@ html {
 
 .gm-article__div--wiki {
   display: flex;
-  margin: 0 auto;
-  max-width: 1000px;
+  width: 100%;
   justify-content: center;
   align-items: center;
-  padding: 0.3em;
   color: #252525;
   font-size: 0.875em;
   font-family: sans-serif;
