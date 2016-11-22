@@ -160,22 +160,18 @@ export default class Game extends React.Component {
 	}
 
 	render() {
-		console.log(this.state.game , " game");
-	
 		if (this.state.player && this.state.game) {
 			if (!this.state.game.gameStarted) {
-				return <Lobby parent={this.state} startButton={this._startGame} changeName={this._changeName} />
+				return <Lobby className="game" parent={this.state} startButton={this._startGame} changeName={this._changeName} />
 			}
 			else if (!this.state.sprintStarted) {
 				return (
-					<div>
 						<Pregame parent={this.state}/>
-					</div>
 				);
 			}
 			else {
 				return (
-					<div> 
+					<div className="game"> 
 						<Sidebar parent={this.state} />
 						<Article parent={this.state} content={this.state.article} />
 						{this.state.groupSteps ? <Endgame rematch={this._rematch} parent={this.state}/> : null}

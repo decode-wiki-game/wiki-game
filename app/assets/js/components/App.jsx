@@ -4,7 +4,9 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-      	<h2>Wikisprint</h2>
+      	<header className="header">
+      	<img className="header__logo" src="files/images/logo.svg" />
+      	</header>
       	{this.props.children}
       </div>
     );

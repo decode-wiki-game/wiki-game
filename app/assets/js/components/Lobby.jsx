@@ -26,7 +26,7 @@ export default class Lobby extends React.Component {
 	
 	render() {
 		return (
-			<div>
+			<div className="game">
 				<h3 className="lb-main__h3">You are playing as: {this.state.player.username}</h3>
 				<h2>Change your name</h2>
 				<input ref='name' onBlur={() => {this._changeName(this.refs.name.value)}}/>
