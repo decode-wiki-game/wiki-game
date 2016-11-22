@@ -2,12 +2,9 @@
     text-align: right;
 }
 
-.game-meta__title--target {
-	color: $red;
+.game-meta__title::after {
+    content: '';
+    color: $red;
     border: 1px solid $red;
     padding: 2px 4px;
-}
-
-.test::after {
-    content: 'HELLO';
 }

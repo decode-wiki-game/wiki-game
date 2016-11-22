@@ -408,13 +408,11 @@ body {
 .game-meta {
   text-align: right; }
 
-.game-meta__title--target {
+.game-meta__title::after {
+  content: '';
   color: #ff2a2a;
   border: 1px solid #ff2a2a;
   padding: 2px 4px; }
-
-.test::after {
-  content: 'HELLO'; }
 
 .sidebar {
   position: fixed;
