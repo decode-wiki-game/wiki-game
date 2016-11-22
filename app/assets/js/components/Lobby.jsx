@@ -9,7 +9,6 @@ export default class Lobby extends React.Component {
 		this._startGame = this._startGame.bind(this)
 	}
 	_startGame() {
-		console.log("lobby::_startGame")
 		this.props.startButton()
 	}
 	componentDidUpdate(prevProps) {
@@ -27,7 +26,6 @@ export default class Lobby extends React.Component {
 				<p>Number of players in the lobby: {this.state.playerCount}</p>
 				{this.state.player.id === this.state.game.adminId ? <button onClick={this._startGame}>Start</button> : null}
 			</div>
-
 		)
 	}
 }
