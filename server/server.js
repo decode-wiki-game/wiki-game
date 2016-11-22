@@ -110,6 +110,7 @@ const init = function() {
 
 
         socket.on('startGame', function(data) {
+            console.log("data", data)
             api.startGame(data.adminId, data.gameId)
                 .then(gameStarted => {
                     if (gameStarted) {
@@ -148,7 +149,7 @@ const init = function() {
                     api.getArticle(target)
                 ])
                 .then(results => {
-                    if (target === socket._game.endURL.substr(socket._game.endURL.lastIndexOf('/') + 1)) {
+                    if (target === socket._game.targetSlug) {
                         api.getVictoryInformation(socket._game.id)
                             .then(data => {
                                 io.to(room).emit("victory", {
@@ -164,6 +165,34 @@ const init = function() {
                         })
                     }
                 });
+        })
+
+        socket.on('rematch', () => {
+            api.createGame(socket._player.id)
+                .then(game => {
+                    var newGame = game;
+                })
+            
+            io.to(room).emit('rematch', {
+                
+            })
+        })
+        
+        socket.on('changeName', (data) => {
+            console.log("data",data)
+            console.log("id",socket._player.id)
+            
+            api.changeName(socket._player.id, data.newName)
+                .then(confirmation => {
+                    if(confirmation) {
+                        socket.emit('nameChangeSuccess', {
+                            newName: data.newName
+                        })
+                    }
+                    else {
+                        socket.emit('nameChangeFailure')
+                    }
+                })
         })
     });
 

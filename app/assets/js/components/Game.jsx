@@ -31,6 +31,7 @@ export default class Game extends React.Component {
 			groupSteps: null
 		};
 		this._startGame = this._startGame.bind(this)
+		this._changeName = this._changeName.bind(this)
 	}
 
 	componentDidMount() {
@@ -97,7 +98,15 @@ export default class Game extends React.Component {
 				game: updatedGame,
 				groupSteps: data
 			})
-			console.log(data)
+		})
+		
+		socket.on('nameChangeSuccess', (data) => {
+			var player = this.state.player
+			player.username = data.newName
+			window.localStorage.player = JSON.stringify(player);
+			this.setState({
+				player: player
+			})
 		})
 	}
 
@@ -133,13 +142,23 @@ export default class Game extends React.Component {
 			targetSlug: this.state.game.targetSlug
 		});
 	}
+	
+	_changeName(newName) {
+		socket.emit('changeName', {
+			newName: newName
+		})
+	}
+	
+	_rematch() {
+		socket.emit('rematch')
+	}
 
 	render() {
 		console.log(this.state.game , " game");
 	
 		if (this.state.player && this.state.game) {
 			if (!this.state.game.gameStarted) {
-				return <Lobby parent={this.state} startButton={this._startGame} />
+				return <Lobby parent={this.state} startButton={this._startGame} changeName={this._changeName} />
 			}
 			else if (!this.state.sprintStarted) {
 				return (
@@ -153,7 +172,7 @@ export default class Game extends React.Component {
 					<div> 
 						<Sidebar parent={this.state} />
 						<Article parent={this.state} content={this.state.article} />
-						{this.state.groupSteps ? <Endgame scoreData={this.state.groupSteps}/> : null}
+						{this.state.groupSteps ? <Endgame rematch={this._rematch} parent={this.state}/> : null}
 					</div>
 				)
 			}
