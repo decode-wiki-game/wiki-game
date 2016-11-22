@@ -7,6 +7,7 @@ export default class Lobby extends React.Component {
 		super(props);
 		this.state = this.props.parent,
 		this._startGame = this._startGame.bind(this)
+		this._changeName = this._changeName.bind(this)
 	}
 	_startGame() {
 		this.props.startButton()
@@ -16,10 +17,19 @@ export default class Lobby extends React.Component {
 			this.setState(this.props.parent)
 		}
 	}
+	
+	_changeName(name) {
+		if(name != '') {
+		this.props.changeName(name)
+		}
+	}
+	
 	render() {
 		return (
 			<div>
 				<h3 className="lb-main__h3">You are playing as: {this.state.player.username}</h3>
+				<h2>Change your name</h2>
+				<input ref='name' onBlur={() => {this._changeName(this.refs.name.value)}}/>
 				<h3 className="lb-main__h3">Send the url and challenge a friend!</h3>
 				<div><small>Click to copy this url and send to a friend</small></div>
 				<Copy slug={this.state.game.slug}/>

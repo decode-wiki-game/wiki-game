@@ -31,6 +31,7 @@ export default class Game extends React.Component {
 			groupSteps: null
 		};
 		this._startGame = this._startGame.bind(this)
+		this._changeName = this._changeName.bind(this)
 	}
 
 	componentDidMount() {
@@ -103,7 +104,15 @@ export default class Game extends React.Component {
 				game: updatedGame,
 				groupSteps: data
 			})
-			console.log(data)
+		})
+		
+		socket.on('nameChangeSuccess', (data) => {
+			var player = this.state.player
+			player.username = data.newName
+			window.localStorage.player = JSON.stringify(player);
+			this.setState({
+				player: player
+			})
 		})
 	}
 
@@ -136,31 +145,26 @@ export default class Game extends React.Component {
 		socket.emit('startGame', {
 			adminId: this.state.player.id,
 			gameId: this.state.game.id,
-			gameEndURL: this.state.game.endURL
+			targetSlug: this.state.game.targetSlug
 		});
 	}
 	
-	_leaveRoom() {
-			socket.emit('leaveRoom', (data) => {
-			this.setState({
-				game: data.game
-			});
-		});
+	_changeName(newName) {
+		socket.emit('changeName', {
+			newName: newName
+		})
 	}
-
-	componentWillUnmount() {
-		this._leaveRoom()
-				socket.on('playerLeftRoom', (data) => {
-			this.setState({
-				playerCount: data.playerCount
-			});
-		});
+	
+	_rematch() {
+		socket.emit('rematch')
 	}
 
 	render() {
+		console.log(this.state.game , " game");
+	
 		if (this.state.player && this.state.game) {
 			if (!this.state.game.gameStarted) {
-				return <Lobby parent={this.state} startButton={this._startGame} />
+				return <Lobby parent={this.state} startButton={this._startGame} changeName={this._changeName} />
 			}
 			else if (!this.state.sprintStarted) {
 				return (
@@ -174,7 +178,7 @@ export default class Game extends React.Component {
 					<div> 
 						<Sidebar parent={this.state} />
 						<Article parent={this.state} content={this.state.article} />
-						{this.state.groupSteps ? <Endgame scoreData={this.state.groupSteps}/> : null}
+						{this.state.groupSteps ? <Endgame rematch={this._rematch} parent={this.state}/> : null}
 					</div>
 				)
 			}

@@ -35,11 +35,11 @@ var api = {
     },
     selectArticle: function() {
         var randomArticle = this.randomizeNumber();
-        return knex.select('wiki_destination.address')
-            .from('wiki_destination')
-            .where('wiki_destination.id', randomArticle)
+        return knex.select()
+            .from('target')
+            .where('target.id', randomArticle)
             .then(destination => {
-                return destination[0].address;
+                return destination[0];
             });
     },
     createPlayer: function() {
@@ -68,22 +68,40 @@ var api = {
                 return ('something went wrong:', error);
             });
     },
+    randomPageInfo: function() {
+        var id;
+        return fetch('https://en.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnlimit=1&format=json')
+            .then(res => res.json())
+            .then(parsedData => {
+                id = (parsedData.query.random[0].id).toString();
+                return fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=info&pageids=${id}&inprop=url%7Cdisplaytitle&format=json`)
+                    .then(res => res.json())
+                    .then(parsedObj => {
+                        var info = parsedObj.query.pages[id];
+                        return info;
+                    });
+            });
+    },
     createGame: function(playerId) {
         var gameSlug = this.createSlug();
-        return Promise.all([this.getFirstPageURL(), this.selectArticle()])
+        return Promise.all([this.randomPageInfo(), this.selectArticle()])
             .then(arrayOfResolutions => {
+                var url = arrayOfResolutions[0].fullurl;
+                var startSlug = url.substr(url.lastIndexOf('/') + 1);
                 return knex('game').insert({
                         slug: gameSlug,
                         adminId: playerId,
                         isPublic: 0,
                         gameStarted: null,
-                        startingURL: arrayOfResolutions[0],
-                        endURL: arrayOfResolutions[1],
+                        startTitle: arrayOfResolutions[0].title,
+                        startSlug: startSlug,
+                        targetTitle: arrayOfResolutions[1].title,
+                        targetSlug: arrayOfResolutions[1].slug,
                         finalStep: null,
                         createdAt: knex.fn.now()
                     })
                     .then(gameId => {
-                        return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startingURL', 'game.endURL', 'game.finalStep')
+                        return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startTitle', 'game.startSlug', 'game.targetTitle', 'game.targetSlug', 'game.finalStep')
                             .from('game')
                             .where('game.id', gameId);
                     })
@@ -100,7 +118,7 @@ var api = {
             })
     },
     findGameFromSlug: function(slug) {
-        return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startingURL', 'game.endURL', 'game.finalStep', 'game.createdAt')
+        return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startSlug', 'game.startTitle', 'game.targetTitle', 'game.targetSlug', 'game.finalStep', 'game.createdAt')
             .from('game')
             .where('game.slug', slug)
             .then(game => {
@@ -140,8 +158,7 @@ var api = {
     loadIntialArticle: function(slug) {
         return this.findGameFromSlug(slug)
             .then(game => {
-                var title = game.startingURL.substr(game.startingURL.lastIndexOf('/') + 1)
-                return this.getArticle(title)
+                return this.getArticle(game.startSlug)
             });
     },
     joinGame: function(playerToken, gameSlug) {
@@ -178,7 +195,6 @@ var api = {
                         };
                     });
             });
-
     },
     recordStep: function(step) {
         console.log("Step", step)
@@ -195,14 +211,21 @@ var api = {
                     .where('step.id', stepId)
             })
             .then(array => array[0])
-        
+
     },
     getVictoryInformation: function(gameId) {
         return knex.select('step.playerId', 'step.url', 'step.time', 'player.username')
             .from('step')
             .join('player', 'step.playerId', 'player.id')
             .where('step.gameId', gameId)
-            .orderBy('step.time', 'desc')
+            .orderBy('step.time', 'asc')
+    },
+    changeName: function(id, name) {
+        return knex('player')
+            .where('player.id', id)
+            .update({
+                username: name
+            })
     }
 };
 
