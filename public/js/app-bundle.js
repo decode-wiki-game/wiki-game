@@ -26627,18 +26627,54 @@
 		_createClass(Endgame, [{
 			key: "_prepareScores",
 			value: function _prepareScores(scoreData) {
-				console.log("preparing Scores");
+				var steps = scoreData.steps;
 	
 				var flags = [],
-				    players = [],
-				    l = scoreData.steps.length,
-				    i;
-				for (i = 0; i < l; i++) {
-					if (flags[scoreData.steps[i].playerId]) continue;
-					flags[scoreData.steps[i].playerId] = true;
-					players.push(scoreData.steps[i].playerId);
+				    players = [];
+	
+				for (var i = 0; i < steps.length; i++) {
+					if (flags[steps[i].playerId]) continue;
+					flags[steps[i].playerId] = true;
+					players.push({
+						id: steps[i].playerId,
+						username: steps[i].username
+					});
 				}
-				console.log(players);
+	
+				players = players.map(function (player) {
+					var steps = scoreData.steps.filter(function (step) {
+						if (step.playerId === player.id) {
+							return true;
+						}
+					});
+					return {
+						id: player.id,
+						username: player.username,
+						steps: steps
+					};
+				});
+	
+				return players.map(this._formatScores);
+			}
+		}, {
+			key: "_formatScores",
+			value: function _formatScores(player) {
+				return _react2.default.createElement(
+					"div",
+					null,
+					player.username,
+					_react2.default.createElement(
+						"p",
+						null,
+						player.steps.map(function (step, index, array) {
+							if (index == array.length - 1) {
+								return "" + step.url;
+							} else {
+								return step.url + " > ";
+							}
+						})
+					)
+				);
 			}
 		}, {
 			key: "componentDidMount",
@@ -26650,73 +26686,16 @@
 			value: function render() {
 				return _react2.default.createElement(
 					"div",
-					null,
+					{ className: "eg" },
 					_react2.default.createElement(
-						"header",
-						{ className: "eg-header" },
+						"div",
+						{ className: "eg-container" },
 						_react2.default.createElement(
 							"h2",
 							null,
-							"(position) place!"
-						)
-					),
-					_react2.default.createElement(
-						"main",
-						{ className: "eg-main" },
-						_react2.default.createElement(
-							"div",
-							{ className: "eg_???????????" },
-							"Time: (time)"
+							"Game over!"
 						),
-						_react2.default.createElement(
-							"div",
-							null,
-							"Steps you took: (list of steps)"
-						),
-						_react2.default.createElement(
-							"div",
-							{ className: "eg-main__div--wrapper" },
-							_react2.default.createElement(
-								"ul",
-								{ className: "eg-main__ul--table row col-small-12 col-medium-3" },
-								"Player",
-								_react2.default.createElement(
-									"li",
-									{ className: "eg-main__li--table" },
-									"(Name)"
-								)
-							),
-							_react2.default.createElement(
-								"ul",
-								{ className: "eg-main__ul--table row col-small-12 col-medium-3" },
-								"Time",
-								_react2.default.createElement(
-									"li",
-									{ className: "eg-main__li--table" },
-									"(time)"
-								)
-							),
-							_react2.default.createElement(
-								"ul",
-								{ className: "eg-main__ul--table row col-small-12 col-medium-3" },
-								"Number of steps",
-								_react2.default.createElement(
-									"li",
-									{ className: "eg-main__li--table" },
-									"num of steps"
-								)
-							),
-							_react2.default.createElement(
-								"ul",
-								{ className: "eg-main__ul--table row col-small-12 col-medium-3" },
-								"Last article",
-								_react2.default.createElement(
-									"li",
-									{ className: "eg-main__li--table" },
-									"(wikipedia)"
-								)
-							)
-						)
+						this._prepareScores(this.props.scoreData)
 					),
 					_react2.default.createElement(
 						"footer",
