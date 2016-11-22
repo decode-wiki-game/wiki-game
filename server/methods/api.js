@@ -6,7 +6,7 @@ var knex = require('knex')({
     client: 'mysql',
     connection: {
         host: 'localhost',
-        user: 'ikesaunders',
+        user: 'simon2828',
         password: '',
         database: 'wikisprint'
     }
@@ -150,6 +150,7 @@ var api = {
                     .then(result => result[0])
             })
     },
+
     getFirstPageURL: function() {
         return fetch('https://en.wikipedia.org/wiki/Special:Random')
             .then(response => response.url);

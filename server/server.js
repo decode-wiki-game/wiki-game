@@ -29,6 +29,7 @@ const init = function() {
 
     io.on('connection', function(socket) {
 
+
         var handshakeData = JSON.parse(socket.request._query.connectionData)
 
         var room = handshakeData.room;
@@ -138,7 +139,19 @@ const init = function() {
                     }
                 })
         })
-
+        
+        socket.on('disconnect', function() {
+            socket.leave(room);
+            api.findGameFromSlug(room)
+            .then(game => {
+                if (game) {
+                    io.to(room).emit('playerLeftRoom', {
+                        playerCount: io.sockets.adapter.rooms[room].length
+                    });
+                }
+            })
+            
+        });    
 
         socket.on('link click', function(target) {
             Promise.all([api.recordStep({

@@ -75,6 +75,12 @@ export default class Game extends React.Component {
 				extract: data.extract
 			});
 		});
+		
+		socket.on('playerLeftRoom', (data) => {
+			this.setState({
+				playerCount: data.playerCount
+			});
+		});
 
 		socket.on('beginSprint', (data) => {
 			this.setState({
