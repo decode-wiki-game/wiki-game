@@ -68,11 +68,10 @@ var api = {
                 return ('something went wrong:', error);
             });
     },
-    // /game/create creating a new game
     createGame: function(playerId) {
         var gameSlug = this.createSlug();
-         return Promise.all([this.getFirstPageURL(), this.selectArticle()])
-                .then(arrayOfResolutions => {
+        return Promise.all([this.getFirstPageURL(), this.selectArticle()])
+            .then(arrayOfResolutions => {
                 return knex('game').insert({
                         slug: gameSlug,
                         adminId: playerId,
@@ -94,27 +93,6 @@ var api = {
             });
 
     },
-    // /game/:slug/make-public   making a game public
-    makePublic: function(id) {
-
-        knex('game').where({
-            id: id
-        }).insert({
-            isPublic: 1
-        });
-    },
-    // /lobbies checking public lobbies
-    lobbies: function() {
-        knex('game').where({
-                isPublic: 1
-            }).select('id', 'adminId')
-            .then(results => {
-                return results;
-            })
-            .catch(error => {
-                return error;
-            });
-    },
     getArticle: function(title) {
         return fetch(`https://en.wikipedia.org/wiki/${title}?action=render`)
             .then(response => {
@@ -130,12 +108,11 @@ var api = {
                     return game[0]
                 }
                 else {
-                    return null
+                    return "no game found"
                 }
             })
     },
     startGame: function(adminId, gameId) {
-        console.log("api::startGame")
         return knex('game')
             .update({
                 'gameStarted': knex.fn.now()
@@ -155,13 +132,18 @@ var api = {
                     .then(result => result[0])
             })
     },
-    //This gets the first page's url using fetch. 
     getFirstPageURL: function() {
-      return  fetch('https://en.wikipedia.org/wiki/Special:Random')
+        return fetch('https://en.wikipedia.org/wiki/Special:Random')
             .then(response => response.url);
-                
     },
-        joinGame: function(playerToken, gameSlug) {
+    loadIntialArticle: function(slug) {
+        return this.findGameFromSlug(slug)
+            .then(game => {
+                var title = game.startingURL.substr(game.startingURL.lastIndexOf('/') + 1)
+                return this.getArticle(title)
+            });
+    },
+    joinGame: function(playerToken, gameSlug) {
         var player, game;
 
         return Promise.all([this.findPlayerFromSessionId(playerToken), this.findGameFromSlug(gameSlug)])
@@ -196,6 +178,30 @@ var api = {
                     });
             });
 
+    },
+    recordStep: function(step) {
+        console.log("Step", step)
+        return knex('step')
+            .insert({
+                gameId: step.gameId,
+                playerId: step.playerId,
+                url: step.url,
+                time: knex.fn.now()
+            })
+            .then(stepId => {
+                return knex.select()
+                    .from('step')
+                    .where('step.id', stepId)
+            })
+            .then(array => array[0])
+        
+    },
+    getVictoryInformation: function(gameId) {
+        return knex.select('step.playerId', 'step.url', 'step.time', 'player.username')
+            .from('step')
+            .join('player', 'step.playerId', 'player.id')
+            .where('step.gameId', gameId)
+            .orderBy('step.time', 'desc')
     }
 };
 

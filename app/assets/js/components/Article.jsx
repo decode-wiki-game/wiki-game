@@ -11,7 +11,7 @@ export default class Article extends Component {
 
     render() {
         return (
-            <p dangerouslySetInnerHTML={{__html: this.props.title}} />
+            <article dangerouslySetInnerHTML={{__html: this.props.content}} />
         )
     }
 }

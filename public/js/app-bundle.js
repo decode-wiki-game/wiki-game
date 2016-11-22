@@ -26556,14 +26556,32 @@
 		}
 	
 		_createClass(Pregame, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
 					null,
+					_react2.default.createElement(
+						'h2',
+						null,
+						'Starting from'
+					),
 					this.state.game.startingURL,
+					_react2.default.createElement(
+						'h2',
+						null,
+						'Target'
+					),
 					this.state.game.endURL,
-					_react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: this.state.extract } })
+					_react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: this.state.extract } }),
+					_react2.default.createElement(
+						'div',
+						null,
+						'I am a div with an countdown bar animation'
+					)
 				);
 			}
 		}]);
@@ -26580,7 +26598,7 @@
 	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -26598,97 +26616,118 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var Endgame = function (_React$Component) {
-	  _inherits(Endgame, _React$Component);
+		_inherits(Endgame, _React$Component);
 	
-	  function Endgame() {
-	    _classCallCheck(this, Endgame);
+		function Endgame(props) {
+			_classCallCheck(this, Endgame);
 	
-	    return _possibleConstructorReturn(this, (Endgame.__proto__ || Object.getPrototypeOf(Endgame)).apply(this, arguments));
-	  }
+			return _possibleConstructorReturn(this, (Endgame.__proto__ || Object.getPrototypeOf(Endgame)).call(this, props));
+		}
 	
-	  _createClass(Endgame, [{
-	    key: "render",
-	    value: function render() {
-	      return _react2.default.createElement(
-	        "div",
-	        null,
-	        _react2.default.createElement(
-	          "header",
-	          { className: "eg-header" },
-	          _react2.default.createElement(
-	            "h2",
-	            null,
-	            "(position) place!"
-	          )
-	        ),
-	        _react2.default.createElement(
-	          "main",
-	          { className: "eg-main" },
-	          _react2.default.createElement(
-	            "div",
-	            { className: "eg_???????????" },
-	            "Time: (time)"
-	          ),
-	          _react2.default.createElement(
-	            "div",
-	            null,
-	            "Steps you took: (list of steps)"
-	          ),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "eg-main__div--wrapper" },
-	            _react2.default.createElement(
-	              "ul",
-	              { className: "eg-main__ul--table row col-small-12 col-medium-3" },
-	              "Player",
-	              _react2.default.createElement(
-	                "li",
-	                { className: "eg-main__li--table" },
-	                "(Name)"
-	              )
-	            ),
-	            _react2.default.createElement(
-	              "ul",
-	              { className: "eg-main__ul--table row col-small-12 col-medium-3" },
-	              "Time",
-	              _react2.default.createElement(
-	                "li",
-	                { className: "eg-main__li--table" },
-	                "(time)"
-	              )
-	            ),
-	            _react2.default.createElement(
-	              "ul",
-	              { className: "eg-main__ul--table row col-small-12 col-medium-3" },
-	              "Number of steps",
-	              _react2.default.createElement(
-	                "li",
-	                { className: "eg-main__li--table" },
-	                "num of steps"
-	              )
-	            ),
-	            _react2.default.createElement(
-	              "ul",
-	              { className: "eg-main__ul--table row col-small-12 col-medium-3" },
-	              "Last article",
-	              _react2.default.createElement(
-	                "li",
-	                { className: "eg-main__li--table" },
-	                "(wikipedia)"
-	              )
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          "footer",
-	          { className: "eg-footer" },
-	          "rematch"
-	        )
-	      );
-	    }
-	  }]);
+		_createClass(Endgame, [{
+			key: "_prepareScores",
+			value: function _prepareScores(scoreData) {
+				console.log("preparing Scores");
 	
-	  return Endgame;
+				var flags = [],
+				    players = [],
+				    l = scoreData.steps.length,
+				    i;
+				for (i = 0; i < l; i++) {
+					if (flags[scoreData.steps[i].playerId]) continue;
+					flags[scoreData.steps[i].playerId] = true;
+					players.push(scoreData.steps[i].playerId);
+				}
+				console.log(players);
+			}
+		}, {
+			key: "componentDidMount",
+			value: function componentDidMount() {
+				this._prepareScores(this.props.scoreData);
+			}
+		}, {
+			key: "render",
+			value: function render() {
+				return _react2.default.createElement(
+					"div",
+					null,
+					_react2.default.createElement(
+						"header",
+						{ className: "eg-header" },
+						_react2.default.createElement(
+							"h2",
+							null,
+							"(position) place!"
+						)
+					),
+					_react2.default.createElement(
+						"main",
+						{ className: "eg-main" },
+						_react2.default.createElement(
+							"div",
+							{ className: "eg_???????????" },
+							"Time: (time)"
+						),
+						_react2.default.createElement(
+							"div",
+							null,
+							"Steps you took: (list of steps)"
+						),
+						_react2.default.createElement(
+							"div",
+							{ className: "eg-main__div--wrapper" },
+							_react2.default.createElement(
+								"ul",
+								{ className: "eg-main__ul--table row col-small-12 col-medium-3" },
+								"Player",
+								_react2.default.createElement(
+									"li",
+									{ className: "eg-main__li--table" },
+									"(Name)"
+								)
+							),
+							_react2.default.createElement(
+								"ul",
+								{ className: "eg-main__ul--table row col-small-12 col-medium-3" },
+								"Time",
+								_react2.default.createElement(
+									"li",
+									{ className: "eg-main__li--table" },
+									"(time)"
+								)
+							),
+							_react2.default.createElement(
+								"ul",
+								{ className: "eg-main__ul--table row col-small-12 col-medium-3" },
+								"Number of steps",
+								_react2.default.createElement(
+									"li",
+									{ className: "eg-main__li--table" },
+									"num of steps"
+								)
+							),
+							_react2.default.createElement(
+								"ul",
+								{ className: "eg-main__ul--table row col-small-12 col-medium-3" },
+								"Last article",
+								_react2.default.createElement(
+									"li",
+									{ className: "eg-main__li--table" },
+									"(wikipedia)"
+								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						"footer",
+						{ className: "eg-footer" },
+						"rematch"
+					)
+				);
+			}
+		}]);
+	
+		return Endgame;
 	}(_react2.default.Component);
 	
 	exports.default = Endgame;
@@ -26725,6 +26764,10 @@
 	
 	var _Pregame2 = _interopRequireDefault(_Pregame);
 	
+	var _Endgame = __webpack_require__(230);
+	
+	var _Endgame2 = _interopRequireDefault(_Endgame);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26753,7 +26796,10 @@
 				extract: '',
 				game: null,
 				player: window.localStorage.player ? JSON.parse(window.localStorage.player) : undefined,
-				playerCount: 1
+				playerCount: 1,
+				sprintStarted: null,
+				steps: 0,
+				groupSteps: null
 			};
 			_this._startGame = _this._startGame.bind(_this);
 			return _this;
@@ -26796,7 +26842,6 @@
 				});
 	
 				socket.on('startGameSuccess', function (data) {
-					console.log("Game::startGameSuccess");
 					var updatedGame = _this2.state.game;
 					updatedGame.gameStarted = data.gameStarted;
 					_this2.setState({
@@ -26805,11 +26850,29 @@
 					});
 				});
 	
+				socket.on('beginSprint', function (data) {
+					_this2.setState({
+						sprintStarted: true,
+						article: data.article
+					});
+				});
+	
 				socket.on('link fetch', function (result) {
 					_this2.setState({
-						article: result
+						article: result.article,
+						steps: _this2.state.steps + 1
 					});
 					window.scrollTo(0, 0);
+				});
+	
+				socket.on('victory', function (data) {
+					var updatedGame = _this2.state.game;
+					updatedGame.finalStep = data[0];
+					_this2.setState({
+						game: updatedGame,
+						groupSteps: data
+					});
+					console.log(data);
 				});
 			}
 		}, {
@@ -26841,12 +26904,11 @@
 		}, {
 			key: '_handleClick',
 			value: function _handleClick(topic) {
-				// socket.emit('link click', topic)
+				socket.emit('link click', topic);
 			}
 		}, {
 			key: '_startGame',
 			value: function _startGame() {
-				console.log("Game::_startGame");
 				socket.emit('startGame', {
 					adminId: this.state.player.id,
 					gameId: this.state.game.id,
@@ -26859,24 +26921,19 @@
 				if (this.state.player && this.state.game) {
 					if (!this.state.game.gameStarted) {
 						return _react2.default.createElement(_Lobby2.default, { parent: this.state, startButton: this._startGame });
+					} else if (!this.state.sprintStarted) {
+						return _react2.default.createElement(
+							'div',
+							null,
+							_react2.default.createElement(_Pregame2.default, { parent: this.state })
+						);
 					} else {
 						return _react2.default.createElement(
 							'div',
 							null,
-							_react2.default.createElement(
-								'p',
-								null,
-								'Welcome, ',
-								this.state.player.username
-							),
-							_react2.default.createElement(
-								'p',
-								null,
-								'There are ',
-								this.state.playerCount,
-								' players in your game'
-							),
-							_react2.default.createElement(_Pregame2.default, { parent: this.state })
+							_react2.default.createElement(_Sidebar2.default, { parent: this.state }),
+							_react2.default.createElement(_Article2.default, { parent: this.state, content: this.state.article }),
+							this.state.groupSteps ? _react2.default.createElement(_Endgame2.default, { scoreData: this.state.groupSteps }) : null
 						);
 					}
 				} else return _react2.default.createElement(
@@ -26935,7 +26992,7 @@
 	    _createClass(Article, [{
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: this.props.title } });
+	            return _react2.default.createElement('article', { dangerouslySetInnerHTML: { __html: this.props.content } });
 	        }
 	    }]);
 	
@@ -26996,7 +27053,6 @@
 		_createClass(Lobby, [{
 			key: '_startGame',
 			value: function _startGame() {
-				console.log("lobby::_startGame");
 				this.props.startButton();
 			}
 		}, {
@@ -27451,16 +27507,37 @@
 	var Sidebar = function (_Component) {
 	    _inherits(Sidebar, _Component);
 	
-	    function Sidebar() {
+	    function Sidebar(props) {
 	        _classCallCheck(this, Sidebar);
 	
-	        return _possibleConstructorReturn(this, (Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).call(this));
+	        var _this = _possibleConstructorReturn(this, (Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).call(this, props));
+	
+	        _this.state = _this.props.parent;
+	        return _this;
 	    }
 	
 	    _createClass(Sidebar, [{
+	        key: 'componentDidUpdate',
+	        value: function componentDidUpdate(prevProps) {
+	            if (prevProps.parent.steps != this.props.parent.steps) {
+	                this.setState({
+	                    steps: this.props.parent.steps
+	                });
+	            }
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement('aside', null);
+	            return _react2.default.createElement(
+	                'aside',
+	                null,
+	                _react2.default.createElement(
+	                    'h2',
+	                    null,
+	                    'Steps: ',
+	                    this.state.steps
+	                )
+	            );
 	        }
 	    }]);
 	

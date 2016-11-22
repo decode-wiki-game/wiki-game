@@ -5,13 +5,23 @@ var {
 } = React;
 
 export default class Sidebar extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props);
+        this.state = this.props.parent;
+    }
+    componentDidUpdate(prevProps){
+        if(prevProps.parent.steps != this.props.parent.steps) {
+            this.setState({
+                steps: this.props.parent.steps
+            })
+        }
     }
 
     render() {
         return (
-            <aside />
+            <aside>
+                <h2>Steps: {this.state.steps}</h2>
+            </aside>
         )
     }
 }

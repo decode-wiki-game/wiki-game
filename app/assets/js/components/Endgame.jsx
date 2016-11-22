@@ -1,9 +1,33 @@
 import React from 'react';
 
-export default class Endgame extends React.Component{
-  render() {
-    return (
-      <div>
+export default class Endgame extends React.Component {
+
+	constructor(props) {
+		super(props);
+
+	}
+
+	_prepareScores(scoreData) {
+		console.log("preparing Scores")
+
+		var flags = [],
+			players = [],
+			l = scoreData.steps.length,
+			i;
+		for (i = 0; i < l; i++) {
+			if (flags[scoreData.steps[i].playerId]) continue;
+			flags[scoreData.steps[i].playerId] = true;
+			players.push(scoreData.steps[i].playerId);
+		}
+		console.log(players)
+	}
+	componentDidMount() {
+		this._prepareScores(this.props.scoreData)
+	}
+
+	render() {
+		return (
+			<div>
       	<header className="eg-header">
       		<h2>(position) place!</h2>
       	</header>
@@ -27,6 +51,6 @@ export default class Endgame extends React.Component{
       	</main>	
       	<footer className="eg-footer">rematch</footer>
     </div>
-    );
-  }
+		);
+	}
 }
