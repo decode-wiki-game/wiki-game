@@ -10,13 +10,11 @@ export default class Gamemeta extends Component {
         this.state = this.props.parent;
     }
     
-    _createCSS() {
-        console.log('creating CSS!')
+    _createCSS() { // sets content of ::after to targetTitle, to prevent it from showing up on browser ctrl-f
         return {__html: `.game-meta__title::after{content: '${this.state.game.targetTitle}'}`}
     }
 
     render() {
-        console.log(this._createCSS())
         return (
             <div className="game-meta">
             <style dangerouslySetInnerHTML={this._createCSS()} />
