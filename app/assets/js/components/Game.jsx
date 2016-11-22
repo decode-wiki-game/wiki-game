@@ -110,11 +110,13 @@ export default class Game extends React.Component {
 		socket.emit('startGame', {
 			adminId: this.state.player.id,
 			gameId: this.state.game.id,
-			gameEndURL: this.state.game.endURL
+			targetSlug: this.state.game.targetSlug
 		});
 	}
 
 	render() {
+		console.log(this.state.game , " game");
+	
 		if (this.state.player && this.state.game) {
 			if (!this.state.game.gameStarted) {
 				return <Lobby parent={this.state} startButton={this._startGame} />
