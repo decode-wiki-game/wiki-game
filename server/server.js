@@ -82,7 +82,6 @@ const init = function() {
                 api.createGame(player.id)
                     .then(game => {
                         room = game.slug;
-                        console.log("server::room::gameCreated:", room)
                         socket._game = game
                         socket.join(room)
                         socket.emit('createGame', {
@@ -141,7 +140,10 @@ const init = function() {
         });
 
         socket.on('disconnect', function() {
+<<<<<<< HEAD
             console.log("server::disconnect::room:", room);
+=======
+>>>>>>> 92bc5c6d1b5e2d334ef525a9d786ca6de426528e
             socket.leave(room);
             api.findGameFromSlug(room)
             .then(game => {
@@ -153,18 +155,16 @@ const init = function() {
         });    
 
         socket.on('link click', function(target) {
-            Promise.all([api.recordStep({
-                        gameId: socket._game.id,
-                        playerId: socket._player.id,
-                        url: target
-                    }),
-                    api.getArticle(target)
-                ])
+            Promise.all(
+                    [
+                        api.recordStep({gameId: socket._game.id,playerId: socket._player.id,url: target}),
+                        api.getArticle(target)
+                    ]
+                )
                 .then(results => {
                     if (target === socket._game.targetSlug) {
                         api.getVictoryInformation(socket._game.id)
                             .then(data => {
-                                console.log("vistory is being emitted!")
                                 io.to(room).emit("victory", {
                                     winner: socket._player.username,
                                     steps: data
@@ -172,10 +172,6 @@ const init = function() {
                             })
                     }
                     else {
-                        io.to(room).emit('playerStep', {
-                            id: socket._player.id,
-                            username: socket._player.username
-                        })
                         socket.emit('link fetch', {
                             step: results[0].url,
                             article: results[1]
@@ -188,11 +184,11 @@ const init = function() {
             api.createGame(socket._player.id)
                 .then(game => {
                     var newGame = game;
-                    io.to(room).emit('rematch', {
-                        game: newGame
-                    })
                 })
 
+            io.to(room).emit('rematch', {
+
+            })
         })
 
         socket.on('changeName', (data) => {
@@ -200,7 +196,6 @@ const init = function() {
             api.changeName(socket._player.id, data.newName)
                 .then(confirmation => {
                     if (confirmation) {
-                        socket._player.username = data.newName;
                         socket.emit('nameChangeSuccess', {
                             newName: data.newName
                         })

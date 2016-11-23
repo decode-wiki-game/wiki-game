@@ -22,7 +22,10 @@ export default class Game extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			article: '',
+			article: {
+				title: '',
+				content: ''
+			},
 			extract: '',
 			game: null,
 			player: window.localStorage.player ? JSON.parse(window.localStorage.player) : undefined,
@@ -223,7 +226,7 @@ export default class Game extends React.Component {
 					<div className="game"> 
 						<Sidebar parent={this.state} />
 						<Gamemeta parent={this.state} />
-						<Article parent={this.state} content={this.state.article} />
+						<Article parent={this.state} article={this.state.article} />
 						{Array.isArray(this.state.groupSteps.steps) ? <Endgame rematch={this._rematch} parent={this.state}/> : null}
 					</div>
 				)

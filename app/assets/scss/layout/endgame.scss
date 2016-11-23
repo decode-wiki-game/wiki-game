@@ -14,4 +14,37 @@
     width: 1000px;
     background: #F5F5F5;
     padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
+.eg-gameover {
+    animation: seesaw 3s infinite;
+    animation-direction: alternate;
+    color: $red;
+}
+
+@keyframes seesaw {
+  0% {
+    transform: rotate(10deg);    
+  }
+  100% {
+    transform: rotate(-10deg);
+  }
+}
+
+.eg-links {
+    align-self: flex-start;
+}
+
+.eg-winner {
+    font-size: 2em;
+}
+
+.eg-playerpath {
+    line-height: 0.5em;
+    align-self: flex-start;
+}
+
