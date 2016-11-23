@@ -19,7 +19,7 @@ export default class Sidebar extends Component {
 
     render() {
         return (
-            <aside>
+            <aside className="sidebar">
                 <h2>Steps: {this.state.steps}</h2>
             </aside>
         )

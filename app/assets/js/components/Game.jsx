@@ -6,6 +6,7 @@ import Lobby from './Lobby'
 import Sidebar from './Sidebar'
 import Pregame from './Pregame'
 import Endgame from './Endgame'
+import Gamemeta from './Gamemeta'
 var socket = io.connect('/', {
 	query: `connectionData=${
 				JSON.stringify({
@@ -76,9 +77,10 @@ export default class Game extends React.Component {
 			});
 		});
 		
-		socket.on('playerLeftRoom', (data) => {
+		socket.on('playerLeftRoom', () => {
+			var playerCount = this.state.playerCount - 1;
 			this.setState({
-				playerCount: data.playerCount
+				playerCount: playerCount
 			});
 		});
 
@@ -173,6 +175,7 @@ export default class Game extends React.Component {
 				return (
 					<div className="game"> 
 						<Sidebar parent={this.state} />
+						<Gamemeta parent={this.state} />
 						<Article parent={this.state} content={this.state.article} />
 						{this.state.groupSteps ? <Endgame rematch={this._rematch} parent={this.state}/> : null}
 					</div>
