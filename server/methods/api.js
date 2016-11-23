@@ -6,7 +6,11 @@ var knex = require('knex')({
     client: 'mysql',
     connection: {
         host: 'localhost',
+<<<<<<< HEAD
         user: 'simon2828',
+=======
+        user: 'yaroncnk',
+>>>>>>> 81a512a23622c9d9832315b947f99c2cc742ae68
         password: '',
         database: 'wikisprint'
     }
@@ -24,7 +28,7 @@ var api = {
         return name;
     },
     randomizeNumber: function() {
-        var num = Math.floor((Math.random() * 13) + 1);
+        var num = Math.floor((Math.random() * 70) + 1);
         return num;
     },
     createSlug: function() {
