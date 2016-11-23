@@ -145,9 +145,7 @@ const init = function() {
             api.findGameFromSlug(room)
             .then(game => {
                 if (game) {
-                    io.to(room).emit('playerLeftRoom', {
-                        playerCount: io.sockets.adapter.rooms[room].length
-                    });
+                    io.to(room).emit('playerLeftRoom');
                 }
             })
             

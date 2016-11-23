@@ -76,9 +76,10 @@ export default class Game extends React.Component {
 			});
 		});
 		
-		socket.on('playerLeftRoom', (data) => {
+		socket.on('playerLeftRoom', () => {
+			var playerCount = this.state.playerCount -1;
 			this.setState({
-				playerCount: data.playerCount
+				playerCount: playerCount
 			});
 		});
 
@@ -120,10 +121,29 @@ export default class Game extends React.Component {
 		var elements = document.getElementsByTagName('a');
 		for (var i = 0, len = elements.length; i < len; i++) {
 			elements[i].onclick = (event) => {
-				if (event.target.getAttribute('href').indexOf("#") == -1) {
+				console.log('event target', event.target)
+				if (event.target.getAttribute('href')) { // if it's a link (not a child element within a link)
+					var hrefContent = event.target.getAttribute('href');
+					if (hrefContent.indexOf("wikipedia") !== -1) { // if the link links to a page on wikipedia
+						if (hrefContent.substr(hrefContent.lastIndexOf('/')).indexOf('.') === -1) {// if the link to a wiki page doesn't have a . after the last slash
+							event.preventDefault();
+							var title = this._findTarget(event.target.getAttribute('href'));
+							this._handleClick(title);
+						}
+						event.preventDefault();
+					}
 					event.preventDefault();
-					var title = this._findTarget(event.target.getAttribute('href'));
-					this._handleClick(title);
+				}
+				else {
+					var parent = event.target.parentElement;
+					var closestLink = parent.getClosest(parent, 'href');
+					if (closestLink.indexOf('#') === -1) {
+						event.preventDefault();
+						console.log("You tried to click an image")
+					}
+					else {
+						console.log("you clicked on a #")
+					}
 				}
 			};
 		}
