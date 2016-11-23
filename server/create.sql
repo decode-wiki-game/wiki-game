@@ -47,6 +47,121 @@ INSERT INTO target (title, slug) values ('Pinyin' , 'Pinyin');
 
 INSERT INTO target (title, slug) values ('Jazz' , 'Jazz');
 
+INSERT INTO target (title, slug) values ('Jesus' , 'Jesus');
+
+INSERT INTO target (title, slug) values ('UEFA Champions League' , 'UEFA_Champions_League');
+
+INSERT INTO target (title, slug) values ('World Trade Organization' , 'World_Trade_Organization');
+
+INSERT INTO target (title, slug) values ('Skyscraper' , 'Skyscraper');
+
+INSERT INTO target (title, slug) values ('Basketball' , 'Basketball');
+
+INSERT INTO target (title, slug) values ('Hollywood' , 'Hollywood');
+
+INSERT INTO target (title, slug) values ('Albert Einstein' , 'Albert_Einstein');
+
+INSERT INTO target (title, slug) values ('North Pole' , 'North_Pole');
+
+INSERT INTO target (title, slug) values ('Harvard University' , 'Harvard_University');
+
+INSERT INTO target (title, slug) values ('Queen Victoria' , 'Queen_Victoria');
+
+INSERT INTO target (title, slug) values ('Air France' , 'Air_France');
+
+INSERT INTO target (title, slug) values ('Microsoft Windows' , 'Microsoft_Windows');
+
+INSERT INTO target (title, slug) values ('RMS Titanic' , 'RMS_Titanic');
+
+INSERT INTO target (title, slug) values ('Billy Joel' , 'Billy_Joel');
+
+INSERT INTO target (title, slug) values ('Justin Bieber' , 'Justin_Bieber');
+
+INSERT INTO target (title, slug) values ('Falafel' , 'Falafel');
+
+INSERT INTO target (title, slug) values ('Lionel Messi' , 'Lionel_Messi');
+
+INSERT INTO target (title, slug) values ('Giraffe' , 'Giraffe');
+
+INSERT INTO target (title, slug) values ('Book of Genesis' , 'Book_of_Genesis');
+
+INSERT INTO target (title, slug) values ('Heathrow Airport' , 'Heathrow_Airport');
+
+INSERT INTO target (title, slug) values ('SkyTrain (Vancouver)' , 'SkyTrain_(Vancouver)');
+
+INSERT INTO target (title, slug) values ('The Beatles' , 'The_Beatles');
+
+INSERT INTO target (title, slug) values ('Ferrari' , 'Ferrari');
+
+INSERT INTO target (title, slug) values ('Rihana' , 'Rihana');
+
+INSERT INTO target (title, slug) values ('Oxford University' , 'University_of_Oxford');
+
+INSERT INTO target (title, slug) values ('Tea Bag' , 'Tea_bag');
+
+INSERT INTO target (title, slug) values ('Champagne' , 'Champagne');
+
+INSERT INTO target (title, slug) values ('James Bond' , 'James_Bond');
+
+INSERT INTO target (title, slug) values ('Android (Operating System)' , 'Android_(operating_system)');
+
+INSERT INTO target (title, slug) values ('iPhone' , 'IPhone');
+
+INSERT INTO target (title, slug) values ('BMW' , 'BMW');
+
+INSERT INTO target (title, slug) values ('H&M' , 'H%26M');
+
+INSERT INTO target (title, slug) values ('IKEA' , 'IKEA');
+
+INSERT INTO target (title, slug) values ('Lord Of the Rings' , 'The_Lord_of_the_Rings');
+
+INSERT INTO target (title, slug) values ('Facebook' , 'Facebook');
+
+INSERT INTO target (title, slug) values ('Grand Canyon' , 'Grand_Canyon');
+
+INSERT INTO target (title, slug) values ('Taj Mahal' , 'Taj_Mahal');
+
+INSERT INTO target (title, slug) values ('Pasta' , 'Pasta');
+
+INSERT INTO target (title, slug) values ('Jerusalem' , 'Jerusalem');
+
+INSERT INTO target (title, slug) values ('Seinfeld' , 'Seinfeld');
+
+INSERT INTO target (title, slug) values ('Empire State Building' , 'Empire_State_Building');
+
+INSERT INTO target (title, slug) values ('Horsepower' , 'Horsepower');
+
+INSERT INTO target (title, slug) values ('Criminal Law' , 'Criminal_law');
+
+INSERT INTO target (title, slug) values ('Tokyo' , 'Tokyo');
+
+INSERT INTO target (title, slug) values ('Desert' , 'Desert');
+
+INSERT INTO target (title, slug) values ('U2' , 'U2');
+
+INSERT INTO target (title, slug) values ('Tourism' , 'Tourism');
+
+INSERT INTO target (title, slug) values ('The Lion King' , 'The_Lion_King');
+
+INSERT INTO target (title, slug) values ('Psychology' , 'Psychology');
+
+INSERT INTO target (title, slug) values ('Casino' , 'Casino');
+
+INSERT INTO target (title, slug) values ('Andrea Bocelli' , 'Andrea_Bocelli');
+
+INSERT INTO target (title, slug) values ('Saxophone' , 'Saxophone');
+
+INSERT INTO target (title, slug) values ('Celine Dion' , 'Celine_Dion');
+
+INSERT INTO target (title, slug) values ('Julius Caesar' , 'Julius_Caesar');
+
+INSERT INTO target (title, slug) values ('Michael Jordan' , 'Michael_Jordan');
+
+INSERT INTO target (title, slug) values ('Pablo Picasso' , 'Pablo_Picasso');
+
+INSERT INTO target (title, slug) values ('Dan Brown' , 'Dan_Brown');
+
+
 /*(2) This creates the game table that holds information about each and every game played.
 finalStep is referenced from the step table in order to allow for easy querying of the winner.*/
 
