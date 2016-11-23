@@ -94,7 +94,6 @@ export default class Game extends React.Component {
 		});
 
 		socket.on('link fetch', (result) => {
-			console.log('link fetch fesult', result)
 			this.setState({
 				article: result.article
 			});
@@ -123,7 +122,6 @@ export default class Game extends React.Component {
 		})
 		
 		socket.on('playerStep', (data) => {
-			console.log('game::playerStep::data', data)
 			var groupSteps = this.state.groupSteps;
 			if (!groupSteps[data.id]) {
 				groupSteps[data.id] = {};
@@ -164,7 +162,6 @@ export default class Game extends React.Component {
 						var tt = document.getElementById(t);
 						if (tt) {
 							tt.scrollIntoView();
-							console.log("Scroll");	
 						}
 						
 					}
