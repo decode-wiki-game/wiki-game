@@ -27,19 +27,25 @@ export default class Lobby extends React.Component {
 	render() {
 		return (
 			<div className="game">
-				<h3 className="lobby__player">Hello! Your player name is <span className="lobby__nameinput"><i>{this.state.player.username}</i></span>
-					<button className="lobby__button--username"><label htmlFor="checkbox-hack" className="cb-hack">change</label></button>
-				</h3>
-				<input type="checkbox" id="checkbox-hack" className="cb-hack"/>
-				<div className="checkbox-hack-content">
-					<p className="lobby__username"><small>Choose a different name:</small></p>
-					<input ref='name' onBlur={() => {this._changeName(this.refs.name.value)}}/>
+			<div className="lobby__intro">
+				<h1>Welcome to Wikisprint!</h1> 
+				<h2>The fun, fast game of encyclopedic knowledge!</h2> 
+                <p>Race your friends between two random Wikipedia articles by clicking on the links.</p>
+                <p>The first player to reach the target article wins!</p>
+			</div>
+			<div className="lobby__main">
+				<div className="lobby__namechange">
+					<h3 className="lobby__player">Username </h3><input className="lobby__input" ref='name' placeholder={this.state.player.username} onBlur={() => {this._changeName(this.refs.name.value)}}/>
 				</div>
-				<h3>Send the url and challenge a friend!</h3>
-				<div><small>Click to copy this url and send to a friend</small></div>
-				<Copy slug={this.state.game.slug}/>
-				<p>Number of players in the lobby: {this.state.playerCount}</p>
-				{this.state.player.id === this.state.game.adminId ? <button className="lobby__button" onClick={this._startGame}>Start</button> : null}
+				<div className="lobby__invite">
+					{ this.state.playerCount === 1 ? <p>You're the only one in this lobby! Invite some friends or play solo.</p> :
+					<p>There are {this.state.playerCount} players in the lobby.</p>
+					}
+					<Copy slug={this.state.game.slug}/>
+					</div>
+	
+					{this.state.player.id === this.state.game.adminId ? <div className="centered"><button className="lobby__button" onClick={this._startGame}>Start</button></div> : null}
+				</div>
 			</div>
 		)
 	}

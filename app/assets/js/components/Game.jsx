@@ -28,8 +28,7 @@ export default class Game extends React.Component {
 			player: window.localStorage.player ? JSON.parse(window.localStorage.player) : undefined,
 			playerCount: 1,
 			sprintStarted: null,
-			steps: 0,
-			groupSteps: null
+			groupSteps: {}
 		};
 		this._startGame = this._startGame.bind(this)
 		this._changeName = this._changeName.bind(this)
@@ -108,6 +107,33 @@ export default class Game extends React.Component {
 			})
 		})
 		
+		socket.on('rematch', (data) => {
+			this.setState({
+				article: '',
+				extract: '',
+				game: data.game,
+				sprintStarted: null,
+				groupSteps: {}
+			});
+
+			this.props.router.push(`/${data.game.slug}`);
+		})
+		
+		socket.on('playerStep', (data) => {
+			var groupSteps = this.state.groupSteps;
+			if (!groupSteps[data.id]) {
+				groupSteps[data.id] = {};
+				groupSteps[data.id].username = data.username;
+				groupSteps[data.id].steps = 1;
+			}
+			else {
+				groupSteps[data.id].steps += 1;
+			}
+			this.setState({
+				groupSteps: groupSteps
+			})
+		})
+		
 		socket.on('nameChangeSuccess', (data) => {
 			var player = this.state.player
 			player.username = data.newName
@@ -177,7 +203,7 @@ export default class Game extends React.Component {
 						<Sidebar parent={this.state} />
 						<Gamemeta parent={this.state} />
 						<Article parent={this.state} content={this.state.article} />
-						{this.state.groupSteps ? <Endgame rematch={this._rematch} parent={this.state}/> : null}
+						{Array.isArray(this.state.groupSteps.steps) ? <Endgame rematch={this._rematch} parent={this.state}/> : null}
 					</div>
 				)
 			}
