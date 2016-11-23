@@ -124,7 +124,7 @@ const init = function() {
                                     extract: extract,
                                     gameStarted: gameStarted.gameStarted
                                 })
-                                api.loadIntialArticle(room)
+                                api.loadIntialArticle(data.gameId)
                                     .then(article => {
                                         setTimeout(() => {
                                             io.to(room).emit('beginSprint', {
@@ -164,6 +164,7 @@ const init = function() {
                     if (target === socket._game.targetSlug) {
                         api.getVictoryInformation(socket._game.id)
                             .then(data => {
+                                console.log("vistory is being emitted!")
                                 io.to(room).emit("victory", {
                                     winner: socket._player.username,
                                     steps: data
@@ -171,6 +172,10 @@ const init = function() {
                             })
                     }
                     else {
+                        io.to(room).emit('playerStep', {
+                            id: socket._player.id,
+                            username: socket._player.username
+                        })
                         socket.emit('link fetch', {
                             step: results[0].url,
                             article: results[1]
@@ -183,11 +188,11 @@ const init = function() {
             api.createGame(socket._player.id)
                 .then(game => {
                     var newGame = game;
+                    io.to(room).emit('rematch', {
+                        game: newGame
+                    })
                 })
 
-            io.to(room).emit('rematch', {
-
-            })
         })
 
         socket.on('changeName', (data) => {
@@ -195,6 +200,7 @@ const init = function() {
             api.changeName(socket._player.id, data.newName)
                 .then(confirmation => {
                     if (confirmation) {
+                        socket._player.username = data.newName;
                         socket.emit('nameChangeSuccess', {
                             newName: data.newName
                         })
