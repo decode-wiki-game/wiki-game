@@ -130,6 +130,19 @@ var api = {
                 }
             })
     },
+    findGameFromId: function(gameId) {
+        return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startSlug', 'game.startTitle', 'game.targetTitle', 'game.targetSlug', 'game.finalStep', 'game.createdAt')
+            .from('game')
+            .where('game.id', gameId)
+            .then(game => {
+                if (game.length) {
+                    return game[0]
+                }
+                else {
+                    return "no game found"
+                }
+            })
+    },
     startGame: function(adminId, gameId) {
         return knex('game')
             .update({
@@ -155,8 +168,8 @@ var api = {
         return fetch('https://en.wikipedia.org/wiki/Special:Random')
             .then(response => response.url);
     },
-    loadIntialArticle: function(slug) {
-        return this.findGameFromSlug(slug)
+    loadIntialArticle: function(gameId) {
+        return this.findGameFromId(gameId)
             .then(game => {
                 return this.getArticle(game.startSlug)
             });

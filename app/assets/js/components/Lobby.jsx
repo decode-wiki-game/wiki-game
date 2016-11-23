@@ -27,7 +27,7 @@ export default class Lobby extends React.Component {
 	render() {
 		return (
 			<div className="game">
-				<h3 className="lobby__player">Hello! Your player name is <span className="lobby__nameinput"><i>{this.state.player.username}</i></span>
+				<h3 className="lobby__player">Hello, <span className="lobby__nameinput"><i>{this.state.player.username}</i></span>
 					<button className="lobby__button--username"><label htmlFor="checkbox-hack" className="cb-hack">change</label></button>
 				</h3>
 				<input type="checkbox" id="checkbox-hack" className="cb-hack"/>

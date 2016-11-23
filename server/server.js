@@ -124,7 +124,7 @@ const init = function() {
                                     extract: extract,
                                     gameStarted: gameStarted.gameStarted
                                 })
-                                api.loadIntialArticle(room)
+                                api.loadIntialArticle(data.gameId)
                                     .then(article => {
                                         setTimeout(() => {
                                             io.to(room).emit('beginSprint', {
@@ -188,11 +188,11 @@ const init = function() {
             api.createGame(socket._player.id)
                 .then(game => {
                     var newGame = game;
+                    io.to(room).emit('rematch', {
+                        game: newGame
+                    })
                 })
 
-            io.to(room).emit('rematch', {
-
-            })
         })
 
         socket.on('changeName', (data) => {

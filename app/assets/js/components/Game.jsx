@@ -28,7 +28,6 @@ export default class Game extends React.Component {
 			player: window.localStorage.player ? JSON.parse(window.localStorage.player) : undefined,
 			playerCount: 1,
 			sprintStarted: null,
-			steps: 0,
 			groupSteps: {}
 		};
 		this._startGame = this._startGame.bind(this)
@@ -108,6 +107,18 @@ export default class Game extends React.Component {
 			})
 		})
 		
+		socket.on('rematch', (data) => {
+			this.setState({
+				article: '',
+				extract: '',
+				game: data.game,
+				sprintStarted: null,
+				groupSteps: {}
+			});
+
+			this.props.router.push(`/${data.game.slug}`);
+		})
+		
 		socket.on('playerStep', (data) => {
 			var groupSteps = this.state.groupSteps;
 			if (!groupSteps[data.id]) {
@@ -177,7 +188,6 @@ export default class Game extends React.Component {
 	}
 
 	render() {
-		console.log('game:render:groupSteps', this.state.groupSteps)
 		if (this.state.player && this.state.game) {
 			if (!this.state.game.gameStarted) {
 				return <Lobby className="game" parent={this.state} startButton={this._startGame} changeName={this._changeName} />

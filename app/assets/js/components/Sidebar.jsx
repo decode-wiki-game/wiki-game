@@ -22,7 +22,7 @@ export default class Sidebar extends Component {
         return keys.map((user) => {
             return (
                 <div key={user}>
-                    <h2 className="sidebar__heading">{steps[user].username}</h2>
+                    <h3 className="sidebar__heading--name">{steps[user].username}</h3>
                     <h3 className="sidebar__heading">{steps[user].steps} {steps[user].steps === 1 ? 'step' : 'steps'}</h3>
                 </div>)
         })
