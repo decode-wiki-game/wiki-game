@@ -75,9 +75,9 @@ export default class Game extends React.Component {
 				extract: data.extract
 			});
 		});
-		
+
 		socket.on('playerLeftRoom', () => {
-			var playerCount = this.state.playerCount -1;
+			var playerCount = this.state.playerCount - 1;
 			this.setState({
 				playerCount: playerCount
 			});
@@ -97,7 +97,7 @@ export default class Game extends React.Component {
 			});
 			window.scrollTo(0, 0);
 		});
-		
+
 		socket.on('victory', (data) => {
 			var updatedGame = this.state.game;
 			updatedGame.finalStep = data[0]
@@ -106,7 +106,7 @@ export default class Game extends React.Component {
 				groupSteps: data
 			})
 		})
-		
+
 		socket.on('nameChangeSuccess', (data) => {
 			var player = this.state.player
 			player.username = data.newName
@@ -118,34 +118,64 @@ export default class Game extends React.Component {
 	}
 
 	_updateLinks() {
-		var elements = document.getElementsByTagName('a');
+		var elements = document.getElementsByTagName('a'); //capture all links
 		for (var i = 0, len = elements.length; i < len; i++) {
 			elements[i].onclick = (event) => {
-				console.log('event target', event.target)
-				if (event.target.getAttribute('href')) { // if it's a link (not a child element within a link)
-					var hrefContent = event.target.getAttribute('href');
-					if (hrefContent.indexOf("wikipedia") !== -1) { // if the link links to a page on wikipedia
-						if (hrefContent.substr(hrefContent.lastIndexOf('/')).indexOf('.') === -1) {// if the link to a wiki page doesn't have a . after the last slash
-							event.preventDefault();
-							var title = this._findTarget(event.target.getAttribute('href'));
+				event.preventDefault();
+				console.log('event target', event.currentTarget)
+				if (event.currentTarget.getAttribute('href')) {
+					//capture href elements
+					var hrefContent = event.currentTarget.getAttribute('href');
+
+
+					if (hrefContent.indexOf("#") > -1) {
+						// see if we have a hash then scroll to it
+						var t = hrefContent.substring(hrefContent.indexOf('#') + 1); //preventing anchor links from directing into the "real" wikipedia
+						var tt = document.getElementById(t);
+						if (tt) {
+							tt.scrollIntoView();
+							console.log("Scroll");	
+						}
+						
+					}
+
+					if (hrefContent.indexOf("wikipedia") !== -1) { //preventing images or external links from loading
+						console.log('Wiki link');
+						var n = (/\.(gif|jpg|jpeg|tiff|png|svg|pdf)$/i).test(hrefContent);
+						if (!n) {
+							console.log('ok to go');
+							var title = this._findTarget(event.currentTarget.getAttribute('href'));
 							this._handleClick(title);
 						}
-						event.preventDefault();
-					}
-					event.preventDefault();
-				}
-				else {
-					var parent = event.target.parentElement;
-					var closestLink = parent.getClosest(parent, 'href');
-					if (closestLink.indexOf('#') === -1) {
-						event.preventDefault();
-						console.log("You tried to click an image")
-					}
-					else {
-						console.log("you clicked on a #")
+
 					}
 				}
-			};
+
+				// if (event.target.getAttribute('href')) { // if it's a link (not a child element within a link)
+				// 	var hrefContent = event.target.getAttribute('href');
+				// 	if (hrefContent.indexOf("wikipedia") !== -1) { // if the link links to a page on wikipedia
+				// 		if (hrefContent.substr(hrefContent.lastIndexOf('/')).indexOf('.') === -1) {// if the link to a wiki page doesn't have a . after the last slash
+				// 			event.preventDefault();
+				// 			var title = this._findTarget(event.target.getAttribute('href'));
+				// 			this._handleClick(title);
+				// 		}
+				// 		event.preventDefault();
+				// 	}
+				// 	event.preventDefault();
+				// 	}
+				// 	else {
+				// 		var parent = event.target.parentElement;
+				// 		var closestLink = parent.closest(parent, 'href');
+				// 		if (closestLink.indexOf('#') === -1) {
+				// 			event.preventDefault();
+				// 			console.log("You tried to click an image")
+				// 		}
+				// 		else {
+				// 			console.log("you clicked on a #")
+				// 		}
+				// 	}
+
+			}
 		}
 	}
 
@@ -168,13 +198,13 @@ export default class Game extends React.Component {
 			targetSlug: this.state.game.targetSlug
 		});
 	}
-	
+
 	_changeName(newName) {
 		socket.emit('changeName', {
 			newName: newName
 		})
 	}
-	
+
 	_rematch() {
 		socket.emit('rematch')
 	}
@@ -186,7 +216,7 @@ export default class Game extends React.Component {
 			}
 			else if (!this.state.sprintStarted) {
 				return (
-						<Pregame parent={this.state}/>
+					<Pregame parent={this.state}/>
 				);
 			}
 			else {

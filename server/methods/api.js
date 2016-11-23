@@ -24,7 +24,7 @@ var api = {
         return name;
     },
     randomizeNumber: function() {
-        var num = Math.floor((Math.random() * 13) + 1);
+        var num = Math.floor((Math.random() * 70) + 1);
         return num;
     },
     createSlug: function() {
