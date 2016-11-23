@@ -1,54 +1,12 @@
-var steps = [{
-    playerId: 1,
-    url: 'Rugby'
-}, {
-    playerId: 2,
-    url: 'Rugby'
-}, {
-    playerId: 1,
-    url: 'Rugby'
-}, {
-    playerId: 2,
-    url: 'Rugby'
-}, {
-    playerId: 1,
-    url: 'Rugby'
-}, {
-    playerId: 2,
-    url: 'Rugby'
-}, {
-    playerId: 3,
-    url: 'Rugby'
-}, {
-    playerId: 3,
-    url: 'Rugby'
-}, {
-    playerId: 3,
-    url: 'Rugby'
-}, ]
-
-var uniqueValues = [],
-    players = [],
-    l = steps.length,
-    i;
-for (i = 0; i < l; i++) {
-    if (uniqueValues[steps[i].playerId]) continue;
-    uniqueValues[steps[i].playerId] = true;
-    players.push({
-        player: {
-            id: steps[i].playerId,
-            username: steps[i].username
-        }
-    });
-}
-
-players = players.map((player) => {
-    return steps.filter((step) => {
-        if (step.playerId === player.id) {
-            console.log("math")
-            return true;
-        }
-    })
-})
-
-console.log(players)
+var fetch = require('node-fetch')
+     function getPrettyTitle (target) {
+        return fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${target}&format=json`)
+        .then(response => response.json())
+        .then(response => {
+            var articleId = Object.keys(response.query.pages)[0];
+            return response.query.pages[articleId].title;
+        })
+        
+    }
+    
+    getPrettyTitle('cricket');
