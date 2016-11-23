@@ -164,7 +164,6 @@ const init = function() {
                     if (target === socket._game.targetSlug) {
                         api.getVictoryInformation(socket._game.id)
                             .then(data => {
-                                console.log("vistory is being emitted!")
                                 io.to(room).emit("victory", {
                                     winner: socket._player.username,
                                     steps: data
