@@ -130,7 +130,7 @@ const init = function() {
                                             io.to(room).emit('beginSprint', {
                                                 article: article
                                             })
-                                        }, 5000)
+                                        }, 9500)
                                     })
                             })
                     }
