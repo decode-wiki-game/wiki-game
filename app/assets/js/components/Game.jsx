@@ -149,7 +149,6 @@ export default class Game extends React.Component {
 		for (var i = 0, len = elements.length; i < len; i++) {
 			elements[i].onclick = (event) => {
 				event.preventDefault();
-				console.log('event target', event.currentTarget)
 				if (event.currentTarget.getAttribute('href')) {
 					//capture href elements
 					var hrefContent = event.currentTarget.getAttribute('href');
@@ -161,7 +160,6 @@ export default class Game extends React.Component {
 						var tt = document.getElementById(t);
 						if (tt) {
 							tt.scrollIntoView();
-							console.log("Scroll");	
 						}
 						
 					}
@@ -170,7 +168,6 @@ export default class Game extends React.Component {
 						console.log('Wiki link');
 						var n = (/\.(gif|jpg|jpeg|tiff|png|svg|pdf)$/i).test(hrefContent);
 						if (!n) {
-							console.log('ok to go');
 							var title = this._findTarget(event.currentTarget.getAttribute('href'));
 							this._handleClick(title);
 						}
