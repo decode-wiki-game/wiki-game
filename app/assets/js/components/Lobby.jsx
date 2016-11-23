@@ -27,14 +27,19 @@ export default class Lobby extends React.Component {
 	render() {
 		return (
 			<div className="game">
-				<h3 className="lb-main__h3">You are playing as: {this.state.player.username}</h3>
-				<h2>Change your name</h2>
-				<input ref='name' onBlur={() => {this._changeName(this.refs.name.value)}}/>
-				<h3 className="lb-main__h3">Send the url and challenge a friend!</h3>
+				<h3 className="lobby__player">Hello! Your player name is <span className="lobby__nameinput"><i>{this.state.player.username}</i></span>
+					<button className="lobby__button--username"><label htmlFor="checkbox-hack" className="cb-hack">change</label></button>
+				</h3>
+				<input type="checkbox" id="checkbox-hack" className="cb-hack"/>
+				<div className="checkbox-hack-content">
+					<p className="lobby__username"><small>Choose a different name:</small></p>
+					<input ref='name' onBlur={() => {this._changeName(this.refs.name.value)}}/>
+				</div>
+				<h3>Send the url and challenge a friend!</h3>
 				<div><small>Click to copy this url and send to a friend</small></div>
 				<Copy slug={this.state.game.slug}/>
 				<p>Number of players in the lobby: {this.state.playerCount}</p>
-				{this.state.player.id === this.state.game.adminId ? <button onClick={this._startGame}>Start</button> : null}
+				{this.state.player.id === this.state.game.adminId ? <button className="lobby__button" onClick={this._startGame}>Start</button> : null}
 			</div>
 		)
 	}

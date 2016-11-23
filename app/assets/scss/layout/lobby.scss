@@ -1,18 +1,19 @@
-.lb-header {
-  display: flex;
-  flex-direction: row-reverse;
-  margin: 0.2em;
-  h1 {
-    margin: 1em auto;
-  }
-  background: $grey;
-  margin: 0;
+.lobby__player {
+    margin-top: 0;
 }
 
-.lb-main {
-  display: flex;
-  flex-direction: column;
+input.cb-hack {
+  display: none;
 }
+
+.checkbox-hack-content {
+  display: none;
+}
+/* If input is checked via label, then show content. */
+input.cb-hack:checked + .checkbox-hack-content {
+  display: block;
+}
+
 
 
 
