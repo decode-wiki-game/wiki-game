@@ -112,10 +112,27 @@ var api = {
 
     },
     getArticle: function(title) {
-        return fetch(`https://en.wikipedia.org/wiki/${title}?action=render`)
-            .then(response => {
-                return response.text()
+        return Promise.all(
+                [
+                this.getPrettyTitle(title),
+                fetch(`https://en.wikipedia.org/wiki/${title}?action=render`).then(response => response.text())
+                ]
+            )
+            .then(article => {
+                return {
+                    title: article[0],
+                    content: article[1]
+                }
             })
+    },
+    getPrettyTitle: function(target) {
+        return fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${target}&format=json`)
+        .then(response => response.json())
+        .then(response => {
+            var articleId = Object.keys(response.query.pages)[0];
+            return response.query.pages[articleId].title;
+        })
+        
     },
     findGameFromSlug: function(slug) {
         return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startSlug', 'game.startTitle', 'game.targetTitle', 'game.targetSlug', 'game.finalStep', 'game.createdAt')
@@ -210,7 +227,6 @@ var api = {
             });
     },
     recordStep: function(step) {
-        console.log("Step", step)
         return knex('step')
             .insert({
                 gameId: step.gameId,
