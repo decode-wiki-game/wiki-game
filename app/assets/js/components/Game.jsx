@@ -97,7 +97,7 @@ export default class Game extends React.Component {
 			});
 			window.scrollTo(0, 0);
 		});
-		
+
 		socket.on('victory', (data) => {
 			var updatedGame = this.state.game;
 			updatedGame.finalStep = data[0]
@@ -145,15 +145,39 @@ export default class Game extends React.Component {
 	}
 
 	_updateLinks() {
-		var elements = document.getElementsByTagName('a');
+		var elements = document.getElementsByTagName('a'); //capture all links
 		for (var i = 0, len = elements.length; i < len; i++) {
 			elements[i].onclick = (event) => {
-				if (event.target.getAttribute('href').indexOf("#") == -1) {
-					event.preventDefault();
-					var title = this._findTarget(event.target.getAttribute('href'));
-					this._handleClick(title);
+				event.preventDefault();
+				console.log('event target', event.currentTarget)
+				if (event.currentTarget.getAttribute('href')) {
+					//capture href elements
+					var hrefContent = event.currentTarget.getAttribute('href');
+
+
+					if (hrefContent.indexOf("#") > -1) {
+						// see if we have a hash then scroll to it
+						var t = hrefContent.substring(hrefContent.indexOf('#') + 1); //preventing anchor links from directing into the "real" wikipedia
+						var tt = document.getElementById(t);
+						if (tt) {
+							tt.scrollIntoView();
+							console.log("Scroll");	
+						}
+						
+					}
+
+					if (hrefContent.indexOf("wikipedia") !== -1) { //preventing images or external links from loading
+						console.log('Wiki link');
+						var n = (/\.(gif|jpg|jpeg|tiff|png|svg|pdf)$/i).test(hrefContent);
+						if (!n) {
+							console.log('ok to go');
+							var title = this._findTarget(event.currentTarget.getAttribute('href'));
+							this._handleClick(title);
+						}
+
+					}
 				}
-			};
+			}
 		}
 	}
 
@@ -176,13 +200,13 @@ export default class Game extends React.Component {
 			targetSlug: this.state.game.targetSlug
 		});
 	}
-	
+
 	_changeName(newName) {
 		socket.emit('changeName', {
 			newName: newName
 		})
 	}
-	
+
 	_rematch() {
 		socket.emit('rematch')
 	}
@@ -194,7 +218,7 @@ export default class Game extends React.Component {
 			}
 			else if (!this.state.sprintStarted) {
 				return (
-						<Pregame parent={this.state}/>
+					<Pregame parent={this.state}/>
 				);
 			}
 			else {
