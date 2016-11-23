@@ -225,7 +225,7 @@ export default class Game extends React.Component {
 			else {
 				return (
 					<div className="game"> 
-						<Sidebar parent={this.state} />
+						{Array.isArray(this.state.groupSteps.steps) ? null : <Sidebar parent={this.state} />}
 						<Gamemeta parent={this.state} />
 						<Article parent={this.state} article={this.state.article} />
 						{Array.isArray(this.state.groupSteps.steps) ? <Endgame rematch={this._rematch} parent={this.state}/> : null}

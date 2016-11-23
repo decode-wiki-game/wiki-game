@@ -13,9 +13,7 @@ export default class Article extends Component {
         return (    
             <div>
                 <h2 className="gm-article__title">{this.props.article.title}</h2>
-            <div className="gm-article__div--wiki" >
-                <article dangerouslySetInnerHTML={{__html: this.props.article.content}} />
-            </div>
+                <article className="article" dangerouslySetInnerHTML={{__html: this.props.article.content}} />
             </div>
         )
     }
