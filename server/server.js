@@ -144,7 +144,6 @@ const init = function() {
             console.log("server::disconnect::room:", room)
             socket.leave(room);
             api.findGameFromSlug(room)
-<<<<<<< HEAD
             .then(game => {
                 if (game) {
                     io.to(room).emit('playerLeftRoom');
@@ -152,15 +151,6 @@ const init = function() {
             })
             
         });    
-=======
-                .then(game => {
-                    if (game) {
-                        io.to(room).emit('playerLeftRoom');
-                    }
-                })
-
-        });
->>>>>>> 37a23a389d9826a778cc05110bbb1f28a454a304
 
         socket.on('link click', function(target) {
             Promise.all([api.recordStep({
