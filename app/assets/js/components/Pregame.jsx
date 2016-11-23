@@ -15,12 +15,13 @@ export default class Pregame extends React.Component {
 	render() {
 		return (
 			<div>
-			<h2>Starting from</h2>
-				{this.state.game.startingURL}
-				<h2>Target</h2>
-				{this.state.game.endURL}
+				<h3 className="centered">Ready?</h3>
+				<h2 className="centered"><span className="pg__title--start">{this.state.game.startTitle}</span></h2>
+				<h3 className="centered">to</h3>
+				<h2 className="pg__arrow centered"><span className="pg__title--target">{this.state.game.targetTitle}</span></h2>
+				<h3 className="centered">...as quickly as possible.</h3>
 				<p dangerouslySetInnerHTML={{__html: this.state.extract}}/>
-				<div>I am a div with an countdown bar animation</div>
+				<div className="pg__progress"/>
       		</div>
 		)
 	}

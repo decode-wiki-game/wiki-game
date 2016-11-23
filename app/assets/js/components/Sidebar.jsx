@@ -9,18 +9,29 @@ export default class Sidebar extends Component {
         super(props);
         this.state = this.props.parent;
     }
-    componentDidUpdate(prevProps){
-        if(prevProps.parent.steps != this.props.parent.steps) {
+    componentDidUpdate(prevProps) {
+        if (prevProps.parent.groupSteps != this.props.parent.groupSteps) {
             this.setState({
-                steps: this.props.parent.steps
+                groupSteps: this.props.parent.groupSteps
             })
         }
+    }
+    
+    _formatPlayerSteps(steps) {
+        var keys = Object.keys(steps)
+        return keys.map((user) => {
+            return (
+                <div key={user}>
+                    <h3 className="sidebar__heading--name">{steps[user].username}</h3>
+                    <h3 className="sidebar__heading">{steps[user].steps} {steps[user].steps === 1 ? 'step' : 'steps'}</h3>
+                </div>)
+        })
     }
 
     render() {
         return (
-            <aside>
-                <h2>Steps: {this.state.steps}</h2>
+            <aside className="sidebar">
+                {this._formatPlayerSteps(this.state.groupSteps)}
             </aside>
         )
     }

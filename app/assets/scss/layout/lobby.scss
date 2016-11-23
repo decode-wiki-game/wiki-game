@@ -1,19 +1,47 @@
-.lb-header {
+.lobby__namechange {
   display: flex;
-  flex-direction: row-reverse;
-  margin: 0.2em;
-  h1 {
-    margin: 1em auto;
-  }
-  background: $grey;
+}
+
+.lobby__player {
   margin: 0;
+  color: $blue;
+  line-height: 2rem;
 }
 
-.lb-main {
-  display: flex;
-  flex-direction: column;
+.lobby__intro {
+      border: 1px solid #ff2a2a;
+    padding: 32px;
+    color: #ff2a2a;
+    text-align: center;
+    border-radius: 1px;
+    margin-bottom: 32px;
 }
 
+.lobby__invite {
+  text-align: center;
+  margin-bottom: 32px;
+}
 
+.lobby__input {
+  width: 100%;
+  margin-left: 8px;
+  color: $blue;
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  height: 1.2rem;
+  padding: 0;
+  border: none;
+  outline-style: none;
+  font-weight: 600;
+  box-sizing: content-box;
+  padding: 3px;
+  border: 2px solid darken($grey, 10);
+  
+  &:focus {
+  border: 2px solid lighten($blue, 15);
+  }
+}
 
-
+.lobby__input::-webkit-input-placeholder {
+  color: $blue;
+}

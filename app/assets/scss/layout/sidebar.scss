@@ -1,0 +1,25 @@
+.sidebar {
+    position: fixed;
+    height: 100%;
+    width: 10%;
+    background: $grey;
+    padding: 16px;
+    left: 0;
+    top: 0;
+}
+
+.sidebar__heading {
+    font-weight: 100;
+    color: darken($grey, 30);
+}
+
+.sidebar__heading--title {
+    font-weight: 100;
+    color: darken($grey, 40);
+}
+
+@media (max-width: 960px) {
+    .sidebar {
+        display: none;
+    }
+}

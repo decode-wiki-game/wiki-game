@@ -14,7 +14,7 @@ export default class Copy extends React.Component{
 		render() {
 			return (
 			  <CopyToClipboard text={window.location.href} >
-			          <button onClick={this._copyToClipboard}>{this.state.slug}</button>
+			        <button className="lobby__button--copy" onClick={this._copyToClipboard}>wikisprint.com/{this.state.slug}</button>
 			  </CopyToClipboard> 
 		  	)
 		 }

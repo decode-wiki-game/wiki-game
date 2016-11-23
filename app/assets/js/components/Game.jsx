@@ -6,6 +6,7 @@ import Lobby from './Lobby'
 import Sidebar from './Sidebar'
 import Pregame from './Pregame'
 import Endgame from './Endgame'
+import Gamemeta from './Gamemeta'
 var socket = io.connect('/', {
 	query: `connectionData=${
 				JSON.stringify({
@@ -27,8 +28,7 @@ export default class Game extends React.Component {
 			player: window.localStorage.player ? JSON.parse(window.localStorage.player) : undefined,
 			playerCount: 1,
 			sprintStarted: null,
-			steps: 0,
-			groupSteps: null
+			groupSteps: {}
 		};
 		this._startGame = this._startGame.bind(this)
 		this._changeName = this._changeName.bind(this)
@@ -75,7 +75,7 @@ export default class Game extends React.Component {
 				extract: data.extract
 			});
 		});
-
+		
 		socket.on('playerLeftRoom', () => {
 			var playerCount = this.state.playerCount - 1;
 			this.setState({
@@ -106,7 +106,34 @@ export default class Game extends React.Component {
 				groupSteps: data
 			})
 		})
+		
+		socket.on('rematch', (data) => {
+			this.setState({
+				article: '',
+				extract: '',
+				game: data.game,
+				sprintStarted: null,
+				groupSteps: {}
+			});
 
+			this.props.router.push(`/${data.game.slug}`);
+		})
+		
+		socket.on('playerStep', (data) => {
+			var groupSteps = this.state.groupSteps;
+			if (!groupSteps[data.id]) {
+				groupSteps[data.id] = {};
+				groupSteps[data.id].username = data.username;
+				groupSteps[data.id].steps = 1;
+			}
+			else {
+				groupSteps[data.id].steps += 1;
+			}
+			this.setState({
+				groupSteps: groupSteps
+			})
+		})
+		
 		socket.on('nameChangeSuccess', (data) => {
 			var player = this.state.player
 			player.username = data.newName
@@ -150,31 +177,6 @@ export default class Game extends React.Component {
 
 					}
 				}
-
-				// if (event.target.getAttribute('href')) { // if it's a link (not a child element within a link)
-				// 	var hrefContent = event.target.getAttribute('href');
-				// 	if (hrefContent.indexOf("wikipedia") !== -1) { // if the link links to a page on wikipedia
-				// 		if (hrefContent.substr(hrefContent.lastIndexOf('/')).indexOf('.') === -1) {// if the link to a wiki page doesn't have a . after the last slash
-				// 			event.preventDefault();
-				// 			var title = this._findTarget(event.target.getAttribute('href'));
-				// 			this._handleClick(title);
-				// 		}
-				// 		event.preventDefault();
-				// 	}
-				// 	event.preventDefault();
-				// 	}
-				// 	else {
-				// 		var parent = event.target.parentElement;
-				// 		var closestLink = parent.closest(parent, 'href');
-				// 		if (closestLink.indexOf('#') === -1) {
-				// 			event.preventDefault();
-				// 			console.log("You tried to click an image")
-				// 		}
-				// 		else {
-				// 			console.log("you clicked on a #")
-				// 		}
-				// 	}
-
 			}
 		}
 	}
@@ -223,8 +225,9 @@ export default class Game extends React.Component {
 				return (
 					<div className="game"> 
 						<Sidebar parent={this.state} />
+						<Gamemeta parent={this.state} />
 						<Article parent={this.state} content={this.state.article} />
-						{this.state.groupSteps ? <Endgame rematch={this._rematch} parent={this.state}/> : null}
+						{Array.isArray(this.state.groupSteps.steps) ? <Endgame rematch={this._rematch} parent={this.state}/> : null}
 					</div>
 				)
 			}
