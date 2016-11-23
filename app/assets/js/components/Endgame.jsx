@@ -43,8 +43,8 @@ export default class Endgame extends React.Component {
 	}
 	_formatScores(player) {
 		return (
-			<div key={player.id}>
-				{player.username}
+			<div className="eg-playerpath" key={player.id}>
+				<i>{player.username}</i> 
 				<p>
 				{player.steps.map((step, index, array) => {
 					if (index == array.length - 1) {
@@ -67,8 +67,9 @@ export default class Endgame extends React.Component {
 		return (
 			<div className="eg">
 				<div className="eg-container">
-					<h2>Game over!</h2>
-					<h3>{this.state.groupSteps.winner} won!</h3>
+					<h2 className="eg-gameover">Game over!</h2>
+					<h3 className="eg-winner">{this.state.groupSteps.winner} won!</h3>
+					<p className="eg-links">Links taken to the target article</p>
 	      			{this._prepareScores(this.state.groupSteps)}
 	      			
 	      			{this.state.player.id === this.state.game.adminId ? <button onClick={this._rematch}>Rematch</button> : null}
