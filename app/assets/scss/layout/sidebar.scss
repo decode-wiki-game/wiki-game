@@ -8,7 +8,12 @@
     top: 0;
 }
 
-@media (max-width: 500px) {
+.sidebar__heading {
+    font-weight: 100;
+    color: darken($grey, 30);
+}
+
+@media (max-width: 960px) {
     .sidebar {
         display: none;
     }

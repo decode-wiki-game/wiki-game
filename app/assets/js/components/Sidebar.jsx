@@ -20,7 +20,7 @@ export default class Sidebar extends Component {
     render() {
         return (
             <aside className="sidebar">
-                <h2>Steps: {this.state.steps}</h2>
+                <h2 className="sidebar__heading">{this.state.steps} {this.state.steps === 1 ? 'step' : 'steps'}</h2>
             </aside>
         )
     }
