@@ -1,43 +1,54 @@
 .lobby__button {
-  border-radius: 5px;
-  font-size: 1em;
-  padding: 0.5em 0.8em;
-  cursor: pointer;
-  color: #fff;
-  background-color: $red;
-  font-size: 1.5rem;
-  font-weight: 100;
-  border: 0.06em solid #fff;
-  box-shadow: 0.125em 0.125em 0.3125em #AFE9FF;
-  width: 100%;
-  margin: 0.7em 0;
-  transition-duration: 0.5s;
-  -webkit-transition-duration: 0.5s;
-  -moz-transition-duration: 0.5s;
+  background: none;
+  border: 1px solid $red;
+  padding: 4px 8px;
+  font-size: 2rem;
+  color: $red;
+  outline-style: none;
+  transition: background 200ms;
+  &:hover {
+    color: #FFF;
+    background-color: lighten($red, 10);
+    cursor: pointer;
+  }
 }
 
-.lobby__button:hover {
-  color: #fff;
-  border: 0.06em solid $blue;
-  box-shadow: 0.125em 0.125em 0.125em #AFE9FF;
+.lobby__button--copy {
+  background: none;
+  border: 1px solid $red;
+  padding: 4px 8px;
+  font-size: 2rem;
+  color: $red;
+  outline-style: none;
+  &:focus::after {
+    background-color: $red;
+    color: #FFF;
+    content: 'copied!';
+    position: fixed;
+    padding: 5px 16px;
+    margin: 5px 0 0 16px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 200;
+    opacity: 0;
+    animation-duration: 750ms;
+    animation-name: fade-out;
+    animation-iteration-count: 1;
+  }
+  &:hover {
+    color: darken($red, 20);
+    cursor: pointer;
+  }
 }
 
-.lobby__button--username {
-  border-radius: 5px;
-  cursor: pointer;
-  color: #fff;
-  background-color: $blue;
-  font-weight: 100;
-  border: 0.06em solid #fff;
-  box-shadow: 0.125em 0.125em 0.3125em #AFE9FF;
-  margin-left: 1em;
-  transition-duration: 0.5s;
-  -webkit-transition-duration: 0.5s;
-  -moz-transition-duration: 0.5s;
-}
-
-.lobby__button--username:hover {
-  color: #fff;
-  border: 0.06em solid $blue;
-  box-shadow: 0.125em 0.125em 0.125em #AFE9FF;
+@keyframes fade-out {
+  0% {
+    opacity: .4;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

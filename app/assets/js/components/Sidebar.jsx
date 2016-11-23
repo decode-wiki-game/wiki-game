@@ -32,7 +32,6 @@ export default class Sidebar extends Component {
         return (
             <aside className="sidebar">
                 {this._formatPlayerSteps(this.state.groupSteps)}
-                {/*<h2 className="sidebar__heading">{this.state.steps} {this.state.steps === 1 ? 'step' : 'steps'}</h2>*/}
             </aside>
         )
     }

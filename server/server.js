@@ -200,6 +200,7 @@ const init = function() {
             api.changeName(socket._player.id, data.newName)
                 .then(confirmation => {
                     if (confirmation) {
+                        socket._player.username = data.newName;
                         socket.emit('nameChangeSuccess', {
                             newName: data.newName
                         })
