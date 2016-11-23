@@ -94,9 +94,9 @@ export default class Game extends React.Component {
 		});
 
 		socket.on('link fetch', (result) => {
+			console.log('link fetch fesult', result)
 			this.setState({
-				article: result.article,
-				steps: this.state.steps + 1
+				article: result.article
 			});
 			window.scrollTo(0, 0);
 		});
@@ -123,6 +123,7 @@ export default class Game extends React.Component {
 		})
 		
 		socket.on('playerStep', (data) => {
+			console.log('game::playerStep::data', data)
 			var groupSteps = this.state.groupSteps;
 			if (!groupSteps[data.id]) {
 				groupSteps[data.id] = {};
@@ -152,7 +153,6 @@ export default class Game extends React.Component {
 		for (var i = 0, len = elements.length; i < len; i++) {
 			elements[i].onclick = (event) => {
 				event.preventDefault();
-				console.log('event target', event.currentTarget)
 				if (event.currentTarget.getAttribute('href')) {
 					//capture href elements
 					var hrefContent = event.currentTarget.getAttribute('href');
@@ -170,10 +170,8 @@ export default class Game extends React.Component {
 					}
 
 					if (hrefContent.indexOf("wikipedia") !== -1) { //preventing images or external links from loading
-						console.log('Wiki link');
 						var n = (/\.(gif|jpg|jpeg|tiff|png|svg|pdf)$/i).test(hrefContent);
 						if (!n) {
-							console.log('ok to go');
 							var title = this._findTarget(event.currentTarget.getAttribute('href'));
 							this._handleClick(title);
 						}
@@ -227,7 +225,7 @@ export default class Game extends React.Component {
 			else {
 				return (
 					<div className="game"> 
-						<Sidebar parent={this.state} />
+						{Array.isArray(this.state.groupSteps.steps) ? null : <Sidebar parent={this.state} />}
 						<Gamemeta parent={this.state} />
 						<Article parent={this.state} article={this.state.article} />
 						{Array.isArray(this.state.groupSteps.steps) ? <Endgame rematch={this._rematch} parent={this.state}/> : null}
