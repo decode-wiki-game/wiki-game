@@ -94,9 +94,9 @@ export default class Game extends React.Component {
 		});
 
 		socket.on('link fetch', (result) => {
+			console.log('link fetch fesult', result)
 			this.setState({
-				article: result.article,
-				steps: this.state.steps + 1
+				article: result.article
 			});
 			window.scrollTo(0, 0);
 		});
@@ -123,6 +123,7 @@ export default class Game extends React.Component {
 		})
 		
 		socket.on('playerStep', (data) => {
+			console.log('game::playerStep::data', data)
 			var groupSteps = this.state.groupSteps;
 			if (!groupSteps[data.id]) {
 				groupSteps[data.id] = {};
@@ -171,7 +172,6 @@ export default class Game extends React.Component {
 					if (hrefContent.indexOf("wikipedia") !== -1) { //preventing images or external links from loading
 						var n = (/\.(gif|jpg|jpeg|tiff|png|svg|pdf)$/i).test(hrefContent);
 						if (!n) {
-							console.log('ok to go');
 							var title = this._findTarget(event.currentTarget.getAttribute('href'));
 							this._handleClick(title);
 						}

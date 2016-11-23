@@ -54,6 +54,7 @@ const init = function() {
                                 room = game.slug;
                                 socket._game = game
                                 socket.join(room)
+                                console.log("server::room:created", room)
                                 socket.emit('createGame', {
                                     game: game
                                 })
@@ -84,6 +85,7 @@ const init = function() {
                         room = game.slug;
                         socket._game = game
                         socket.join(room)
+                        console.log("server::room:created", room)
                         socket.emit('createGame', {
                             game: game
                         })
@@ -142,18 +144,22 @@ const init = function() {
         socket.on('disconnect', function() {
             socket.leave(room);
             api.findGameFromSlug(room)
-            .then(game => {
-                if (game) {
-                    io.to(room).emit('playerLeftRoom');
-                }
-            })
-            
-        });    
+                .then(game => {
+                    if (game) {
+                        io.to(room).emit('playerLeftRoom');
+                    }
+                })
+
+        });
 
         socket.on('link click', function(target) {
             Promise.all(
                     [
-                        api.recordStep({gameId: socket._game.id,playerId: socket._player.id,url: target}),
+                        api.recordStep({
+                            gameId: socket._game.id,
+                            playerId: socket._player.id,
+                            url: target
+                        }),
                         api.getArticle(target)
                     ]
                 )

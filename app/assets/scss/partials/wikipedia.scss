@@ -12,12 +12,12 @@
     width: 100%;
     justify-content: center;
     align-items: center;
-	color: #252525;
-	font-size: 0.875em;
-	font-family: sans-serif;
-	line-height: 1.6em;
-	letter-spacing: 0em;
-	background: #FFFFFF;
+    color: #252525;
+    font-size: 0.875em;
+    font-family: sans-serif;
+    line-height: 1.6em;
+    letter-spacing: 0em;
+    background: #FFFFFF;
 }
 
 .gm-article__div--wiki table {
@@ -36,7 +36,7 @@
 .gm-article__div--wiki h2 {
     font-size: 1.5em;
     margin-top: 1em;
-    font-family: "Linux Libertine",Georgia,Times,serif;
+    font-family: "Linux Libertine", Georgia, Times, serif;
     line-height: 1.3;
     margin-bottom: 0.25em;
     padding: 0;
@@ -58,7 +58,6 @@
     color: #0645ad;
     background: none;
     cursor: auto;
-    
 }
 
 .gm-article__div--wiki td {
@@ -121,8 +120,6 @@
     padding-top: 0;
 }
 
-
-
 .gm-article__div--wiki li {
     list-style-type: none;
     list-style-image: none;
@@ -133,15 +130,13 @@
     line-height: 1.6;
 }
 
-
 .gm-article__div--wiki span.tocnumber {
     padding-left: 0;
     padding-right: 0.5em;
     color: #222;
     display: table-cell;
     text-decoration: inherit;
-} 
-
+}
 
 .gm-article__div--wiki div.thumbinner {
     border: 1px solid #ccc;
@@ -153,8 +148,14 @@
 }
 
 .gm-article__div--wiki div.thumbinner:before,
-.gm-article__div--wiki div.thumbinner:after { content: ""; display: table; }
-.gm-article__div--wiki div.thumbinner:after { clear: both; }
+.gm-article__div--wiki div.thumbinner:after {
+    content: "";
+    display: table;
+}
+
+.gm-article__div--wiki div.thumbinner:after {
+    clear: both;
+}
 
 .gm-article__div--wiki .thumb.tright .thumbinner {
     float: right;
@@ -191,28 +192,35 @@ div.navbox {
     color: #252525;
 }
 
-td.navbox-list, div.navbox, th.navbox-title, div#section_SpokenWikipedia, div#catlinks {
+td.navbox-list,
+div.navbox,
+th.navbox-title,
+div#section_SpokenWikipedia,
+div#catlinks {
     display: none;
 }
 
-
-
 @media only screen and (max-width: 641px) {
-    .gm-article__div--wiki > p {
+    .gm-article__div--wiki>p {
         max-width: 95%;
         margin: 0 auto;
     }
-    
-    tbody, img {
+    tbody,
+    img {
         display: none;
-
     }
-    
-   .gm-article__div--wiki .thumb.tright .thumbinner {
-          display: none;
-   } 
-   
-   .gm-article__div--wiki .thumb.tleft .thumbinner {
-          display: none;
-   }
+    .gm-article__div--wiki .thumb.tright .thumbinner {
+        display: none;
+    }
+    .gm-article__div--wiki .thumb.tleft .thumbinner {
+        display: none;
+    }
+}
+
+.gm-article__title {
+    font-family: "Linux Libertine", Georgia, Times, serif;
+    border-bottom: 1px solid #8b8b8b;
+    padding-bottom: 5px;
+    font-size: 1.8rem;
+    font-weight: 400;
 }
