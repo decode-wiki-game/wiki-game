@@ -116,9 +116,10 @@ export default class Game extends React.Component {
 				game: data.game,
 				sprintStarted: null,
 				groupSteps: {}
-			});
-
-			this.props.router.push(`/${data.game.slug}`);
+			})
+			console.log("rematch recieved!")
+			socket.emit('joinNewGame', {slug:data.game.slug})
+			this.props.router.push(`/${data.game.slug}`)
 		})
 
 		socket.on('playerStep', (data) => {
@@ -126,10 +127,12 @@ export default class Game extends React.Component {
 			if (!groupSteps[data.id]) {
 				groupSteps[data.id] = {};
 				groupSteps[data.id].username = data.username;
+				groupSteps[data.id].currentPage = data.title;
 				groupSteps[data.id].steps = 1;
 			}
 			else {
 				groupSteps[data.id].steps += 1;
+				groupSteps[data.id].currentPage = data.title;
 			}
 			this.setState({
 				groupSteps: groupSteps

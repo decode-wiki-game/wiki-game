@@ -51,7 +51,7 @@ export default class Endgame extends React.Component {
 						return <span className="eg__step" key={step.time}>{step.url}</span>;
 					}
 					else {
-						return <span className="eg__step--not-final" key={step.time}>{step.url}</span>;
+						return <span className="eg__step--not-final" key={step.time}>{step.url.replace('/_/gi', ' ')}</span>;
 					}
 				})}
 				</p>
