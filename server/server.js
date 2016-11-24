@@ -140,10 +140,7 @@ const init = function() {
         });
 
         socket.on('disconnect', function() {
-<<<<<<< HEAD
-            console.log("server::disconnect::room:", room);
-=======
->>>>>>> 92bc5c6d1b5e2d334ef525a9d786ca6de426528e
+
             socket.leave(room);
             api.findGameFromSlug(room)
             .then(game => {
