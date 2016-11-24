@@ -21,9 +21,10 @@ export default class Sidebar extends Component {
         var keys = Object.keys(steps)
         return keys.map((user) => {
             return (
-                <div key={user}>
+                <div className='sidebar__player' key={user}>
                     <h3 className="sidebar__heading--name">{steps[user].username}</h3>
                     <h3 className="sidebar__heading">{steps[user].steps} {steps[user].steps === 1 ? 'step' : 'steps'}</h3>
+                    <h4 className="sidebar__current-page">{steps[user].currentPage}</h4>
                 </div>)
         })
     }

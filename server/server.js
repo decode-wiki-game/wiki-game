@@ -153,6 +153,7 @@ const init = function() {
         });
 
         socket.on('link click', function(target) {
+            console.log("link click!")
             Promise.all(
                     [
                         api.recordStep({
@@ -164,13 +165,10 @@ const init = function() {
                     ]
                 )
                 .then(results => {
+                    console.log('got results')
                     if (target === socket._game.targetSlug) {
                         api.getVictoryInformation(socket._game.id)
                             .then(data => {
-                                console.log("socket._player.usename is victorious", socket._player.username)
-                                console.log("socket._player",socket._player)
-                                console.log("socket._game",socket._game)
-                                console.log("data", data)
                                 io.to(room).emit("victory", {
                                     winner: socket._player.username,
                                     steps: data
@@ -180,7 +178,8 @@ const init = function() {
                     else {
                         io.to(room).emit('playerStep', {
                             id: socket._player.id,
-                            username: socket._player.username
+                            username: socket._player.username,
+                            title: results[1].title
                         })
                         socket.emit('link fetch', {
                             step: results[0].url,
@@ -199,6 +198,12 @@ const init = function() {
                     })
                 })
 
+        })
+        
+        socket.on('joinNewGame', (data) => {
+            socket.leave(room);
+            room = data.slug
+            socket.join(room)
         })
 
         socket.on('changeName', (data) => {

@@ -9,6 +9,10 @@
     oveflow-y: hidden;
 }
 
+.sidebar__player {
+    border-bottom: 1px solid darken($grey, 30);
+}
+
 .sidebar__heading {
     font-weight: 100;
     color: darken($grey, 30);
@@ -17,6 +21,11 @@
 .sidebar__heading--title {
     font-weight: 100;
     color: darken($grey, 40);
+}
+
+.sidebar__current-page {
+    font-weight: 100;
+    color: darken($grey, 30);
 }
 
 @media (max-width: 960px) {
