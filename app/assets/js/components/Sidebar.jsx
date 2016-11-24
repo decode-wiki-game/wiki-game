@@ -10,7 +10,6 @@ export default class Sidebar extends Component {
         this.state = this.props.parent;
     }
     componentDidUpdate(prevProps) {
-        console.log('Sidebar::componentDidUpdate::groupSteps', this.state.groupSteps)
         if (prevProps.parent.groupSteps != this.props.parent.groupSteps) {
             this.setState({
                 groupSteps: this.props.parent.groupSteps

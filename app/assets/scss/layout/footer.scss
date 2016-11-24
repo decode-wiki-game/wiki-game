@@ -1,5 +1,18 @@
-.eg-footer {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.footer {
+	height: 100px;
+    display: flex;
+    align-items: center;
+    border-top: $blue 1px solid;
+    color: #FFF;
+    justify-content: flex-end;
+    padding: 16px;
+}
+
+.footer__fork {
+	height: 24px;
+	width: 24px;
+	fill: $blue;
+		&:hover {
+			opacity: .7;
+		}
 }
