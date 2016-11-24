@@ -1,3 +1,8 @@
+.lobby {
+  margin: 0 15% 32px 15%;
+  min-height: calc(100vh - 287px);
+}
+
 .lobby__namechange {
   display: flex;
 }
@@ -9,12 +14,12 @@
 }
 
 .lobby__intro {
-      border: 1px solid #ff2a2a;
-    padding: 32px;
-    color: #ff2a2a;
-    text-align: center;
-    border-radius: 1px;
-    margin-bottom: 32px;
+  border: 1px solid #ff2a2a;
+  padding: 32px;
+  color: #ff2a2a;
+  text-align: center;
+  border-radius: 1px;
+  margin-bottom: 32px;
 }
 
 .lobby__invite {
@@ -36,9 +41,8 @@
   box-sizing: content-box;
   padding: 3px;
   border: 2px solid darken($grey, 10);
-  
   &:focus {
-  border: 2px solid lighten($blue, 15);
+    border: 2px solid lighten($blue, 15);
   }
 }
 

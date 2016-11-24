@@ -54,6 +54,7 @@ const init = function() {
                                 room = game.slug;
                                 socket._game = game
                                 socket.join(room)
+                                console.log("server::room:created", room)
                                 socket.emit('createGame', {
                                     game: game
                                 })
@@ -84,6 +85,7 @@ const init = function() {
                         room = game.slug;
                         socket._game = game
                         socket.join(room)
+                        console.log("server::room:created", room)
                         socket.emit('createGame', {
                             game: game
                         })
@@ -129,7 +131,7 @@ const init = function() {
                                             io.to(room).emit('beginSprint', {
                                                 article: article
                                             })
-                                        }, 9500)
+                                        }, 14500)
                                     })
                             })
                     }
@@ -143,6 +145,7 @@ const init = function() {
 
             socket.leave(room);
             api.findGameFromSlug(room)
+<<<<<<< HEAD
             .then(game => {
                 if (game) {
                     io.to(room).emit('playerLeftRoom');
@@ -150,15 +153,30 @@ const init = function() {
             });
             
         });    
+=======
+                .then(game => {
+                    if (game) {
+                        io.to(room).emit('playerLeftRoom');
+                    }
+                })
+
+        });
+>>>>>>> 596126758cfc03dc69d58df83c2d4ee79901f710
 
         socket.on('link click', function(target) {
+            console.log("link click!")
             Promise.all(
                     [
-                        api.recordStep({gameId: socket._game.id,playerId: socket._player.id,url: target}),
+                        api.recordStep({
+                            gameId: socket._game.id,
+                            playerId: socket._player.id,
+                            url: target
+                        }),
                         api.getArticle(target)
                     ]
                 )
                 .then(results => {
+                    console.log('got results')
                     if (target === socket._game.targetSlug) {
                         api.getVictoryInformation(socket._game.id)
                             .then(data => {
@@ -169,6 +187,11 @@ const init = function() {
                             })
                     }
                     else {
+                        io.to(room).emit('playerStep', {
+                            id: socket._player.id,
+                            username: socket._player.username,
+                            title: results[1].title
+                        })
                         socket.emit('link fetch', {
                             step: results[0].url,
                             article: results[1]
@@ -180,12 +203,18 @@ const init = function() {
         socket.on('rematch', () => {
             api.createGame(socket._player.id)
                 .then(game => {
-                    var newGame = game;
+                    socket._game = game
+                    io.to(room).emit('rematch', {
+                        game: game
+                    })
                 })
 
-            io.to(room).emit('rematch', {
-
-            })
+        })
+        
+        socket.on('joinNewGame', (data) => {
+            socket.leave(room);
+            room = data.slug
+            socket.join(room)
         })
 
         socket.on('changeName', (data) => {
@@ -193,6 +222,7 @@ const init = function() {
             api.changeName(socket._player.id, data.newName)
                 .then(confirmation => {
                     if (confirmation) {
+                        socket._player.username = data.newName
                         socket.emit('nameChangeSuccess', {
                             newName: data.newName
                         })

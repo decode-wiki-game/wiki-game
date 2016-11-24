@@ -26,25 +26,54 @@
     color: $red;
 }
 
+.eg__rematch {
+    background: none;
+    border: 1px solid $red;
+    color: $red;
+    padding: 2px 4px;
+    font-size: 1.8rem;
+    transition: 200ms;
+    &:hover {
+        background-color: lighten($red, 10);
+        color: #FFF;
+    }
+}
+
+.eg__step {
+    position: relative;
+    display: inline-block;
+    margin-left: 24px;
+}
+
+.eg__paths {
+    width: 100%;
+}
+
+.eg__username {
+    color: $blue;
+    font-weight: 600;
+}
+
+.eg__step--not-final {
+    position: relative;
+    display: inline-block;
+    margin-left: 24px;
+    margin-bottom: 8px;
+}
+
+.eg__step--not-final::after {
+    content: url(/files/images/arrow.svg);
+    height: 16px;
+    width: 16px;
+    position: fixed;
+    margin: 0 4px;
+}
+
 @keyframes seesaw {
-  0% {
-    transform: rotate(10deg);    
-  }
-  100% {
-    transform: rotate(-10deg);
-  }
+    0% {
+        transform: rotate(10deg);
+    }
+    100% {
+        transform: rotate(-10deg);
+    }
 }
-
-.eg-links {
-    align-self: flex-start;
-}
-
-.eg-winner {
-    font-size: 2em;
-}
-
-.eg-playerpath {
-    line-height: 0.5em;
-    align-self: flex-start;
-}
-

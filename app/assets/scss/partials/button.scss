@@ -20,6 +20,7 @@
   font-size: 2rem;
   color: $red;
   outline-style: none;
+    transition: 200ms;
   &:focus::after {
     background-color: $red;
     color: #FFF;
@@ -36,7 +37,8 @@
     animation-iteration-count: 1;
   }
   &:hover {
-    color: darken($red, 20);
+    color: darken($red, 15);
+    border-color: darken($red, 15);
     cursor: pointer;
   }
 }

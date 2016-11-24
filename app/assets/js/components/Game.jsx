@@ -78,7 +78,7 @@ export default class Game extends React.Component {
 				extract: data.extract
 			});
 		});
-		
+
 		socket.on('playerLeftRoom', () => {
 			var playerCount = this.state.playerCount - 1;
 			this.setState({
@@ -95,8 +95,7 @@ export default class Game extends React.Component {
 
 		socket.on('link fetch', (result) => {
 			this.setState({
-				article: result.article,
-				steps: this.state.steps + 1
+				article: result.article
 			});
 			window.scrollTo(0, 0);
 		});
@@ -109,7 +108,7 @@ export default class Game extends React.Component {
 				groupSteps: data
 			})
 		})
-		
+
 		socket.on('rematch', (data) => {
 			this.setState({
 				article: '',
@@ -117,26 +116,29 @@ export default class Game extends React.Component {
 				game: data.game,
 				sprintStarted: null,
 				groupSteps: {}
-			});
-
-			this.props.router.push(`/${data.game.slug}`);
+			})
+			console.log("rematch recieved!")
+			socket.emit('joinNewGame', {slug:data.game.slug})
+			this.props.router.push(`/${data.game.slug}`)
 		})
-		
+
 		socket.on('playerStep', (data) => {
 			var groupSteps = this.state.groupSteps;
 			if (!groupSteps[data.id]) {
 				groupSteps[data.id] = {};
 				groupSteps[data.id].username = data.username;
+				groupSteps[data.id].currentPage = data.title;
 				groupSteps[data.id].steps = 1;
 			}
 			else {
 				groupSteps[data.id].steps += 1;
+				groupSteps[data.id].currentPage = data.title;
 			}
 			this.setState({
 				groupSteps: groupSteps
 			})
 		})
-		
+
 		socket.on('nameChangeSuccess', (data) => {
 			var player = this.state.player
 			player.username = data.newName
@@ -148,6 +150,7 @@ export default class Game extends React.Component {
 	}
 
 	_updateLinks() {
+<<<<<<< HEAD
 		var elements = document.getElementsByTagName('a'); //capture all links
 		for (var i = 0, len = elements.length; i < len; i++) {
 			elements[i].onclick = (event) => {
@@ -173,8 +176,37 @@ export default class Game extends React.Component {
 						if (!n) {
 							var title = this._findTarget(event.currentTarget.getAttribute('href'));
 							this._handleClick(title);
+=======
+		var article = document.getElementsByClassName("article")
+		if (article.length != 0) {
+			var elements = article[0].getElementsByTagName('a'); //capture all links
+			for (var i = 0, len = elements.length; i < len; i++) {
+				elements[i].onclick = (event) => {
+					event.preventDefault();
+					if (event.currentTarget.getAttribute('href')) {
+						//capture href elements
+						var hrefContent = event.currentTarget.getAttribute('href');
+
+
+						if (hrefContent.indexOf("#") > -1) {
+							// see if we have a hash then scroll to it
+							var t = hrefContent.substring(hrefContent.indexOf('#') + 1); //preventing anchor links from directing into the "real" wikipedia
+							var tt = document.getElementById(t);
+							if (tt) {
+								tt.scrollIntoView();
+							}
+
+>>>>>>> 596126758cfc03dc69d58df83c2d4ee79901f710
 						}
 
+						if (hrefContent.indexOf("wikipedia") !== -1) { //preventing images or external links from loading
+							var n = (/\.(gif|jpg|jpeg|tiff|png|svg|pdf)$/i).test(hrefContent);
+							if (!n) {
+								var title = this._findTarget(event.currentTarget.getAttribute('href'));
+								this._handleClick(title);
+							}
+
+						}
 					}
 				}
 			}
@@ -224,7 +256,7 @@ export default class Game extends React.Component {
 			else {
 				return (
 					<div className="game"> 
-						<Sidebar parent={this.state} />
+						{Array.isArray(this.state.groupSteps.steps) ? null : <Sidebar parent={this.state} />}
 						<Gamemeta parent={this.state} />
 						<Article parent={this.state} article={this.state.article} />
 						{Array.isArray(this.state.groupSteps.steps) ? <Endgame rematch={this._rematch} parent={this.state}/> : null}

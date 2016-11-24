@@ -43,23 +43,32 @@ export default class Endgame extends React.Component {
 	}
 	_formatScores(player) {
 		return (
-			<div className="eg-playerpath" key={player.id}>
-				<i>{player.username}</i> 
+			<div key={player.id}>
+				<p className="eg__username">{player.username}</p> 
 				<p>
 				{player.steps.map((step, index, array) => {
 					if (index == array.length - 1) {
-						return <span key={step.time}>{step.url}</span>;
+						return <span className="eg__step" key={step.time}>{step.url}</span>;
 					}
 					else {
-						return <span key={step.time}>{step.url} > </span>;
+						return <span className="eg__step--not-final" key={step.time}>{step.url.replace('/_/gi', ' ')}</span>;
 					}
 				})}
 				</p>
 			</div>
 		)
 	}
-	
-	_rematch(){
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.parent.groupSteps != this.props.parent.groupSteps) {
+			this.setState({
+				groupSteps: this.props.parent.groupSteps
+			})
+		}
+	}
+
+
+	_rematch() {
 		this.props.rematch()
 	}
 
@@ -67,12 +76,13 @@ export default class Endgame extends React.Component {
 		return (
 			<div className="eg">
 				<div className="eg-container">
-					<h2 className="eg-gameover">Game over!</h2>
-					<h3 className="eg-winner">{this.state.groupSteps.winner} won!</h3>
-					<p className="eg-links">Links taken to the target article</p>
+					<h1 className="eg-gameover">Game over!</h1>
+					<h2 className="eg-winner">{this.state.groupSteps.winner} won!</h2>
+					<div className="eg__paths">
 	      			{this._prepareScores(this.state.groupSteps)}
+	      			</div>
 	      			
-	      			{this.state.player.id === this.state.game.adminId ? <button onClick={this._rematch}>Rematch</button> : null}
+	      			{this.state.player.id === this.state.game.adminId ? <button className="eg__rematch" onClick={this._rematch}>Rematch</button> : null}
 	      		</div>
 	      		<footer className="eg-footer">rematch</footer>
     		</div>

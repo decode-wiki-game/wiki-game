@@ -1,30 +1,16 @@
-.gm-article__div--wiki body {
-    display: flex;
-    margin: 0 auto;
-    max-width: 1000px;
-    justify-content: center;
-    align-items: center;
-    padding: 0.3em;
-}
-
-.gm-article__div--wiki {
-    display: flex;
+.article {
     width: 100%;
-    justify-content: center;
-    align-items: center;
-	color: #252525;
-	font-size: 0.875em;
-	font-family: sans-serif;
-	line-height: 1.6em;
-	letter-spacing: 0em;
-	background: #FFFFFF;
+    color: #252525;
+    font-size: 0.875em;
+    font-family: sans-serif;
+    line-height: 1.6em;
 }
 
-.gm-article__div--wiki table {
+.article table {
     float: right;
 }
 
-.gm-article__div--wiki ul {
+.article ul {
     list-style-type: none;
     list-style-image: none;
     margin-left: 0;
@@ -33,10 +19,10 @@
     color: #252525;
 }
 
-.gm-article__div--wiki h2 {
+.article h2 {
     font-size: 1.5em;
     margin-top: 1em;
-    font-family: "Linux Libertine",Georgia,Times,serif;
+    font-family: "Linux Libertine", Georgia, Times, serif;
     line-height: 1.3;
     margin-bottom: 0.25em;
     padding: 0;
@@ -53,15 +39,23 @@
     -webkit-margin-end: 0px;
 }
 
-.gm-article__div--wiki a {
+.article a {
     text-decoration: none;
     color: #0645ad;
     background: none;
-    cursor: auto;
     
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
-.gm-article__div--wiki td {
+.article .thumb.tright {
+    float: right;
+    clear: both;
+    margin: 16px 0;
+}
+
+.article td {
     text-align: center;
     padding: 0.5em 0;
     border-top: 1px solid #aaa;
@@ -72,7 +66,7 @@
     line-height: 1.2em;
 }
 
-.gm-article__div--wiki table {
+.article table {
     display: table;
     border-collapse: collapse;
     line-height: 1.2em;
@@ -86,7 +80,7 @@
     clear: right;
 }
 
-.gm-article__div--wiki th {
+.article th {
     border-top: 1px solid #aaa;
     padding: 0.4em 0.6em 0.4em 0.6em;
     vertical-align: top;
@@ -98,7 +92,7 @@
     color: black;
 }
 
-.gm-article__div--wiki .toc {
+.article .toc {
     border: 1px solid #aaa;
     background-color: #f9f9f9;
     font-size: 95%;
@@ -106,7 +100,7 @@
     padding: 7px;
 }
 
-.gm-article__div--wiki div#toctitle {
+.article div#toctitle {
     text-align: center;
     font-weight: bolder;
     margin-top: 1em;
@@ -117,13 +111,11 @@
     letter-spacing: 0em;
 }
 
-.gm-article__div--wiki div#toc {
+.article div#toc {
     padding-top: 0;
 }
 
-
-
-.gm-article__div--wiki li {
+.article li {
     list-style-type: none;
     list-style-image: none;
     margin-bottom: .1em;
@@ -133,17 +125,15 @@
     line-height: 1.6;
 }
 
-
-.gm-article__div--wiki span.tocnumber {
+.article span.tocnumber {
     padding-left: 0;
     padding-right: 0.5em;
     color: #222;
     display: table-cell;
     text-decoration: inherit;
-} 
+}
 
-
-.gm-article__div--wiki div.thumbinner {
+.article div.thumbinner {
     border: 1px solid #ccc;
     padding: 3px;
     background-color: #f9f9f9;
@@ -152,29 +142,35 @@
     overflow: hidden;
 }
 
-.gm-article__div--wiki div.thumbinner:before,
-.gm-article__div--wiki div.thumbinner:after { content: ""; display: table; }
-.gm-article__div--wiki div.thumbinner:after { clear: both; }
+.article div.thumbinner:before,
+.article div.thumbinner:after {
+    content: "";
+    display: table;
+}
 
-.gm-article__div--wiki .thumb.tright .thumbinner {
+.article div.thumbinner:after {
+    clear: both;
+}
+
+.article .thumb.tright .thumbinner {
     float: right;
     margin-left: 32px;
 }
 
-.gm-article__div--wiki .thumb.tleft .thumbinner {
+.article .thumb.tleft .thumbinner {
     float: left;
     margin-right: 32px;
 }
 
-.gm-article__div--wiki img {
+.article img {
     cursor: default;
 }
 
-.gm-article__div--wiki img.thumbimage {
+.article img.thumbimage {
     padding: 0.3em;
 }
 
-.gm-article__div--wiki a.extiw {
+.article a.extiw {
     cursor: default;
 }
 
@@ -191,28 +187,35 @@ div.navbox {
     color: #252525;
 }
 
-td.navbox-list, div.navbox, th.navbox-title, div#section_SpokenWikipedia, div#catlinks {
+td.navbox-list,
+div.navbox,
+th.navbox-title,
+div#section_SpokenWikipedia,
+div#catlinks {
     display: none;
 }
 
-
-
 @media only screen and (max-width: 641px) {
-    .gm-article__div--wiki > p {
+    .article>p {
         max-width: 95%;
         margin: 0 auto;
     }
-    
-    tbody, img {
+    tbody,
+    article img {
         display: none;
-
     }
-    
-   .gm-article__div--wiki .thumb.tright .thumbinner {
-          display: none;
-   } 
-   
-   .gm-article__div--wiki .thumb.tleft .thumbinner {
-          display: none;
-   }
+    .article .thumb.tright .thumbinner {
+        display: none;
+    }
+    .article .thumb.tleft .thumbinner {
+        display: none;
+    }
+}
+
+.gm-article__title {
+    font-family: "Linux Libertine", Georgia, Times, serif;
+    border-bottom: 1px solid #8b8b8b;
+    padding-bottom: 5px;
+    font-size: 1.8rem;
+    font-weight: 400;
 }
