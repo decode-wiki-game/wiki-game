@@ -131,7 +131,7 @@ const init = function() {
                                             io.to(room).emit('beginSprint', {
                                                 article: article
                                             })
-                                        }, 9500)
+                                        }, 14500)
                                     })
                             })
                     }
@@ -189,9 +189,9 @@ const init = function() {
         socket.on('rematch', () => {
             api.createGame(socket._player.id)
                 .then(game => {
-                    var newGame = game;
+                    socket._game = game
                     io.to(room).emit('rematch', {
-                        game: newGame
+                        game: game
                     })
                 })
 
