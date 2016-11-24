@@ -58,8 +58,17 @@ export default class Endgame extends React.Component {
 			</div>
 		)
 	}
-	
-	_rematch(){
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.parent.groupSteps != this.props.parent.groupSteps) {
+			this.setState({
+				groupSteps: this.props.parent.groupSteps
+			})
+		}
+	}
+
+
+	_rematch() {
 		this.props.rematch()
 	}
 
