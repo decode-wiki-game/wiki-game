@@ -167,6 +167,10 @@ const init = function() {
                     if (target === socket._game.targetSlug) {
                         api.getVictoryInformation(socket._game.id)
                             .then(data => {
+                                console.log("socket._player.usename is victorious", socket._player.username)
+                                console.log("socket._player",socket._player)
+                                console.log("socket._game",socket._game)
+                                console.log("data", data)
                                 io.to(room).emit("victory", {
                                     winner: socket._player.username,
                                     steps: data

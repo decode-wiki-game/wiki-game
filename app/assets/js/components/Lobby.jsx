@@ -30,8 +30,8 @@ export default class Lobby extends React.Component {
 			<div className="lobby">
 			<div className="lobby__intro">
 				<h1>Welcome to Wikisprint!</h1> 
-				<h2>The fun, fast game of encyclopedic knowledge!</h2> 
-                <p>Race your friends between two random Wikipedia articles by clicking on the links.</p>
+				<h2>The fun, fast race through the sum of all human knowledge!</h2> 
+                <p>Race your friends between two random Wikipedia articles by clicking on cross-references.</p>
                 <p>The first player to reach the target article wins!</p>
 			</div>
 			<div className="lobby__main">
