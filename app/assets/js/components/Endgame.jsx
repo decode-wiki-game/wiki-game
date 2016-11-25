@@ -73,6 +73,7 @@ export default class Endgame extends React.Component {
 	}
 
 	render() {
+		console.log('groupSteps endgame', this.state.groupSteps)
 		return (
 			<div className="eg">
 				<div className="eg-container">
