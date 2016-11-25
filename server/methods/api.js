@@ -8,7 +8,7 @@ var knex = require('knex')({
         host: 'us-cdbr-iron-east-04.cleardb.net' || 'localhost',
         user: process.env.CLEARDB_DATABASE_USERNAME || '',
         password: process.env.CLEARDB_DATABASE_PASSWORD || '',
-        database: process.env.CLEARDB_DATABASE_URL || 'wikisprint'
+        database: process.env.CLEARDB_DATABASE_NAME || 'wikisprint'
     }
 });
 
