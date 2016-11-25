@@ -8,7 +8,7 @@ var knex = require('knex')({
         host: 'localhost',
         user: 'ikesaunders',
         password: '',
-        database: 'wikisprint'
+        database: process.env.CLEARDB_DATABASE_URL || 'wikisprint'
     }
 });
 

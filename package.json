@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
     "dev": "webpack --config webpack.config.js --watch",
     "build": "webpack --config webpack.config.js",
     "build-css": "node-sass --include-path scss app/assets/scss/app.scss public/css/app-bundle.css",
