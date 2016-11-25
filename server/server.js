@@ -35,6 +35,8 @@ const init = function() {
         var room = handshakeData.room;
         var player = handshakeData.player ? JSON.parse(handshakeData.player) : undefined;
 
+        console.log("HOST", process.env.HOST)
+        console.log("HOSTNAME", process.env.HOSTNAME)
         console.log("server::room:", room ? room : "null")
         console.log("server::player.username:", player ? player.username : "null")
 
