@@ -153,7 +153,6 @@ const init = function() {
         });
 
         socket.on('link click', function(target) {
-            console.log("link click!")
             Promise.all(
                     [
                         api.recordStep({
@@ -165,7 +164,6 @@ const init = function() {
                     ]
                 )
                 .then(results => {
-                    console.log('got results')
                     if (target === socket._game.targetSlug) {
                         api.getVictoryInformation(socket._game.id)
                             .then(data => {
@@ -199,11 +197,26 @@ const init = function() {
                 })
 
         })
-        
+
         socket.on('joinNewGame', (data) => {
             socket.leave(room);
             room = data.slug
-            socket.join(room)
+            socket.join(room);
+            api.findGameFromSlug(room)
+                .then(game => {
+                    if (game) {
+                        socket._game = game
+                        socket.emit('joinRoom', {
+                            game: game
+                        })
+                        io.to(room).emit('playerJoinedRoom', {
+                            playerCount: io.sockets.adapter.rooms[room].length
+                        });
+                    }
+                    else {
+                        socket.emit('noGameExists')
+                    }
+                })
         })
 
         socket.on('changeName', (data) => {
