@@ -16,9 +16,9 @@ const api = require('./methods/api');
 const fetch = require('node-fetch')
 
 const init = function() {
-
-    http.listen(8080, function() {
-        console.log(`http://${process.env.C9_HOSTNAME}`);
+    const PORT = process.env.PORT || 8080;
+    http.listen(PORT, function() {
+        // console.log(`http://${process.env.C9_HOSTNAME}`);
     });
 
 
