@@ -6,8 +6,8 @@ var knex = require('knex')({
     client: 'mysql',
     connection: {
         host: 'localhost',
-        user: 'ikesaunders',
-        password: '',
+        user: process.env.CLEARDB_DATABASE_USERNAME || '',
+        password: process.env.CLEARDB_DATABASE_PASSWORD || '',
         database: process.env.CLEARDB_DATABASE_URL || 'wikisprint'
     }
 });
