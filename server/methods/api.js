@@ -86,6 +86,7 @@ var api = {
         var gameSlug = this.createSlug();
         return Promise.all([this.randomPageInfo(), this.selectArticle()])
             .then(arrayOfResolutions => {
+                console.log('arrayOfResolutions', arrayOfResolutions)
                 var url = arrayOfResolutions[0].fullurl;
                 var startSlug = url.substr(url.lastIndexOf('/') + 1);
                 return knex('game').insert({
