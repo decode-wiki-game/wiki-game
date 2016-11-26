@@ -5,7 +5,7 @@ var fetch = require('node-fetch');
 var knex = require('knex')({
     client: 'mysql',
     connection: {
-        host: 'localhost',
+        host: process.env.CLEARDB_DATABASE_HOST || 'localhost',
         user: process.env.CLEARDB_DATABASE_USERNAME || 'ikesaunders',
         password: process.env.CLEARDB_DATABASE_PASSWORD || '',
         database: process.env.CLEARDB_DATABASE_NAME || 'wikisprint'
