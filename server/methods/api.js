@@ -35,12 +35,14 @@ var api = {
     },
     selectArticle: function() {
         var randomArticle = this.randomizeNumber();
+        console.log('randomArticle', randomArticle)
         return knex.select()
             .from('target')
             .where('target.id', randomArticle)
             .then(destination => {
                 return destination[0];
-            });
+            })
+            .catch(err => console.log('error in selectArticle', err));
     },
     createPlayer: function() {
         var token = this.createSessionToken();
