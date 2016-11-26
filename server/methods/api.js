@@ -5,8 +5,8 @@ var fetch = require('node-fetch');
 var knex = require('knex')({
     client: 'mysql',
     connection: {
-        host: 'us-cdbr-iron-east-04.cleardb.net' || 'localhost',
-        user: process.env.CLEARDB_DATABASE_USERNAME || '',
+        host: 'localhost',
+        user: process.env.CLEARDB_DATABASE_USERNAME || 'ikesaunders',
         password: process.env.CLEARDB_DATABASE_PASSWORD || '',
         database: process.env.CLEARDB_DATABASE_NAME || 'wikisprint'
     }
@@ -107,6 +107,9 @@ var api = {
                     })
                     .then(gameArray => {
                         return gameArray[0];
+                    })
+                    .catch(err => {
+                        console.log('error in createGame', err)
                     });
             });
 
