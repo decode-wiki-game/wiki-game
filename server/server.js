@@ -136,14 +136,24 @@ const init = function() {
                             })
                     }
                     else {
-                        socket.emit('startGameFailure')
+                        socket.emit('startGameFailure');
                     }
-                })
-        })
+                });
+        });
 
         socket.on('disconnect', function() {
+
             socket.leave(room);
             api.findGameFromSlug(room)
+<<<<<<< HEAD
+            .then(game => {
+                if (game) {
+                    io.to(room).emit('playerLeftRoom');
+                }
+            });
+            
+        });    
+=======
                 .then(game => {
                     if (game) {
                         io.to(room).emit('playerLeftRoom');
@@ -151,6 +161,7 @@ const init = function() {
                 })
 
         });
+>>>>>>> 596126758cfc03dc69d58df83c2d4ee79901f710
 
         socket.on('link click', function(target) {
             Promise.all(
