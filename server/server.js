@@ -138,21 +138,21 @@ const init = function() {
                             })
                     }
                     else {
-                        socket.emit('startGameFailure')
+                        socket.emit('startGameFailure');
                     }
-                })
-        })
+                });
+        });
 
         socket.on('disconnect', function() {
+
             socket.leave(room);
             api.findGameFromSlug(room)
-                .then(game => {
-                    if (game) {
-                        io.to(room).emit('playerLeftRoom');
-                    }
-                })
-
-        });
+            .then(game => {
+                if (game) {
+                    io.to(room).emit('playerLeftRoom');
+                }
+            });
+        });    
 
         socket.on('link click', function(target) {
             Promise.all(

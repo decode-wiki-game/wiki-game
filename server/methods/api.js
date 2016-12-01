@@ -24,7 +24,7 @@ var api = {
         return name;
     },
     randomizeNumber: function() {
-        var num = Math.floor((Math.random() * 70) + 1);
+        var num = Math.floor((Math.random() * 120) + 1);
         return num;
     },
     createSlug: function() {
@@ -120,8 +120,8 @@ var api = {
     getArticle: function(title) {
         return Promise.all(
                 [
-                this.getPrettyTitle(title),
-                fetch(`https://en.wikipedia.org/wiki/${title}?action=render`).then(response => response.text())
+                    this.getPrettyTitle(title),
+                    fetch(`https://en.wikipedia.org/wiki/${title}?action=render`).then(response => response.text())
                 ]
             )
             .then(article => {
@@ -133,12 +133,12 @@ var api = {
     },
     getPrettyTitle: function(target) {
         return fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${target}&format=json`)
-        .then(response => response.json())
-        .then(response => {
-            var articleId = Object.keys(response.query.pages)[0];
-            return response.query.pages[articleId].title;
-        })
-        
+            .then(response => response.json())
+            .then(response => {
+                var articleId = Object.keys(response.query.pages)[0];
+                return response.query.pages[articleId].title;
+            })
+
     },
     findGameFromSlug: function(slug) {
         return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startSlug', 'game.startTitle', 'game.targetTitle', 'game.targetSlug', 'game.finalStep', 'game.createdAt')
