@@ -232,6 +232,7 @@ var api = {
                 gameId: step.gameId,
                 playerId: step.playerId,
                 url: step.url,
+                title: step.title,
                 time: knex.fn.now()
             })
             .then(stepId => {
@@ -243,7 +244,7 @@ var api = {
 
     },
     getVictoryInformation: function(gameId) {
-        return knex.select('step.playerId', 'step.url', 'step.time', 'player.username')
+        return knex.select('step.playerId', 'step.title', 'step.time', 'player.username')
             .from('step')
             .join('player', 'step.playerId', 'player.id')
             .where('step.gameId', gameId)

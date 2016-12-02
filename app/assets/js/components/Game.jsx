@@ -117,7 +117,6 @@ export default class Game extends React.Component {
 				sprintStarted: null,
 				groupSteps: {}
 			})
-			console.log("rematch recieved!")
 			socket.emit('joinNewGame', {slug:data.game.slug})
 			this.props.router.push(`/${data.game.slug}`)
 		})

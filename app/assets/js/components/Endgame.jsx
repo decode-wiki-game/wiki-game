@@ -9,7 +9,6 @@ export default class Endgame extends React.Component {
 	}
 
 	_prepareScores(scoreData) {
-		console.log("scoreData", scoreData)
 		var steps = scoreData.steps
 
 		var flags = [],
@@ -48,10 +47,10 @@ export default class Endgame extends React.Component {
 				<p>
 				{player.steps.map((step, index, array) => {
 					if (index == array.length - 1) {
-						return <span className="eg__step" key={step.time}>{step.url}</span>;
+						return <span className="eg__step" key={step.time}>{step.title}</span>;
 					}
 					else {
-						return <span className="eg__step--not-final" key={step.time}>{step.url.replace('/_/gi', ' ')}</span>;
+						return <span className="eg__step--not-final" key={step.time}>{step.title}</span>;
 					}
 				})}
 				</p>
@@ -73,7 +72,6 @@ export default class Endgame extends React.Component {
 	}
 
 	render() {
-		console.log('groupSteps endgame', this.state.groupSteps)
 		return (
 			<div className="eg">
 				<div className="eg-container">

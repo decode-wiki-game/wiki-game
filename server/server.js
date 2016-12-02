@@ -151,18 +151,8 @@ const init = function() {
         });    
 
         socket.on('link click', function(target) {
-            Promise.all(
-                    [
-                        api.recordStep({
-                            gameId: socket._game.id,
-                            playerId: socket._player.id,
-                            url: target
-                        }),
-                        api.getArticle(target)
-                    ]
-                )
-                .then(results => {
-                    if (target === socket._game.targetSlug) {
+            
+            if (target === socket._game.targetSlug) {
                         api.getVictoryInformation(socket._game.id)
                             .then(data => {
                                 io.to(room).emit("victory", {
@@ -171,19 +161,29 @@ const init = function() {
                                 })
                             })
                     }
-                    else {
-                        io.to(room).emit('playerStep', {
-                            id: socket._player.id,
-                            username: socket._player.username,
-                            title: results[1].title
+            else {
+                api.getArticle(target)
+                    .then(article => {
+                        api.recordStep({
+                            gameId: socket._game.id,
+                            playerId: socket._player.id,
+                            url: target,
+                            title: article.title
                         })
-                        socket.emit('link fetch', {
-                            step: results[0].url,
-                            article: results[1]
+                        .then(() => {
+                            io.to(room).emit('playerStep', {
+                                id: socket._player.id,
+                                username: socket._player.username,
+                                title: article.title
+                            })
+                            socket.emit('link fetch', {
+                                step: article.url,
+                                article: article
+                            })
                         })
-                    }
+                        
                 });
-        })
+        }})
 
         socket.on('rematch', () => {
             api.createGame(socket._player.id)
