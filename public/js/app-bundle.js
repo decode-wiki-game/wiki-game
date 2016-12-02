@@ -27440,7 +27440,6 @@
 		_createClass(Endgame, [{
 			key: "_prepareScores",
 			value: function _prepareScores(scoreData) {
-				console.log("scoreData", scoreData);
 				var steps = scoreData.steps;
 	
 				var flags = [],
@@ -27490,13 +27489,13 @@
 								return _react2.default.createElement(
 									"span",
 									{ className: "eg__step", key: step.time },
-									step.url
+									step.title
 								);
 							} else {
 								return _react2.default.createElement(
 									"span",
 									{ className: "eg__step--not-final", key: step.time },
-									step.url.replace('/_/gi', ' ')
+									step.title
 								);
 							}
 						})
@@ -27520,7 +27519,6 @@
 		}, {
 			key: "render",
 			value: function render() {
-				console.log('groupSteps endgame', this.state.groupSteps);
 				return _react2.default.createElement(
 					"div",
 					{ className: "eg" },
@@ -27726,7 +27724,6 @@
 						sprintStarted: null,
 						groupSteps: {}
 					});
-					console.log("rematch recieved!");
 					socket.emit('joinNewGame', { slug: data.game.slug });
 					_this2.props.router.push('/' + data.game.slug);
 				});
@@ -27849,11 +27846,11 @@
 					}
 				} else return _react2.default.createElement(
 					'div',
-					null,
+					{ className: 'loading' },
 					_react2.default.createElement(
-						'h2',
-						null,
-						'loading'
+						'div',
+						{ className: 'loading__loader' },
+						'loading...'
 					)
 				);
 			}
@@ -28070,6 +28067,29 @@
 					_react2.default.createElement(
 						'footer',
 						{ className: 'footer' },
+						_react2.default.createElement(
+							'span',
+							null,
+							'Wikisprint was made by ',
+							_react2.default.createElement(
+								'a',
+								{ href: 'http://www.github.com/ikesaunders' },
+								'Ike'
+							),
+							', ',
+							_react2.default.createElement(
+								'a',
+								{ href: 'http://www.github.com/simon2828' },
+								'Simon'
+							),
+							' and ',
+							_react2.default.createElement(
+								'a',
+								{ href: 'http://www.github.com/yaroncnk' },
+								'Yaron'
+							),
+							'.'
+						),
 						_react2.default.createElement(
 							'a',
 							{ href: 'http://github.com/decode-wiki-game/wiki-game' },

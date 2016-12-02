@@ -16,8 +16,8 @@ const api = require('./methods/api');
 const fetch = require('node-fetch')
 
 const init = function() {
-
-    http.listen(8080, function() {
+    const PORT = process.env.PORT || 8080;
+    http.listen(PORT, function() {
         console.log(`http://${process.env.C9_HOSTNAME}`);
     });
 
@@ -54,7 +54,6 @@ const init = function() {
                                 room = game.slug;
                                 socket._game = game
                                 socket.join(room)
-                                console.log("server::room:created", room)
                                 socket.emit('createGame', {
                                     game: game
                                 })
@@ -85,7 +84,6 @@ const init = function() {
                         room = game.slug;
                         socket._game = game
                         socket.join(room)
-                        console.log("server::room:created", room)
                         socket.emit('createGame', {
                             game: game
                         })
@@ -145,37 +143,16 @@ const init = function() {
 
             socket.leave(room);
             api.findGameFromSlug(room)
-<<<<<<< HEAD
             .then(game => {
                 if (game) {
                     io.to(room).emit('playerLeftRoom');
                 }
             });
-            
         });    
-=======
-                .then(game => {
-                    if (game) {
-                        io.to(room).emit('playerLeftRoom');
-                    }
-                })
-
-        });
->>>>>>> 596126758cfc03dc69d58df83c2d4ee79901f710
 
         socket.on('link click', function(target) {
-            Promise.all(
-                    [
-                        api.recordStep({
-                            gameId: socket._game.id,
-                            playerId: socket._player.id,
-                            url: target
-                        }),
-                        api.getArticle(target)
-                    ]
-                )
-                .then(results => {
-                    if (target === socket._game.targetSlug) {
+            
+            if (target === socket._game.targetSlug) {
                         api.getVictoryInformation(socket._game.id)
                             .then(data => {
                                 io.to(room).emit("victory", {
@@ -184,19 +161,29 @@ const init = function() {
                                 })
                             })
                     }
-                    else {
-                        io.to(room).emit('playerStep', {
-                            id: socket._player.id,
-                            username: socket._player.username,
-                            title: results[1].title
+            else {
+                api.getArticle(target)
+                    .then(article => {
+                        api.recordStep({
+                            gameId: socket._game.id,
+                            playerId: socket._player.id,
+                            url: target,
+                            title: article.title
                         })
-                        socket.emit('link fetch', {
-                            step: results[0].url,
-                            article: results[1]
+                        .then(() => {
+                            io.to(room).emit('playerStep', {
+                                id: socket._player.id,
+                                username: socket._player.username,
+                                title: article.title
+                            })
+                            socket.emit('link fetch', {
+                                step: article.url,
+                                article: article
+                            })
                         })
-                    }
+                        
                 });
-        })
+        }})
 
         socket.on('rematch', () => {
             api.createGame(socket._player.id)

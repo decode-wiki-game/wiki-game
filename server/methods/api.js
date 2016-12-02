@@ -5,10 +5,10 @@ var fetch = require('node-fetch');
 var knex = require('knex')({
     client: 'mysql',
     connection: {
-        host: 'localhost',
-        user: 'yaroncnk',
-        password: '',
-        database: process.env.CLEARDB_DATABASE_URL || 'wikisprint'
+        host: process.env.CLEARDB_DATABASE_HOST || 'localhost',
+        user: process.env.CLEARDB_DATABASE_USERNAME || 'ikesaunders',
+        password: process.env.CLEARDB_DATABASE_PASSWORD || '',
+        database: process.env.CLEARDB_DATABASE_NAME || 'wikisprint'
     }
 });
 
@@ -40,7 +40,7 @@ var api = {
             .where('target.id', randomArticle)
             .then(destination => {
                 return destination[0];
-            });
+            })
     },
     createPlayer: function() {
         var token = this.createSessionToken();
@@ -107,15 +107,15 @@ var api = {
                     })
                     .then(gameArray => {
                         return gameArray[0];
-                    });
+                    })
             });
 
     },
     getArticle: function(title) {
         return Promise.all(
                 [
-                this.getPrettyTitle(title),
-                fetch(`https://en.wikipedia.org/wiki/${title}?action=render`).then(response => response.text())
+                    this.getPrettyTitle(title),
+                    fetch(`https://en.wikipedia.org/wiki/${title}?action=render`).then(response => response.text())
                 ]
             )
             .then(article => {
@@ -127,12 +127,12 @@ var api = {
     },
     getPrettyTitle: function(target) {
         return fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${target}&format=json`)
-        .then(response => response.json())
-        .then(response => {
-            var articleId = Object.keys(response.query.pages)[0];
-            return response.query.pages[articleId].title;
-        })
-        
+            .then(response => response.json())
+            .then(response => {
+                var articleId = Object.keys(response.query.pages)[0];
+                return response.query.pages[articleId].title;
+            })
+
     },
     findGameFromSlug: function(slug) {
         return knex.select('game.id', 'game.adminId', 'game.slug', 'game.isPublic', 'game.gameStarted', 'game.startSlug', 'game.startTitle', 'game.targetTitle', 'game.targetSlug', 'game.finalStep', 'game.createdAt')
@@ -232,6 +232,7 @@ var api = {
                 gameId: step.gameId,
                 playerId: step.playerId,
                 url: step.url,
+                title: step.title,
                 time: knex.fn.now()
             })
             .then(stepId => {
@@ -243,7 +244,7 @@ var api = {
 
     },
     getVictoryInformation: function(gameId) {
-        return knex.select('step.playerId', 'step.url', 'step.time', 'player.username')
+        return knex.select('step.playerId', 'step.title', 'step.time', 'player.username')
             .from('step')
             .join('player', 'step.playerId', 'player.id')
             .where('step.gameId', gameId)

@@ -304,6 +304,7 @@ CREATE TABLE `step` (
     `gameId` INT(11),
     `playerId` INT(11),
     `url` VARCHAR(255),
+    `title` VARCHAR(255),
     `time` TIMEStAMP,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`gameId`) REFERENCES  `game` (`id`),

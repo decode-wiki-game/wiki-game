@@ -117,7 +117,6 @@ export default class Game extends React.Component {
 				sprintStarted: null,
 				groupSteps: {}
 			})
-			console.log("rematch recieved!")
 			socket.emit('joinNewGame', {slug:data.game.slug})
 			this.props.router.push(`/${data.game.slug}`)
 		})
@@ -150,33 +149,6 @@ export default class Game extends React.Component {
 	}
 
 	_updateLinks() {
-<<<<<<< HEAD
-		var elements = document.getElementsByTagName('a'); //capture all links
-		for (var i = 0, len = elements.length; i < len; i++) {
-			elements[i].onclick = (event) => {
-				event.preventDefault();
-				if (event.currentTarget.getAttribute('href')) {
-					//capture href elements
-					var hrefContent = event.currentTarget.getAttribute('href');
-
-
-					if (hrefContent.indexOf("#") > -1) {
-						// see if we have a hash then scroll to it
-						var t = hrefContent.substring(hrefContent.indexOf('#') + 1); //preventing anchor links from directing into the "real" wikipedia
-						var tt = document.getElementById(t);
-						if (tt) {
-							tt.scrollIntoView();
-						}
-						
-					}
-
-					if (hrefContent.indexOf("wikipedia") !== -1) { //preventing images or external links from loading
-						console.log('Wiki link');
-						var n = (/\.(gif|jpg|jpeg|tiff|png|svg|pdf)$/i).test(hrefContent);
-						if (!n) {
-							var title = this._findTarget(event.currentTarget.getAttribute('href'));
-							this._handleClick(title);
-=======
 		var article = document.getElementsByClassName("article")
 		if (article.length != 0) {
 			var elements = article[0].getElementsByTagName('a'); //capture all links
@@ -196,7 +168,6 @@ export default class Game extends React.Component {
 								tt.scrollIntoView();
 							}
 
->>>>>>> 596126758cfc03dc69d58df83c2d4ee79901f710
 						}
 
 						if (hrefContent.indexOf("wikipedia") !== -1) { //preventing images or external links from loading
@@ -267,8 +238,8 @@ export default class Game extends React.Component {
 		}
 		else
 			return (
-				<div>
-					<h2>loading</h2>
+				<div className="loading">
+					<div className="loading__loader">loading...</div>
 				</div>
 			);
 	}
