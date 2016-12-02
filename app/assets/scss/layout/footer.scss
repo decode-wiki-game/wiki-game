@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     border-top: $blue 1px solid;
-    color: #FFF;
+    color: $blue;
     justify-content: flex-end;
     padding: 16px;
 }
@@ -12,7 +12,16 @@
 	height: 24px;
 	width: 24px;
 	fill: $blue;
+	margin-left: 32px;
 		&:hover {
 			opacity: .7;
 		}
+}
+
+.footer a {
+    text-decoration: none;
+    color: $blue;
+        &:hover {
+            opacity: .7;
+        }
 }

@@ -27846,11 +27846,11 @@
 					}
 				} else return _react2.default.createElement(
 					'div',
-					null,
+					{ className: 'loading' },
 					_react2.default.createElement(
-						'h2',
-						null,
-						'loading'
+						'div',
+						{ className: 'loading__loader' },
+						'loading...'
 					)
 				);
 			}
@@ -28067,6 +28067,29 @@
 					_react2.default.createElement(
 						'footer',
 						{ className: 'footer' },
+						_react2.default.createElement(
+							'span',
+							null,
+							'Wikisprint was made by ',
+							_react2.default.createElement(
+								'a',
+								{ href: 'http://www.github.com/ikesaunders' },
+								'Ike'
+							),
+							', ',
+							_react2.default.createElement(
+								'a',
+								{ href: 'http://www.github.com/simon2828' },
+								'Simon'
+							),
+							' and ',
+							_react2.default.createElement(
+								'a',
+								{ href: 'http://www.github.com/yaroncnk' },
+								'Yaron'
+							),
+							'.'
+						),
 						_react2.default.createElement(
 							'a',
 							{ href: 'http://github.com/decode-wiki-game/wiki-game' },

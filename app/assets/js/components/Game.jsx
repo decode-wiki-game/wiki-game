@@ -238,8 +238,8 @@ export default class Game extends React.Component {
 		}
 		else
 			return (
-				<div>
-					<h2>loading</h2>
+				<div className="loading">
+					<div className="loading__loader">loading...</div>
 				</div>
 			);
 	}
