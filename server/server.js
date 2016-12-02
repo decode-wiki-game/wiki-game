@@ -18,7 +18,7 @@ const fetch = require('node-fetch')
 const init = function() {
     const PORT = process.env.PORT || 8080;
     http.listen(PORT, function() {
-        // console.log(`http://${process.env.C9_HOSTNAME}`);
+        console.log(`http://${process.env.C9_HOSTNAME}`);
     });
 
 
@@ -35,8 +35,6 @@ const init = function() {
         var room = handshakeData.room;
         var player = handshakeData.player ? JSON.parse(handshakeData.player) : undefined;
 
-        console.log("HOST", process.env.HOST)
-        console.log("HOSTNAME", process.env.HOSTNAME)
         console.log("server::room:", room ? room : "null")
         console.log("server::player.username:", player ? player.username : "null")
 
@@ -56,7 +54,6 @@ const init = function() {
                                 room = game.slug;
                                 socket._game = game
                                 socket.join(room)
-                                console.log("server::room:created", room)
                                 socket.emit('createGame', {
                                     game: game
                                 })
@@ -87,7 +84,6 @@ const init = function() {
                         room = game.slug;
                         socket._game = game
                         socket.join(room)
-                        console.log("server::room:created", room)
                         socket.emit('createGame', {
                             game: game
                         })

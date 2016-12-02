@@ -35,14 +35,12 @@ var api = {
     },
     selectArticle: function() {
         var randomArticle = this.randomizeNumber();
-        console.log('randomArticle', randomArticle)
         return knex.select()
             .from('target')
             .where('target.id', randomArticle)
             .then(destination => {
                 return destination[0];
             })
-            .catch(err => console.log('error in selectArticle', err));
     },
     createPlayer: function() {
         var token = this.createSessionToken();
@@ -88,7 +86,6 @@ var api = {
         var gameSlug = this.createSlug();
         return Promise.all([this.randomPageInfo(), this.selectArticle()])
             .then(arrayOfResolutions => {
-                console.log('arrayOfResolutions', arrayOfResolutions)
                 var url = arrayOfResolutions[0].fullurl;
                 var startSlug = url.substr(url.lastIndexOf('/') + 1);
                 return knex('game').insert({
@@ -111,9 +108,6 @@ var api = {
                     .then(gameArray => {
                         return gameArray[0];
                     })
-                    .catch(err => {
-                        console.log('error in createGame', err)
-                    });
             });
 
     },
